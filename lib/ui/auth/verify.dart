@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main/main.dart';
 import 'package:gelic_bakes/provider/auth_provider.dart';
+import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:provider/provider.dart';
@@ -104,8 +105,8 @@ class _VerificationPageState extends State<VerificationPage> {
       Provider.of<AuthProvider>(context, listen: false)
           .verifyOTP(_controller.text.toString())
           .then((_) {
-        /*   Navigator.of(context)
-            .pushNamedAndRemoveUntil(AppState.routeName, (route) => false);*/
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            ConfigurationPage.routeName, (route) => false);
       }).catchError((e) {
         String errorMsg = cantAuthenticate;
         if (e.toString().contains("ERROR_SESSION_EXPIRED")) {

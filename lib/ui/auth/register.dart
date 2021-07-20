@@ -148,7 +148,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             stream: loginBloc.phoneNumberStream,
                             builder: (context, snapshot) {
                               return TextFormField(
-                                  maxLength: 10,
+                                  maxLength: 9,
                                   autofocus: true,
                                   keyboardType: TextInputType.phone,
                                   controller: _phoneNumberController,

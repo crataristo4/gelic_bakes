@@ -18,7 +18,7 @@ class Dialogs {
                       child: Column(children: [
                         Text(title,
                             style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.pinkAccent,
                                 fontWeight: FontWeight.w700)),
                         SizedBox(
                           height: 15,
@@ -29,7 +29,7 @@ class Dialogs {
                         ),
                         Text(
                           pleaseWait,
-                          style: TextStyle(color: Colors.blueAccent),
+                          style: TextStyle(color: Colors.pinkAccent),
                         )
                       ]),
                     )
