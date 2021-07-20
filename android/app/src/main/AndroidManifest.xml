@@ -1,8 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gelic.bakes">
-   <application
-        android:label="gelic_bakes"
-        android:icon="@mipmap/ic_launcher">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:icon="@mipmap/launcher_icon"
+        android:label="Gelic Bakes">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -28,8 +32,8 @@
               android:resource="@drawable/launch_background"
               />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -37,5 +41,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3804995784214108~9626929927" />
+
+
     </application>
 </manifest>
