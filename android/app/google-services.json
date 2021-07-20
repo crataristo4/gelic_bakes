@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "580271679188",
+    "project_id": "gelic-bakes",
+    "storage_bucket": "gelic-bakes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580271679188:android:373fc1e54f67f8229cbd41",
+        "android_client_info": {
+          "package_name": "com.gelic.bakes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580271679188-gc04f0su6ska4pas70bigkuncq90tnto.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gelic.bakes",
+            "certificate_hash": "da7561b20f26adaa23112ff0f75e340ff9f217a1"
+          }
+        },
+        {
+          "client_id": "580271679188-i0rm3n9rl74rbudbl8mc4g9uh1domf74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuV_OqkD5WT9t0Hyz79WrJgxmB_mCdtUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "580271679188-i0rm3n9rl74rbudbl8mc4g9uh1domf74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
