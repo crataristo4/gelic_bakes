@@ -99,6 +99,7 @@ const enterPhoneToLogin = "Enter your phone number to Log in";
 const confirmNumber = 'Confirm number';
 const sendCodeTo = 'Send verification code to ';
 const invalidPhone = 'Invalid phone number';
+const enterValidGhanaNumber = 'Enter a valid Ghana number';
 const send = 'Send';
 const code = 'Code';
 const resend = 'Resend code';
