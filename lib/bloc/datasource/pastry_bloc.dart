@@ -26,6 +26,27 @@ class PastryListBloc {
   Stream<List<DocumentSnapshot>> get itemListStream =>
       listItemController!.stream;
 
+  //-----------------FRESH FROM OVEN --------------------------------------------//
+  Future fetchFreshFromOven(CollectionReference collectionReference) async {
+    try {
+      documentList =
+          await firebaseDataProvider!.fetchFreshFromOven(collectionReference);
+      listItemController!.sink.add(documentList!);
+      try {
+        if (documentList!.length == 0) {
+          listItemController!.sink.addError("No Data Available");
+        }
+      } catch (e) {}
+    } on SocketException {
+      listItemController!.sink
+          .addError(SocketException("No Internet Connection"));
+    } catch (e) {
+      print(e.toString());
+      listItemController!.sink.addError(e);
+    }
+  }
+
+//----- category list -----------------------------------------------------------//
 /*This method will automatically fetch first 10 elements from the document list */
   Future fetchFirstList(
       CollectionReference collectionReference, String category) async {
@@ -47,7 +68,7 @@ class PastryListBloc {
     }
   }
 
-/*This will automatically fetch the next 10 elements from the list*/
+//paginate category
   fetchNextListItems(
       CollectionReference collectionReference, String category) async {
     try {
@@ -74,6 +95,8 @@ class PastryListBloc {
       listItemController!.sink.addError(e);
     }
   }
+
+//---------------------------------------------------------------------------------//
 
 /*For updating the indicator below every list and paginate*/
   updateIndicator(bool value) async {

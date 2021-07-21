@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/models/pastry.dart';
 
 class FreshFromOven extends StatefulWidget {
   const FreshFromOven({Key? key}) : super(key: key);
@@ -11,6 +14,17 @@ class FreshFromOven extends StatefulWidget {
 }
 
 class _FreshFromOvenState extends State<FreshFromOven> {
+  PastryListBloc? _pastryList;
+  CollectionReference _freshFromOvenRef =
+      FirebaseFirestore.instance.collection("Fresh");
+
+  @override
+  void initState() {
+    _pastryList = PastryListBloc();
+    _pastryList!.fetchFreshFromOven(_freshFromOvenRef);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,9 +50,9 @@ class _FreshFromOvenState extends State<FreshFromOven> {
                 margin: EdgeInsets.only(right: eightDp),
                 child: Center(
                     child: Text(
-                  viewAll,
-                  style: TextStyle(color: Colors.white),
-                )),
+                      viewAll,
+                      style: TextStyle(color: Colors.white),
+                    )),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(eightyDp),
                     color: Colors.pinkAccent),
@@ -57,120 +71,128 @@ class _FreshFromOvenState extends State<FreshFromOven> {
   }
 
   Widget buildItemList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Container(
-          width: twoFiftyDp,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Positioned(
-                top: sixteenDp,
-                child: Container(
-                  margin: EdgeInsets.all(tenDp),
-                  width: twoTwentyDp,
-                  height: oneFiftyDp,
-                  decoration: BoxDecoration(
-                      color: Colors.pinkAccent.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(eightDp)),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: fourDp,
-                        bottom: tenDp,
-                        right: fourDp,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: eightDp),
-                                child: Text(
-                                  //item name
-                                  "item name",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: fourteenDp),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  right: eightDp,
-                                ),
-                                child: Text(
-                                  //item price
-                                  "Price",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: fourteenDp),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
+    return StreamBuilder<List<DocumentSnapshot>>(
+        stream: _pastryList!.itemListStream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error occurred during loading"),
+            );
+          }
+          return ListView.builder(
+            addAutomaticKeepAlives: true,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              Pastry freshFromOven = Pastry.fromSnapshot(snapshot.data![index]);
+              return Container(
+                width: twoFiftyDp,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Positioned(
+                      top: sixteenDp,
+                      child: Container(
+                        margin: EdgeInsets.all(tenDp),
+                        width: twoTwentyDp,
+                        height: oneFiftyDp,
+                        decoration: BoxDecoration(
+                            color: Colors.pinkAccent.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(eightDp)),
+                        child: Center(
+                          child: Padding(
                             padding: const EdgeInsets.only(
-                                left: eightDp, top: fourDp),
-                            child: Text(
-                              "Cake",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: twelveDp,
-                              ),
-                              maxLines: 1,
+                              left: fourDp,
+                              bottom: tenDp,
+                              right: fourDp,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: eightDp),
+                                      child: Text(
+                                        //item name
+                                        freshFromOven.name!,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: fourteenDp),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: eightDp,
+                                      ),
+                                      child: Text(
+                                        //item price
+                                        "$kGhanaCedi ${freshFromOven.price}",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: fourteenDp),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: eightDp, top: fourDp),
+                                  child: Text(
+                                    "${freshFromOven.category}",
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: twelveDp,
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(eightDp),
-                ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(eightDp),
+                      ),
 
-                //contains the image of product
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(eightDp),
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) =>
-                        Center(child: CircularProgressIndicator()),
-                    width: oneFiftyDp,
-                    height: oneTwentyDp,
-                    imageUrl: '',
-                  ),
+                      //contains the image of product
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(eightDp),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              Center(child: CircularProgressIndicator()),
+                          width: oneFiftyDp,
+                          height: oneTwentyDp,
+                          imageUrl: freshFromOven.image!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        );
-      },
-      itemCount: 10,
-      scrollDirection: Axis.horizontal,
-      physics: ClampingScrollPhysics(),
-    );
-
-    return StreamBuilder<Object>(
-        stream: null,
-        builder: (context, snapshot) {
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              return Container();
+              );
             },
-            itemCount: 10,
+            itemCount: snapshot.data!.length,
+            scrollDirection: Axis.horizontal,
+            physics: ClampingScrollPhysics(),
           );
         });
   }
