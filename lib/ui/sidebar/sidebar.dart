@@ -1,7 +1,14 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/ui/auth/register.dart';
+import 'package:gelic_bakes/ui/widgets/actions.dart';
+import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:gelic_bakes/ui/widgets/sidebar_menu_items.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -53,6 +60,40 @@ class _SidebarItemState extends State<SidebarItem>
     }
   }
 
+  logOut() {
+    ShowAction.showAlertDialog(
+        logout,
+        logoutDes,
+        context,
+        TextButton(
+          child: Text(
+            noCancel,
+            style: TextStyle(color: Colors.green),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        TextButton(
+          child: Text(yesLogMeOut, style: TextStyle(color: Colors.red)),
+          onPressed: () async {
+            //sign out from firebase
+            await FirebaseAuth.instance.signOut();
+            Dialogs.showLoadingDialog(
+                //show dialog and delay
+                context,
+                loadingKey,
+                loggingYouOut,
+                Colors.white70);
+            await Future.delayed(const Duration(seconds: 5));
+
+            //close alert dialog
+            Navigator.pop(context);
+            //navigate to register
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                RegistrationPage.routeName, (route) => false);
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -90,22 +131,46 @@ class _SidebarItemState extends State<SidebarItem>
                       SideBarMenuItems(
                         iconData: Icons.home_outlined,
                         title: home,
+                        onTap: () {
+                          triggerSideBar();
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.onHomeClickEvent);
+                        },
                       ),
                       SideBarMenuItems(
                         iconData: Icons.perm_identity_sharp,
                         title: account,
+                        onTap: () {
+                          triggerSideBar();
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.onAccountClickEvent);
+                        },
                       ),
                       SideBarMenuItems(
                         iconData: Icons.shopping_basket,
                         title: orders,
+                        onTap: () {
+                          triggerSideBar();
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.onOrdersClickEvent);
+                        },
                       ),
                       SideBarMenuItems(
                         iconData: Icons.notifications,
                         title: notifications,
+                        onTap: () {
+                          triggerSideBar();
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.onNotificationClickEvent);
+                        },
                       ),
                       SideBarMenuItems(
                         iconData: Icons.exit_to_app,
-                        title: logOut,
+                        title: logout,
+                        onTap: () {
+                          //triggerSideBar();
+                          logOut();
+                        },
                       ),
                     ],
                   ),

@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 
 import 'validator/login_validator.dart';
 
-class Bloc extends Object with LoginValidator implements BaseBloc {
+class LoginBloc extends Object with LoginValidator implements BaseBloc {
   final _phoneNumberController = BehaviorSubject<String>();
 
   Stream<String> get phoneNumberStream =>

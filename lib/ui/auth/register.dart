@@ -2,7 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gelic_bakes/bloc/Bloc.dart';
+import 'package:gelic_bakes/bloc/login_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main/main.dart';
 import 'package:gelic_bakes/provider/auth_provider.dart';
@@ -20,7 +20,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  final loginBloc = Bloc();
+  final loginBloc = LoginBloc();
   TextEditingController _phoneNumberController = TextEditingController();
 
   //...................................................//
