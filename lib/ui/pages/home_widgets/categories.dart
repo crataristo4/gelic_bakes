@@ -62,28 +62,11 @@ class Category extends StatelessWidget {
     );
   }
 
-  Widget buildItemCategory(context, image, name) {
+  Widget buildItemCategory(context, image, category) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed(CategoryItems.routeName, arguments: name);
-        switch (name) {
-          case cake:
-            print(cake);
-            break;
-          case chips:
-            print(chips);
-            break;
-          case cookies:
-            print(cookies);
-            break;
-          case doughnut:
-            print(doughnut);
-            break;
-          case pie:
-            print(pie);
-            break;
-        }
+      onTap: () async {
+        await Navigator.of(context)
+            .pushNamed(CategoryItems.routeName, arguments: category);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +82,7 @@ class Category extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: eightDp),
-            child: Text(name),
+            child: Text(category),
           )
         ],
       ),

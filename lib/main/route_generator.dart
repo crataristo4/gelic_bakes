@@ -37,7 +37,7 @@ class RouteGenerator {
 
         return MaterialPageRoute(
             builder: (_) => CategoryItems(
-                  name: data,
+                  category: data,
                 ));
 
       default:
