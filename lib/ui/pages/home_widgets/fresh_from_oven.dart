@@ -1,0 +1,177 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:gelic_bakes/constants/constants.dart';
+
+class FreshFromOven extends StatefulWidget {
+  const FreshFromOven({Key? key}) : super(key: key);
+
+  @override
+  _FreshFromOvenState createState() => _FreshFromOvenState();
+}
+
+class _FreshFromOvenState extends State<FreshFromOven> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: twoFiftyDp,
+      margin: EdgeInsets.only(left: fiftyDp),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: sixDp),
+                child: Text(freshFromOven,
+                    style: TextStyle(
+                        color: Colors.pink,
+                        fontSize: twentyDp,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
+                margin: EdgeInsets.only(right: eightDp),
+                child: Center(
+                    child: Text(
+                  viewAll,
+                  style: TextStyle(color: Colors.white),
+                )),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(eightyDp),
+                    color: Colors.pinkAccent),
+                height: thirtyDp,
+                width: hundredDp,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: sixteenDp,
+          ),
+          Expanded(flex: 1, child: buildItemList())
+        ],
+      ),
+    );
+  }
+
+  Widget buildItemList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Container(
+          width: twoFiftyDp,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Positioned(
+                top: sixteenDp,
+                child: Container(
+                  margin: EdgeInsets.all(tenDp),
+                  width: twoTwentyDp,
+                  height: oneFiftyDp,
+                  decoration: BoxDecoration(
+                      color: Colors.pinkAccent.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(eightDp)),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: fourDp,
+                        bottom: tenDp,
+                        right: fourDp,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: eightDp),
+                                child: Text(
+                                  //item name
+                                  "item name",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fourteenDp),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: eightDp,
+                                ),
+                                child: Text(
+                                  //item price
+                                  "Price",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fourteenDp),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: eightDp, top: fourDp),
+                            child: Text(
+                              "Cake",
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: twelveDp,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(eightDp),
+                ),
+
+                //contains the image of product
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(eightDp),
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) =>
+                        Center(child: CircularProgressIndicator()),
+                    width: oneFiftyDp,
+                    height: oneTwentyDp,
+                    imageUrl: '',
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+      itemCount: 10,
+      scrollDirection: Axis.horizontal,
+      physics: ClampingScrollPhysics(),
+    );
+
+    return StreamBuilder<Object>(
+        stream: null,
+        builder: (context, snapshot) {
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return Container();
+            },
+            itemCount: 10,
+          );
+        });
+  }
+}

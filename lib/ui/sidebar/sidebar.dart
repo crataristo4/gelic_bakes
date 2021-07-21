@@ -104,7 +104,7 @@ class _SidebarItemState extends State<SidebarItem>
           return Positioned(
             top: 0,
             left: snapshot.data! ? 0 : -screenWidth,
-            right: snapshot.data! ? 0 : screenWidth - 45,
+            right: snapshot.data! ? 0 : screenWidth - 35,
             bottom: 0,
             child: Row(
               children: [

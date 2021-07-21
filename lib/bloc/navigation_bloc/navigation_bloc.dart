@@ -17,7 +17,6 @@ abstract class NavigationState {}
 class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
   NavigationBloc(NavigationState initialState) : super(initialState);
 
-  @override
   NavigationState get initialState => Home();
 
   @override
