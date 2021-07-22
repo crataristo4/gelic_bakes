@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 
@@ -28,7 +29,7 @@ class _SpecialOffersState extends State<SpecialOffers> {
                       fontSize: twentyDp,
                       fontWeight: FontWeight.bold)),
             ),
-            Container(
+            /* Container(
               padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
               margin: EdgeInsets.only(right: eightDp),
               child: Center(
@@ -41,14 +42,64 @@ class _SpecialOffersState extends State<SpecialOffers> {
                   color: Colors.pinkAccent),
               height: thirtyDp,
               width: hundredDp,
-            ),
+            ),*/
           ],
         ),
         SizedBox(
           height: tenDp,
         ),
-        buildTopBakes(),
+        // buildTopBakes(),
+
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildSpecialOffer(cakeDigest, '🧁'),
+              buildSpecialOffer(bananaMiniPack, "🍌"),
+              buildSpecialOffer(glutenFree, "❤️"),
+            ],
+          ),
+        )
       ],
+    );
+  }
+
+  Widget buildSpecialOffer(String name, String icon) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: sixDp),
+        decoration: BoxDecoration(
+          color: Colors.pink.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(eightDp),
+        ),
+        height: oneFiftyDp,
+        width: oneFiftyDp,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: eightDp),
+              child: Text(
+                icon,
+                style: TextStyle(fontSize: eightyDp, color: Colors.black),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(eightDp),
+                child: Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.pink),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 

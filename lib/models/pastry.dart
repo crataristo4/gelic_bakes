@@ -18,4 +18,14 @@ class Pastry {
       price: ds['price'],
     );
   }
+
+  factory Pastry.freshFromOven(DocumentSnapshot ds) {
+    return Pastry(
+      name: ds['name'],
+      category: ds['category'],
+      //  description: ds['description'],
+      image: ds['image'],
+      price: ds['price'],
+    );
+  }
 }

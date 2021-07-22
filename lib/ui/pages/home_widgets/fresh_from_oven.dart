@@ -88,7 +88,8 @@ class _FreshFromOvenState extends State<FreshFromOven> {
             addAutomaticKeepAlives: true,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              Pastry freshFromOven = Pastry.fromSnapshot(snapshot.data![index]);
+              Pastry freshFromOven =
+                  Pastry.freshFromOven(snapshot.data![index]);
               return Container(
                 width: twoFiftyDp,
                 child: Stack(
@@ -99,7 +100,7 @@ class _FreshFromOvenState extends State<FreshFromOven> {
                       child: Container(
                         margin: EdgeInsets.all(tenDp),
                         width: twoTwentyDp,
-                        height: oneFiftyDp,
+                        height: oneSixtyDp,
                         decoration: BoxDecoration(
                             color: Colors.pinkAccent.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(eightDp)),
@@ -150,17 +151,43 @@ class _FreshFromOvenState extends State<FreshFromOven> {
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: eightDp, top: fourDp),
-                                  child: Text(
-                                    "${freshFromOven.category}",
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: twelveDp,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: eightDp, top: fourDp),
+                                      child: Text(
+                                        "${freshFromOven.category}",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: twelveDp,
+                                        ),
+                                        maxLines: 1,
+                                      ),
                                     ),
-                                    maxLines: 1,
-                                  ),
+
+                                    //pre order
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: eightDp, bottom: eightDp),
+                                      margin: EdgeInsets.only(
+                                          right: sixDp, top: fourDp),
+                                      child: Center(
+                                          child: Text(
+                                        preOrder,
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(eightyDp),
+                                          color: Colors.pinkAccent),
+                                      height: thirtyDp,
+                                      width: hundredDp,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
