@@ -23,7 +23,12 @@ class _CategoryItemsState extends State<CategoryItems> {
   @override
   void initState() {
     _pastryList = PastryListBloc();
-    _pastryList!.fetchFirstList(_pastryRef, widget.category);
+    if (widget.category.toString().isEmpty) {
+      _pastryList!.fetchPastries(_pastryRef);
+    } else {
+      _pastryList!.fetchCategoryList(_pastryRef, widget.category);
+    }
+
     super.initState();
   }
 
@@ -53,7 +58,7 @@ class _CategoryItemsState extends State<CategoryItems> {
           ),
         ),
         title: Text(
-          widget.category,
+          widget.category.toString().isEmpty ? "All Pastries" : widget.category,
           style: TextStyle(color: Colors.pink),
         ),
         actions: [

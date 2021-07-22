@@ -24,19 +24,25 @@ class Category extends StatelessWidget {
                         fontSize: twentyDp,
                         fontWeight: FontWeight.bold)),
               ),
-              Container(
-                padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
-                margin: EdgeInsets.only(right: eightDp),
-                child: Center(
-                    child: Text(
-                  viewAll,
-                  style: TextStyle(color: Colors.white),
-                )),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(eightyDp),
-                    color: Colors.pinkAccent),
-                height: thirtyDp,
-                width: hundredDp,
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.of(context)
+                      .pushNamed(CategoryItems.routeName, arguments: '');
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
+                  margin: EdgeInsets.only(right: eightDp),
+                  child: Center(
+                      child: Text(
+                    viewAll,
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(eightyDp),
+                      color: Colors.pinkAccent),
+                  height: thirtyDp,
+                  width: hundredDp,
+                ),
               ),
             ],
           ),

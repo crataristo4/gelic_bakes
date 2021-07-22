@@ -46,13 +46,12 @@ class PastryListBloc {
     }
   }
 
-//----- category list -----------------------------------------------------------//
-/*This method will automatically fetch first 10 elements from the document list */
-  Future fetchFirstList(
-      CollectionReference collectionReference, String category) async {
+  //........................FETCH ALL PASTRIES........................................................//
+
+  Future fetchPastries(CollectionReference collectionReference) async {
     try {
-      documentList = await firebaseDataProvider!
-          .fetchFirstList(collectionReference, category);
+      documentList =
+          await firebaseDataProvider!.fetchAllPastries(collectionReference);
       listItemController!.sink.add(documentList!);
       try {
         if (documentList!.length == 0) {
@@ -69,12 +68,11 @@ class PastryListBloc {
   }
 
 //paginate category
-  fetchNextListItems(
-      CollectionReference collectionReference, String category) async {
+  fetchNextPastryListItems(CollectionReference collectionReference) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
-          .fetchNextList(collectionReference, category, documentList!);
+          .fetchNextPastryListItems(collectionReference, documentList!);
       documentList!.addAll(newDocumentList);
       listItemController!.sink.add(documentList!);
       try {
@@ -96,7 +94,59 @@ class PastryListBloc {
     }
   }
 
-//---------------------------------------------------------------------------------//
+  //..................................END FETCH................................................................//
+
+//-----FETCH category list -----------------------------------------------------------//
+  Future fetchCategoryList(
+      CollectionReference collectionReference, String category) async {
+    try {
+      documentList = await firebaseDataProvider!
+          .fetchCategoryList(collectionReference, category);
+      listItemController!.sink.add(documentList!);
+      try {
+        if (documentList!.length == 0) {
+          listItemController!.sink.addError("No Data Available");
+        }
+      } catch (e) {}
+    } on SocketException {
+      listItemController!.sink
+          .addError(SocketException("No Internet Connection"));
+    } catch (e) {
+      print(e.toString());
+      listItemController!.sink.addError(e);
+    }
+  }
+
+//paginate category
+  fetchNextCategoryListItems(
+      CollectionReference collectionReference, String category) async {
+    try {
+      updateIndicator(true);
+      List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
+          .fetchNextCategoryListItems(
+              collectionReference, category, documentList!);
+      documentList!.addAll(newDocumentList);
+      listItemController!.sink.add(documentList!);
+      try {
+        if (documentList!.length == 0) {
+          listItemController!.sink.addError("No Data Available");
+          updateIndicator(false);
+        }
+      } catch (e) {
+        updateIndicator(false);
+      }
+    } on SocketException {
+      listItemController!.sink
+          .addError(SocketException("No Internet Connection"));
+      updateIndicator(false);
+    } catch (e) {
+      updateIndicator(false);
+      print(e.toString());
+      listItemController!.sink.addError(e);
+    }
+  }
+
+//-------------------------END--------------------------------------------------------//
 
 /*For updating the indicator below every list and paginate*/
   updateIndicator(bool value) async {
