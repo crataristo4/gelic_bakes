@@ -58,7 +58,7 @@ class _CategoryItemsState extends State<CategoryItems> {
           ),
         ),
         title: Text(
-          widget.category.toString().isEmpty ? "All Pastries" : widget.category,
+          widget.category.toString().isEmpty ? allPastries : widget.category,
           style: TextStyle(color: Colors.pink),
         ),
         actions: [

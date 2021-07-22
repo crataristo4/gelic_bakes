@@ -28,6 +28,7 @@ const userNameUpdated = 'User name updated';
 const confirmed = 'Confirmed';
 const approve = 'Approve';
 const viewAll = 'View All';
+const allPastries = "All Pastries";
 const buyNow = 'Buy now';
 const preOrder = 'Pre Order';
 const freshFromOven = 'Fresh From Oven';

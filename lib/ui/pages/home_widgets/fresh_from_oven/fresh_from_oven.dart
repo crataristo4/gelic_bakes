@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 
 class FreshFromOven extends StatefulWidget {
   const FreshFromOven({Key? key}) : super(key: key);
@@ -45,19 +46,25 @@ class _FreshFromOvenState extends State<FreshFromOven> {
                         fontSize: twentyDp,
                         fontWeight: FontWeight.bold)),
               ),
-              Container(
-                padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
-                margin: EdgeInsets.only(right: eightDp),
-                child: Center(
-                    child: Text(
-                      viewAll,
-                      style: TextStyle(color: Colors.white),
-                    )),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(eightyDp),
-                    color: Colors.pinkAccent),
-                height: thirtyDp,
-                width: hundredDp,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(ViewAllFreshFromOven.routeName);
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
+                  margin: EdgeInsets.only(right: eightDp),
+                  child: Center(
+                      child: Text(
+                    viewAll,
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(eightyDp),
+                      color: Colors.pinkAccent),
+                  height: thirtyDp,
+                  width: hundredDp,
+                ),
               ),
             ],
           ),

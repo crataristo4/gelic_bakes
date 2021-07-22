@@ -67,7 +67,7 @@ class PastryListBloc {
     }
   }
 
-//paginate category
+//paginate next pastries
   fetchNextPastryListItems(CollectionReference collectionReference) async {
     try {
       updateIndicator(true);

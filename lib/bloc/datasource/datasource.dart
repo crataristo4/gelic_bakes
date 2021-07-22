@@ -34,7 +34,19 @@ class FirebaseDataProvider {
         .docs;
   }
 
-//-------------------------------------------------------------------
+  //paginate fresh from oven data
+  Future<List<DocumentSnapshot>> fetchNextFreshFromOvenListItems(
+      CollectionReference collectionReference,
+      List<DocumentSnapshot> documentList) async {
+    return (await collectionReference
+            .orderBy('name', descending: true)
+            .startAfterDocument(documentList[documentList.length - 1])
+            .limit(20)
+            .get())
+        .docs;
+  }
+
+//------------------------END-------------------------------------------
 
   //fetch category
   Future<List<DocumentSnapshot>> fetchCategoryList(

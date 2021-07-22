@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/item_category.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
 
 class Category extends StatelessWidget {
   const Category({Key? key}) : super(key: key);

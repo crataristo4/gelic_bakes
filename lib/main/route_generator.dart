@@ -4,7 +4,8 @@ import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/item_category.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -26,11 +27,14 @@ class RouteGenerator {
       //verify users phone number
       case VerificationPage.routeName:
         final data = settings.arguments as String;
-
         return MaterialPageRoute(
             builder: (_) => VerificationPage(
                   phoneNumber: data,
                 ));
+
+      //fresh from oven
+      case ViewAllFreshFromOven.routeName:
+        return MaterialPageRoute(builder: (_) => ViewAllFreshFromOven());
 
       //account page
       case AccountPage.routeName:
@@ -43,7 +47,6 @@ class RouteGenerator {
       //list items by category
       case CategoryItems.routeName:
         final data = settings.arguments as String;
-
         return MaterialPageRoute(
             builder: (_) => CategoryItems(
                   category: data,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/categories.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/category/categories.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/fresh_from_oven.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/special_offers.dart';
 
 class Home extends StatefulWidget with NavigationState {
