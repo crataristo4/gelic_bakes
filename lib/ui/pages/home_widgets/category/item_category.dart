@@ -19,6 +19,7 @@ class _CategoryItemsState extends State<CategoryItems> {
   PastryListBloc? _pastryList;
   CollectionReference _pastryRef =
       FirebaseFirestore.instance.collection("Pastry");
+  ScrollController controller = ScrollController();
 
   @override
   void initState() {
@@ -28,8 +29,19 @@ class _CategoryItemsState extends State<CategoryItems> {
     } else {
       _pastryList!.fetchCategoryList(_pastryRef, widget.category);
     }
-
+    controller.addListener(_scrollListener);
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (controller.offset >= controller.position.maxScrollExtent &&
+        !controller.position.outOfRange) {
+      if (widget.category.toString().isEmpty) {
+        _pastryList!.fetchNextPastryListItems(_pastryRef);
+      } else {
+        _pastryList!.fetchNextCategoryListItems(_pastryRef, widget.category);
+      }
+    }
   }
 
   @override

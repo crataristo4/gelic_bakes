@@ -18,12 +18,21 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
   PastryListBloc? _pastryList;
   CollectionReference _pastryRef =
       FirebaseFirestore.instance.collection("Fresh");
+  ScrollController controller = ScrollController();
 
   @override
   void initState() {
     _pastryList = PastryListBloc();
     _pastryList!.fetchFreshFromOven(_pastryRef);
+    controller.addListener(_scrollListener);
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (controller.offset >= controller.position.maxScrollExtent &&
+        !controller.position.outOfRange) {
+      _pastryList!.fetchNextFreshFromOvenListItems(_pastryRef);
+    }
   }
 
   @override
