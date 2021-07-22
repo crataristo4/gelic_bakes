@@ -27,7 +27,9 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
         break;
 
       case NavigationEvents.onAccountClickEvent:
-        yield AccountPage();
+        yield AccountPage(
+          hasProfile: true,
+        );
         break;
       case NavigationEvents.onOrdersClickEvent:
         yield OrdersPage();

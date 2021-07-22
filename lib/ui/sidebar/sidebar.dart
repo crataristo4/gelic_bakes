@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main/main.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
+import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:gelic_bakes/ui/widgets/sidebar_menu_items.dart';
@@ -94,6 +96,12 @@ class _SidebarItemState extends State<SidebarItem>
         ));
   }
 
+  navigateToProfile() {
+    triggerSideBar();
+    BlocProvider.of<NavigationBloc>(context)
+        .add(NavigationEvents.onAccountClickEvent);
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -109,72 +117,101 @@ class _SidebarItemState extends State<SidebarItem>
             child: Row(
               children: [
                 Expanded(
+                    flex: 1,
                     child: Container(
-                  color: Colors.pink,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: hundredDp,
-                      ),
-                      ListTile(
-                        leading: CircleAvatar(
-                          radius: fortyDp,
+                      height: MediaQuery.of(context).size.height,
+                      color: Colors.pink,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: hundredDp,
+                            ),
+                            ListTile(
+                              onTap: () => navigateToProfile(),
+                              horizontalTitleGap: tenDp,
+                              leading: Container(
+                                width: sixtyDp,
+                                height: sixtyDp,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.1, color: Colors.grey),
+                                ),
+                                child: ClipOval(
+                                  clipBehavior: Clip.antiAlias,
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    imageUrl: "${AccountPage.userImage}",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              title: Text(
+                                '${AccountPage.userName}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Text('${AccountPage.userPhone}',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                            Divider(
+                              color: Colors.white,
+                              indent: thirtyTwoDp,
+                              endIndent: thirtyTwoDp,
+                            ),
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SideBarMenuItems(
+                                    iconData: Icons.home_outlined,
+                                    title: home,
+                                    onTap: () {
+                                      triggerSideBar();
+                                      BlocProvider.of<NavigationBloc>(context)
+                                          .add(NavigationEvents
+                                              .onHomeClickEvent);
+                                    },
+                                  ),
+                                  /*      SideBarMenuItems(
+                                    iconData: Icons.perm_identity_sharp,
+                                    title: account,
+                                    onTap: () => navigateToProfile(),
+                                  ),*/
+                                  SideBarMenuItems(
+                                    iconData: Icons.shopping_basket,
+                                    title: orders,
+                                    onTap: () {
+                                      triggerSideBar();
+                                      BlocProvider.of<NavigationBloc>(context)
+                                          .add(NavigationEvents
+                                              .onOrdersClickEvent);
+                                    },
+                                  ),
+                                  SideBarMenuItems(
+                                    iconData: Icons.notifications,
+                                    title: notifications,
+                                    onTap: () {
+                                      triggerSideBar();
+                                      BlocProvider.of<NavigationBloc>(context)
+                                          .add(NavigationEvents
+                                              .onNotificationClickEvent);
+                                    },
+                                  ),
+                                  SideBarMenuItems(
+                                    iconData: Icons.exit_to_app,
+                                    title: logout,
+                                    onTap: () {
+                                      //triggerSideBar();
+                                      logOut();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        title: Text('name'),
-                        subtitle: Text('number'),
                       ),
-                      Divider(
-                        color: Colors.white,
-                        indent: thirtyTwoDp,
-                        endIndent: thirtyTwoDp,
-                      ),
-                      SideBarMenuItems(
-                        iconData: Icons.home_outlined,
-                        title: home,
-                        onTap: () {
-                          triggerSideBar();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.onHomeClickEvent);
-                        },
-                      ),
-                      SideBarMenuItems(
-                        iconData: Icons.perm_identity_sharp,
-                        title: account,
-                        onTap: () {
-                          triggerSideBar();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.onAccountClickEvent);
-                        },
-                      ),
-                      SideBarMenuItems(
-                        iconData: Icons.shopping_basket,
-                        title: orders,
-                        onTap: () {
-                          triggerSideBar();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.onOrdersClickEvent);
-                        },
-                      ),
-                      SideBarMenuItems(
-                        iconData: Icons.notifications,
-                        title: notifications,
-                        onTap: () {
-                          triggerSideBar();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.onNotificationClickEvent);
-                        },
-                      ),
-                      SideBarMenuItems(
-                        iconData: Icons.exit_to_app,
-                        title: logout,
-                        onTap: () {
-                          //triggerSideBar();
-                          logOut();
-                        },
-                      ),
-                    ],
-                  ),
-                )),
+                    )),
                 Align(
                   alignment: Alignment(0, -0.81),
                   child: GestureDetector(

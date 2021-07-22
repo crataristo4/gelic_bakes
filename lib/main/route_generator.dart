@@ -3,6 +3,7 @@ import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
+import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/item_category.dart';
 
 class RouteGenerator {
@@ -29,6 +30,14 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => VerificationPage(
                   phoneNumber: data,
+                ));
+
+      //account page
+      case AccountPage.routeName:
+        final data = settings.arguments as bool;
+        return MaterialPageRoute(
+            builder: (_) => AccountPage(
+                  hasProfile: data,
                 ));
 
       //list items by category
