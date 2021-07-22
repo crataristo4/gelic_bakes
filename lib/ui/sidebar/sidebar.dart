@@ -26,6 +26,7 @@ class _SidebarItemState extends State<SidebarItem>
   StreamController<bool>? _streamController;
   Stream<bool>? _stream;
   StreamSink<bool>? _streamSink;
+  FocusNode? _focusNode;
 
   final bool isDrawerOpened = false;
   AnimationController? _animationController;
@@ -216,6 +217,11 @@ class _SidebarItemState extends State<SidebarItem>
                   alignment: Alignment(0, -0.81),
                   child: GestureDetector(
                     onTap: () {
+                      //if keyboard is opened close
+                      _focusNode = FocusScope.of(context);
+                      if (!_focusNode!.hasPrimaryFocus) {
+                        _focusNode!.unfocus();
+                      }
                       triggerSideBar();
                     },
                     child: ClipPath(

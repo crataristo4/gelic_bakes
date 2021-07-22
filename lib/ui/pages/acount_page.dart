@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main/main.dart';
 import 'package:gelic_bakes/provider/user_provider.dart';
-import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/service/location_service.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
@@ -18,7 +18,6 @@ import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AccountPage extends StatefulWidget with NavigationState {
   static const routeName = '/accountPage';
@@ -51,6 +50,7 @@ class _AccountPageState extends State<AccountPage> {
   CollectionReference usersDbRef =
       FirebaseFirestore.instance.collection("Users");
   UserProvider userProvider = UserProvider();
+  FocusScopeNode? currentFocus;
 
   @override
   void dispose() {
@@ -84,6 +84,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    currentFocus = FocusScope.of(context);
     Timer(Duration(seconds: 20), () {
       // _admobService.showInterstitialAd();
     });
@@ -95,7 +96,7 @@ class _AccountPageState extends State<AccountPage> {
     //get image from camera
     Future getImageFromCamera(BuildContext context) async {
       final filePicked =
-          await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+      await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
 
       if (filePicked != null) {
         setState(() {
@@ -135,7 +136,7 @@ class _AccountPageState extends State<AccountPage> {
       if (connectivityResult == ConnectivityResult.mobile ||
           connectivityResult == ConnectivityResult.wifi) {
         DocumentSnapshot docSnapShot =
-            await usersDbRef.doc(currentUserId).get();
+        await usersDbRef.doc(currentUserId).get();
         if (!docSnapShot.exists) {
           //create a storage reference
           firebase_storage.Reference firebaseStorageRef = firebase_storage
@@ -229,7 +230,7 @@ class _AccountPageState extends State<AccountPage> {
 
     Widget buildName() {
       return TextFormField(
-          //  autofocus: true,
+        //  autofocus: true,
           controller: _nameController,
           maxLength: 20,
           keyboardType: TextInputType.name,
@@ -248,7 +249,7 @@ class _AccountPageState extends State<AccountPage> {
             fillColor: Color(0xFFF5F5F5),
             filled: true,
             contentPadding:
-                EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
+            EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Color(0xFFF5F5F5))),
             border: OutlineInputBorder(
@@ -270,20 +271,20 @@ class _AccountPageState extends State<AccountPage> {
             child: widget.hasProfile == true
                 ? Container()
                 : Container(
-                    margin: EdgeInsets.all(tenDp),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 0.3, color: Colors.grey),
-                        color: Colors.pink,
-                        borderRadius: BorderRadius.circular(thirtyDp)),
-                    child: Padding(
-                      padding: EdgeInsets.all(eightDp),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                        size: sixteenDp,
-                      ),
-                    ),
-                  ),
+              margin: EdgeInsets.all(tenDp),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.3, color: Colors.grey),
+                  color: Colors.pink,
+                  borderRadius: BorderRadius.circular(thirtyDp)),
+              child: Padding(
+                padding: EdgeInsets.all(eightDp),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: sixteenDp,
+                ),
+              ),
+            ),
           ),
           title: Text(
             accountSetUp,
@@ -308,82 +309,82 @@ class _AccountPageState extends State<AccountPage> {
                           //Contains Users image
                           widget.hasProfile == true
                               ? Center(
-                                  child: Container(
-                                    height: oneFiftyDp,
-                                    width: oneFiftyDp,
-                                    child: _image == null
-                                        ? ClipRRect(
-                                            child: CachedNetworkImage(
-                                              fit: BoxFit.cover,
-                                              imageUrl:
-                                                  '${AccountPage.userImage}',
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                                hundredDp),
-                                            clipBehavior: Clip.antiAlias,
-                                          )
-                                        : ClipRRect(
-                                            clipBehavior: Clip.antiAlias,
-                                            borderRadius: BorderRadius.circular(
-                                                hundredDp),
-                                            child: Image.file(
-                                              _image!,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 0.3,
-                                          color: Colors.grey.withOpacity(0.2)),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: Colors.grey.withOpacity(0.3),
-                                            offset: const Offset(2.0, 4.0),
-                                            blurRadius: eightDp),
-                                      ],
-                                      //color: Colors.black,
-                                    ),
-                                  ),
-                                )
-                              : Center(
-                                  child: Container(
-                                    height: oneFiftyDp,
-                                    width: oneFiftyDp,
-                                    child: _image == null
-                                        ? ClipRRect(
-                                            child: Image.asset(
-                                              "assets/images/avatar.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                                hundredDp),
-                                            clipBehavior: Clip.antiAlias,
-                                          )
-                                        : ClipRRect(
-                                            clipBehavior: Clip.antiAlias,
-                                            borderRadius: BorderRadius.circular(
-                                                hundredDp),
-                                            child: Image.file(
-                                              _image!,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 0.3,
-                                          color: Colors.grey.withOpacity(0.2)),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: Colors.grey.withOpacity(0.3),
-                                            offset: const Offset(2.0, 4.0),
-                                            blurRadius: eightDp),
-                                      ],
-                                      //color: Colors.black,
-                                    ),
-                                  ),
+                            child: Container(
+                              height: oneFiftyDp,
+                              width: oneFiftyDp,
+                              child: _image == null
+                                  ? ClipRRect(
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl:
+                                  '${AccountPage.userImage}',
                                 ),
+                                borderRadius: BorderRadius.circular(
+                                    hundredDp),
+                                clipBehavior: Clip.antiAlias,
+                              )
+                                  : ClipRRect(
+                                clipBehavior: Clip.antiAlias,
+                                borderRadius: BorderRadius.circular(
+                                    hundredDp),
+                                child: Image.file(
+                                  _image!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    width: 0.3,
+                                    color: Colors.grey.withOpacity(0.2)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      offset: const Offset(2.0, 4.0),
+                                      blurRadius: eightDp),
+                                ],
+                                //color: Colors.black,
+                              ),
+                            ),
+                          )
+                              : Center(
+                            child: Container(
+                              height: oneFiftyDp,
+                              width: oneFiftyDp,
+                              child: _image == null
+                                  ? ClipRRect(
+                                child: Image.asset(
+                                  "assets/images/avatar.png",
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    hundredDp),
+                                clipBehavior: Clip.antiAlias,
+                              )
+                                  : ClipRRect(
+                                clipBehavior: Clip.antiAlias,
+                                borderRadius: BorderRadius.circular(
+                                    hundredDp),
+                                child: Image.file(
+                                  _image!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    width: 0.3,
+                                    color: Colors.grey.withOpacity(0.2)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      offset: const Offset(2.0, 4.0),
+                                      blurRadius: eightDp),
+                                ],
+                                //color: Colors.black,
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: tenDp,
                           ),
@@ -398,11 +399,11 @@ class _AccountPageState extends State<AccountPage> {
                                   shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(eightDp)),
+                                        BorderRadius.circular(eightDp)),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
+                                  MaterialStateProperty.all<Color>(
+                                      Theme.of(context).primaryColor)),
                               icon: Icon(
                                 Icons.camera_alt,
                                 color: Colors.white,
@@ -441,6 +442,9 @@ class _AccountPageState extends State<AccountPage> {
                                   formKey.currentState!.validate() &&
                                   _image != null) {
                                 createUser();
+                                if (!currentFocus!.hasPrimaryFocus) {
+                                  currentFocus!.unfocus();
+                                }
                               } else if (!widget.hasProfile! &&
                                   _image == null) {
                                 ShowAction()
@@ -450,6 +454,10 @@ class _AccountPageState extends State<AccountPage> {
                               if (widget.hasProfile! &&
                                   formKey.currentState!.validate()) {
                                 userProvider.updateUserName(context);
+
+                                if (!currentFocus!.hasPrimaryFocus) {
+                                  currentFocus!.unfocus();
+                                }
                               }
                             },
                             child: Text(
