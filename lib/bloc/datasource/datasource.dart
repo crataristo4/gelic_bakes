@@ -5,7 +5,7 @@ class FirebaseDataProvider {
   Future<List<DocumentSnapshot>> fetchAllPastries(
       CollectionReference collectionReference) async {
     return (await collectionReference
-            .orderBy("name", descending: true)
+            .orderBy("name", descending: false)
             .limit(20)
             .get())
         .docs;
@@ -16,7 +16,7 @@ class FirebaseDataProvider {
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference
-            .orderBy('name', descending: true)
+            .orderBy('name', descending: false)
             .startAfterDocument(documentList[documentList.length - 1])
             .limit(20)
             .get())
@@ -28,7 +28,7 @@ class FirebaseDataProvider {
   Future<List<DocumentSnapshot>> fetchFreshFromOven(
       CollectionReference collectionReference) async {
     return (await collectionReference
-            .orderBy("name", descending: true)
+            .orderBy("name", descending: false)
             .limit(20)
             .get())
         .docs;
@@ -39,7 +39,7 @@ class FirebaseDataProvider {
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference
-            .orderBy('name', descending: true)
+            .orderBy('name', descending: false)
             .startAfterDocument(documentList[documentList.length - 1])
             .limit(20)
             .get())
@@ -52,7 +52,7 @@ class FirebaseDataProvider {
   Future<List<DocumentSnapshot>> fetchCategoryList(
       CollectionReference collectionReference, String category) async {
     return (await collectionReference
-            .orderBy("name", descending: true)
+            .orderBy("name", descending: false)
             .where('category', isEqualTo: category)
             .limit(20)
             .get())
@@ -65,7 +65,7 @@ class FirebaseDataProvider {
       String category,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference
-            .orderBy('name', descending: true)
+            .orderBy('name', descending: false)
             .where('category', isEqualTo: category)
             .startAfterDocument(documentList[documentList.length - 1])
             .limit(20)

@@ -23,8 +23,9 @@ class PastryService {
   showSuccess(context) async {
     ShowAction().showToast(successful, Colors.black); //show complete msg
     Navigator.of(context, rootNavigator: true).pop();
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(AddItem.routeName, (route) => false);
+    Navigator.of(context).pushReplacementNamed(
+      AddItem.routeName,
+    );
   }
 
   showFailure(context, error) {

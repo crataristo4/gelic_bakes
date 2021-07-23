@@ -147,15 +147,19 @@ class _CategoryItemsState extends State<CategoryItems> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              //item name
-                              pastry.name!,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: fourteenDp),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width -
+                                  twoHundredDp,
+                              child: Text(
+                                //item name
+                                pastry.name!,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: fourteenDp),
+                              ),
                             ),
                             SizedBox(
                               height: tenDp,
