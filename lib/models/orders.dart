@@ -62,4 +62,8 @@ class Orders {
         timestamp: ds['timestamp'],
         deliveryFee: ds['deliveryFee']);
   }
+
+  int getTotalPayment() {
+    return deliveryFee! + totalPrice!;
+  }
 }

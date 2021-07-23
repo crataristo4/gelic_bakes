@@ -129,6 +129,7 @@ const send = 'Send';
 const code = 'Code';
 const category = 'Category';
 const setQuantity = "Set quantity";
+const quantityOrdered = "Quantity Ordered";
 const toTAL = "Total";
 const deliveryFee = "Delivery fee";
 const willBeAdded = "Will be added when order is confirmed";

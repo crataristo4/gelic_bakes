@@ -176,6 +176,55 @@ class PastryListBloc {
 
 //-------------------------END--------------------------------------------------------//
 
+//.................FETCH ORDERS....................................................//
+  Future fetchOrders(CollectionReference collectionReference) async {
+    try {
+      documentList =
+          await firebaseDataProvider!.fetchOrders(collectionReference);
+      listItemController!.sink.add(documentList!);
+      try {
+        if (documentList!.length == 0) {
+          listItemController!.sink.addError("No Data Available");
+        }
+      } catch (e) {}
+    } on SocketException {
+      listItemController!.sink
+          .addError(SocketException("No Internet Connection"));
+    } catch (e) {
+      print(e.toString());
+      listItemController!.sink.addError(e);
+    }
+  }
+
+//paginate next pastries
+  fetchNextOrderListItems(CollectionReference collectionReference) async {
+    try {
+      updateIndicator(true);
+      List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
+          .fetchNextOrderListItems(collectionReference, documentList!);
+      documentList!.addAll(newDocumentList);
+      listItemController!.sink.add(documentList!);
+      try {
+        if (documentList!.length == 0) {
+          listItemController!.sink.addError("No Data Available");
+          updateIndicator(false);
+        }
+      } catch (e) {
+        updateIndicator(false);
+      }
+    } on SocketException {
+      listItemController!.sink
+          .addError(SocketException("No Internet Connection"));
+      updateIndicator(false);
+    } catch (e) {
+      updateIndicator(false);
+      print(e.toString());
+      listItemController!.sink.addError(e);
+    }
+  }
+
+  //.....................END.........................................//
+
 /*For updating the indicator below every list and paginate*/
   updateIndicator(bool value) async {
     showIndicator = value;

@@ -182,7 +182,6 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    //todo pass data
                                     showModalBottomSheet(
                                         context: context,
                                         builder: (context) => PreOrder(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gelic_bakes/ui/auth/config.dart';
 
 class FirebaseDataProvider {
   //fetch all pastries ---------------------------------------------------------------//
@@ -48,7 +49,7 @@ class FirebaseDataProvider {
 
 //------------------------END-------------------------------------------
 
-  //fetch category
+  //fetch category........................................................
   Future<List<DocumentSnapshot>> fetchCategoryList(
       CollectionReference collectionReference, String category) async {
     return (await collectionReference
@@ -67,6 +68,32 @@ class FirebaseDataProvider {
     return (await collectionReference
             .orderBy('name', descending: false)
             .where('category', isEqualTo: category)
+            .startAfterDocument(documentList[documentList.length - 1])
+            .limit(20)
+            .get())
+        .docs;
+  }
+
+  //...........................END.............................................//
+
+  //fetch ORDERS
+  Future<List<DocumentSnapshot>> fetchOrders(
+      CollectionReference collectionReference) async {
+    return (await collectionReference
+            .orderBy("timestamp", descending: true)
+            .where('uid', isEqualTo: currentUserId)
+            .limit(20)
+            .get())
+        .docs;
+  }
+
+  //paginate category data
+  Future<List<DocumentSnapshot>> fetchNextOrderListItems(
+      CollectionReference collectionReference,
+      List<DocumentSnapshot> documentList) async {
+    return (await collectionReference
+            .orderBy("timestamp", descending: true)
+            .where('uid', isEqualTo: currentUserId)
             .startAfterDocument(documentList[documentList.length - 1])
             .limit(20)
             .get())
