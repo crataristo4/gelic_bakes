@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/main/main.dart';
 import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/provider/orders_provider.dart';
+import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:intl/intl.dart';
 
 class PreOrder extends StatefulWidget {
@@ -16,6 +20,7 @@ class PreOrder extends StatefulWidget {
 class _PreOrderState extends State<PreOrder> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _dateTimeController = TextEditingController();
+  OrdersProvider _ordersProvider = OrdersProvider();
 
   //date format
   DateFormat _dateFormat = DateFormat.yMMMMd('en_US').add_jm();
@@ -91,6 +96,16 @@ class _PreOrderState extends State<PreOrder> {
                           ),
                           height: hundredDp,
                           width: hundredDp,
+                          child: ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            borderRadius: BorderRadius.circular(eightDp),
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) =>
+                                  Center(child: CircularProgressIndicator()),
+                              imageUrl: "${widget.pastry.image}",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: tenDp,
@@ -113,12 +128,12 @@ class _PreOrderState extends State<PreOrder> {
                               ),
                               Container(
                                   width:
-                                      MediaQuery.of(context).size.width - 180,
+                                  MediaQuery.of(context).size.width - 180,
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(category,
                                           style: TextStyle(
@@ -137,12 +152,12 @@ class _PreOrderState extends State<PreOrder> {
                               ),
                               Container(
                                   width:
-                                      MediaQuery.of(context).size.width - 180,
+                                  MediaQuery.of(context).size.width - 180,
                                   child: Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(price,
                                           style: TextStyle(
@@ -159,14 +174,14 @@ class _PreOrderState extends State<PreOrder> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(setQuantity,
                                       style: TextStyle(
                                         color: Colors.black45,
                                       )),
                                   SizedBox(
-                                    width: 50,
+                                    width: fiftyDp,
                                   ),
                                   Row(
                                     children: [
@@ -181,7 +196,7 @@ class _PreOrderState extends State<PreOrder> {
                                                 .withOpacity(0.4),
                                             child: Icon(
                                               Icons.remove,
-                                              size: 16,
+                                              size: sixteenDp,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -189,7 +204,7 @@ class _PreOrderState extends State<PreOrder> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(top: sixDp),
+                                        const EdgeInsets.only(top: sixDp),
                                         child: Text('$quantity'),
                                       ),
                                       Padding(
@@ -198,12 +213,12 @@ class _PreOrderState extends State<PreOrder> {
                                         child: GestureDetector(
                                           onTap: () => _increment(),
                                           child: CircleAvatar(
-                                            radius: 12,
+                                            radius: twelveDp,
                                             backgroundColor:
                                                 Theme.of(context).primaryColor,
                                             child: Icon(
                                               Icons.add,
-                                              size: 16,
+                                              size: sixteenDp,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -245,8 +260,8 @@ class _PreOrderState extends State<PreOrder> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          items("Subtotal", "$kGhanaCedi  $subTotal"),
-          items("Delivery fee", "$kGhanaCedi  price"),
+          items(SubTotal, "$kGhanaCedi  $subTotal"),
+          items(deliveryFee, willBeAdded),
           SizedBox(
             height: 8,
           ),
@@ -256,7 +271,7 @@ class _PreOrderState extends State<PreOrder> {
             color: Colors.pink,
             thickness: 1,
           ),
-          items("Total", "$kGhanaCedi  price"),
+          items(toTAL, "$kGhanaCedi  $subTotal"),
           SizedBox(
             height: sixteenDp,
           ),
@@ -271,7 +286,24 @@ class _PreOrderState extends State<PreOrder> {
                       primary: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(eightDp))),
-                  onPressed: () {},
+                  onPressed: () {
+                    //placing order
+                    //validate inputs
+                    if (_formKey.currentState!.validate()) {
+                      //1.show progress
+                      Dialogs.showLoadingDialog(
+                          context, loadingKey, placingOrder, Colors.white);
+                      //2.update provider
+                      _ordersProvider.setData(
+                          quantity,
+                          subTotal as int,
+                          widget.pastry.name!,
+                          widget.pastry.image!,
+                          _dateTimeController.text);
+                      //3. create order
+                      _ordersProvider.createOrder(context);
+                    }
+                  },
                   child: Text(
                     placeOrder,
                     style: TextStyle(fontSize: fourteenDp, color: Colors.white),
@@ -308,7 +340,7 @@ class _PreOrderState extends State<PreOrder> {
 
   buildDateTime() {
     return TextFormField(
-        //date time
+      //date time
         maxLines: 1,
         controller: _dateTimeController,
         readOnly: true,
@@ -327,9 +359,7 @@ class _PreOrderState extends State<PreOrder> {
           });
         },
         validator: (value) {
-          return value!.length > 0
-              ? null
-              : 'Please schedule a day for your order';
+          return value!.length > 0 ? null : plsScheduleDate;
         },
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
@@ -353,7 +383,7 @@ class _PreOrderState extends State<PreOrder> {
             fillColor: Colors.white70,
             filled: true,
             contentPadding:
-                EdgeInsets.symmetric(vertical: tenDp, horizontal: tenDp),
+            EdgeInsets.symmetric(vertical: tenDp, horizontal: tenDp),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFF5F5F5)),
             ),

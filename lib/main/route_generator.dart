@@ -9,6 +9,7 @@ import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/add/add_item.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
+import 'package:gelic_bakes/ui/pages/orders.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -70,6 +71,10 @@ class RouteGenerator {
                       image: data.image,
                       price: data.price),
                 ));
+
+      // orders page
+      case OrdersPage.routeName:
+        return MaterialPageRoute(builder: (_) => OrdersPage());
 
       default:
         return _errorRoute();

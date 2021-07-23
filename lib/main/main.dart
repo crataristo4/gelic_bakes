@@ -32,6 +32,7 @@ class EntryPoint extends StatelessWidget {
         ChangeNotifierProvider.value(value: AuthProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.pink,
           primaryColor: Colors.pink,
