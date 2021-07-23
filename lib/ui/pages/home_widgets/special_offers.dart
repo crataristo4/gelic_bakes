@@ -136,7 +136,7 @@ class _SpecialOffersState extends State<SpecialOffers> {
               Padding(
                 padding: const EdgeInsets.only(bottom: sixteenDp),
                 child: Text(
-                  lorem,
+                  "lorem",
                   style: TextStyle(color: Colors.black45),
                   textAlign: TextAlign.justify,
                 ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gelic_bakes/models/pastry.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
+import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/add/add_item.dart';
@@ -56,6 +58,18 @@ class RouteGenerator {
       //add item
       case AddItem.routeName:
         return MaterialPageRoute(builder: (_) => AddItem());
+
+      //place order
+      case PreOrder.routeName:
+        final data = settings.arguments as Pastry;
+        return MaterialPageRoute(
+            builder: (_) => PreOrder(
+                  pastry: Pastry(
+                      name: data.name,
+                      category: data.category,
+                      image: data.image,
+                      price: data.price),
+                ));
 
       default:
         return _errorRoute();

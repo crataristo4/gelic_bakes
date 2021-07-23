@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 
 class FreshFromOven extends StatefulWidget {
@@ -177,22 +178,32 @@ class _FreshFromOvenState extends State<FreshFromOven> {
                                     ),
 
                                     //pre order
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          top: eightDp, bottom: eightDp),
-                                      margin: EdgeInsets.only(
-                                          right: sixDp, top: fourDp),
-                                      child: Center(
-                                          child: Text(
-                                        preOrder,
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(eightyDp),
-                                          color: Colors.pinkAccent),
-                                      height: thirtyDp,
-                                      width: hundredDp,
+                                    GestureDetector(
+                                      onTap: () {
+                                        //todo pass data
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) => PreOrder(
+                                                  pastry: freshFromOven,
+                                                ));
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            top: eightDp, bottom: eightDp),
+                                        margin: EdgeInsets.only(
+                                            right: sixDp, top: fourDp),
+                                        child: Center(
+                                            child: Text(
+                                          preOrder,
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(eightyDp),
+                                            color: Colors.pinkAccent),
+                                        height: thirtyDp,
+                                        width: hundredDp,
+                                      ),
                                     ),
                                   ],
                                 ),

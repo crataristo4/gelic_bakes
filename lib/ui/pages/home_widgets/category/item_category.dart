@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 
 class CategoryItems extends StatefulWidget {
   static const routeName = '/categoryItem';
@@ -180,7 +181,14 @@ class _CategoryItemsState extends State<CategoryItems> {
                                   width: sixtyDp,
                                 ),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    //todo pass data
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) => PreOrder(
+                                              pastry: pastry,
+                                            ));
+                                  },
                                   child: Container(
                                     padding: EdgeInsets.only(
                                         top: eightDp, bottom: eightDp),
