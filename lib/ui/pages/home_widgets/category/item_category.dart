@@ -175,21 +175,24 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 SizedBox(
                                   width: sixtyDp,
                                 ),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      top: eightDp, bottom: eightDp),
-                                  margin: EdgeInsets.only(right: eightDp),
-                                  child: Center(
-                                      child: Text(
-                                    buyNow,
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(eightyDp),
-                                      color: Colors.pinkAccent),
-                                  height: thirtyDp,
-                                  width: hundredDp,
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                        top: eightDp, bottom: eightDp),
+                                    margin: EdgeInsets.only(right: eightDp),
+                                    child: Center(
+                                        child: Text(
+                                      preOrder,
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(eightyDp),
+                                        color: Colors.pinkAccent),
+                                    height: thirtyDp,
+                                    width: hundredDp,
+                                  ),
                                 ),
                               ],
                             )

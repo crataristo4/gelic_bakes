@@ -9,6 +9,16 @@ class Pastry {
 
   Pastry({this.name, this.category, this.description, this.image, this.price});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'image': image,
+      'description': description,
+      'category': category,
+      'price': price
+    };
+  }
+
   factory Pastry.fromSnapshot(DocumentSnapshot ds) {
     return Pastry(
       name: ds['name'],

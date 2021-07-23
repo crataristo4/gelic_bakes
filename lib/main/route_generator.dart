@@ -4,6 +4,7 @@ import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/add/add_item.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 
@@ -51,6 +52,10 @@ class RouteGenerator {
             builder: (_) => CategoryItems(
                   category: data,
                 ));
+
+      //add item
+      case AddItem.routeName:
+        return MaterialPageRoute(builder: (_) => AddItem());
 
       default:
         return _errorRoute();
