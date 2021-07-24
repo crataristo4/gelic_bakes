@@ -68,7 +68,14 @@ class _SpecialOffersState extends State<SpecialOffers> {
 
   Widget buildSpecialOffer(String name, String icon) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        //todo -- add when ready
+        SnackBar snackbar = SnackBar(
+          content: Text("No offer available"),
+          duration: Duration(seconds: 1),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: sixDp),
         decoration: BoxDecoration(

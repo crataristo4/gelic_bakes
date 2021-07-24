@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/models/pastry.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';

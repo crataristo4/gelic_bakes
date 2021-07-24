@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';

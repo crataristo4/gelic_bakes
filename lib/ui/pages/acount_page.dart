@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/provider/user_provider.dart';
 import 'package:gelic_bakes/service/location_service.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';

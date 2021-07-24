@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/provider/auth_provider.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';

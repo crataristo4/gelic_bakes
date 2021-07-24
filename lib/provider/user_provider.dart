@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/models/Users.dart';
 import 'package:gelic_bakes/service/user_services.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';

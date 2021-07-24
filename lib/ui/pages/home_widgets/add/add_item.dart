@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/main/main.dart';
+import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/provider/pastry_provider.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
