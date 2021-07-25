@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/admin/add_items.dart';
 import 'package:gelic_bakes/ui/admin/admin_page.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
@@ -72,10 +72,10 @@ class RouteGenerator {
 
       //place order
       case PreOrder.routeName:
-        final data = settings.arguments as Pastry;
+        final data = settings.arguments as Product;
         return MaterialPageRoute(
             builder: (_) => PreOrder(
-                  pastry: Pastry(
+                  product: Product(
                       name: data.name,
                       category: data.category,
                       image: data.image,

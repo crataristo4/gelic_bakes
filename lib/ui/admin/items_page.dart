@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
 
 import 'add_items.dart';
 
@@ -16,15 +16,15 @@ class ItemsPage extends StatefulWidget {
 }
 
 class _ItemsPageState extends State<ItemsPage> {
-  PastryListBloc? _pastryList;
-  CollectionReference _pastryRef =
-      FirebaseFirestore.instance.collection("Pastry");
+  ProductListBloc? _ProductList;
+  CollectionReference _ProductRef =
+      FirebaseFirestore.instance.collection("Product");
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    _pastryList = PastryListBloc();
-    _pastryList!.fetchPastries(_pastryRef);
+    _ProductList = ProductListBloc();
+    _ProductList!.fetchPastries(_ProductRef);
 
     controller.addListener(_scrollListener);
     super.initState();
@@ -33,7 +33,7 @@ class _ItemsPageState extends State<ItemsPage> {
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
-      _pastryList!.fetchNextPastryListItems(_pastryRef);
+      _ProductList!.fetchNextProductListItems(_ProductRef);
     }
   }
 
@@ -47,7 +47,7 @@ class _ItemsPageState extends State<ItemsPage> {
         toolbarHeight: 10,
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
-          stream: _pastryList!.itemListStream,
+          stream: _ProductList!.itemListStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -57,7 +57,7 @@ class _ItemsPageState extends State<ItemsPage> {
 
             return ListView.builder(
               itemBuilder: (context, index) {
-                Pastry pastry = Pastry.fromSnapshot(snapshot.data![index]);
+                Product product = Product.fromSnapshot(snapshot.data![index]);
                 return Container(
                   child: Stack(
                     alignment: Alignment.topLeft,
@@ -100,7 +100,7 @@ class _ItemsPageState extends State<ItemsPage> {
                                 Center(child: CircularProgressIndicator()),
                             width: oneThirtyDp,
                             height: oneTwentyDp,
-                            imageUrl: pastry.image!,
+                            imageUrl: product.image!,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -116,7 +116,7 @@ class _ItemsPageState extends State<ItemsPage> {
                                   twoHundredDp,
                               child: Text(
                                 //item name
-                                pastry.name!,
+                                product.name!,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
@@ -132,7 +132,7 @@ class _ItemsPageState extends State<ItemsPage> {
                               children: [
                                 Text(
                                   //item price
-                                  "$kGhanaCedi ${pastry.price}",
+                                  "$kGhanaCedi ${product.price}",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -148,8 +148,8 @@ class _ItemsPageState extends State<ItemsPage> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AddItem.pastry(
-                                                  pastry: pastry,
+                                                AddItem.product(
+                                                  product: product,
                                                   itemId:
                                                       snapshot.data![index].id,
                                                 )));

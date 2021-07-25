@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 
 class ViewAllFreshFromOven extends StatefulWidget {
@@ -16,15 +16,15 @@ class ViewAllFreshFromOven extends StatefulWidget {
 }
 
 class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
-  PastryListBloc? _pastryList;
-  CollectionReference _pastryRef =
+  ProductListBloc? _productList;
+  CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Fresh");
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    _pastryList = PastryListBloc();
-    _pastryList!.fetchFreshFromOven(_pastryRef);
+    _productList = ProductListBloc();
+    _productList!.fetchFreshFromOven(_productRef);
     controller.addListener(_scrollListener);
     super.initState();
   }
@@ -32,7 +32,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
-      _pastryList!.fetchNextFreshFromOvenListItems(_pastryRef);
+      _productList!.fetchNextFreshFromOvenListItems(_productRef);
     }
   }
 
@@ -75,7 +75,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
         ],
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
-          stream: _pastryList!.itemListStream,
+          stream: _productList!.itemListStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -87,8 +87,8 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
               addAutomaticKeepAlives: true,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                Pastry freshFromOven =
-                    Pastry.freshFromOven(snapshot.data![index]);
+                Product freshFromOven =
+                    Product.freshFromOven(snapshot.data![index]);
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   height: twoTwentyDp,
@@ -180,7 +180,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                           showModalBottomSheet(
                                               context: context,
                                               builder: (context) => PreOrder(
-                                                    pastry: freshFromOven,
+                                                product: freshFromOven,
                                                   ));
                                         },
                                         child: Container(

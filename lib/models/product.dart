@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Pastry {
+class Product {
   String? name;
   String? category;
   String? description;
   String? image;
   int? price;
 
-  Pastry({this.name, this.category, this.description, this.image, this.price});
+  Product({this.name, this.category, this.description, this.image, this.price});
 
-  Pastry.name({this.name});
+  Product.name({this.name});
 
   Map<String, dynamic> nameToMap() {
     return {
@@ -17,7 +17,7 @@ class Pastry {
     };
   }
 
-  Pastry.category({this.category});
+  Product.category({this.category});
 
   Map<String, dynamic> categoryToMap() {
     return {
@@ -25,7 +25,7 @@ class Pastry {
     };
   }
 
-  Pastry.description({this.description});
+  Product.description({this.description});
 
   Map<String, dynamic> descriptionToMap() {
     return {
@@ -33,7 +33,7 @@ class Pastry {
     };
   }
 
-  Pastry.image({this.image});
+  Product.image({this.image});
 
   Map<String, dynamic> imageToMap() {
     return {
@@ -41,7 +41,7 @@ class Pastry {
     };
   }
 
-  Pastry.price({this.price});
+  Product.price({this.price});
 
   Map<String, dynamic> priceToMap() {
     return {
@@ -49,7 +49,7 @@ class Pastry {
     };
   }
 
-  Pastry.nameAndPrice({this.name, this.price});
+  Product.nameAndPrice({this.name, this.price});
 
   Map<String, dynamic> nameAndPriceToMap() {
     return {
@@ -58,7 +58,7 @@ class Pastry {
     };
   }
 
-  Pastry.nameAndDescription({this.name, this.description});
+  Product.nameAndDescription({this.name, this.description});
 
   Map<String, dynamic> nameAndDescriptionToMap() {
     return {
@@ -67,7 +67,7 @@ class Pastry {
     };
   }
 
-  Pastry.namePriceAndDescription({this.name, this.price, this.description});
+  Product.namePriceAndDescription({this.name, this.price, this.description});
 
   Map<String, dynamic> namePriceAndDescriptionToMap() {
     return {
@@ -87,8 +87,8 @@ class Pastry {
     };
   }
 
-  factory Pastry.fromSnapshot(DocumentSnapshot ds) {
-    return Pastry(
+  factory Product.fromSnapshot(DocumentSnapshot ds) {
+    return Product(
       name: ds['name'],
       category: ds['category'],
       description: ds['description'],
@@ -97,8 +97,8 @@ class Pastry {
     );
   }
 
-  factory Pastry.freshFromOven(DocumentSnapshot ds) {
-    return Pastry(
+  factory Product.freshFromOven(DocumentSnapshot ds) {
+    return Product(
       name: ds['name'],
       category: ds['category'],
       //  description: ds['description'],

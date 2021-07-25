@@ -2,32 +2,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
+import 'package:gelic_bakes/ui/admin/admin_page.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 
-class PastryService {
+class ProductService {
   final firestoreService = FirebaseFirestore.instance;
 
-  //create a pastry ........................................................
-  Future<void> createNewPastry(Pastry pastry, BuildContext context) {
+  //create a Product ........................................................
+  Future<void> createNewProduct(Product product, BuildContext context) {
+    // if(Product.category == vaginne || Product.category == adwelle || Product.category == vtide)
     return firestoreService
-        .collection('Pastry')
-        .add(pastry.toMap())
+        .collection(product.category == vaginne ||
+                product.category == adwelle ||
+                product.category == vtide
+            ? "Medicine"
+            : 'Product')
+        .add(product.toMap())
         .whenComplete(() async {
-      showSuccess(context);
+      showSuccess(context, product.category);
     }).catchError((onError) {
       showFailure(context, onError);
     });
   }
 
-  //update pastry name
-  Future<void> updatePastryName(
-      Pastry pastry, BuildContext context, String itemId) {
+  //update Product name
+  Future<void> updateProductName(
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.nameToMap())
+        .update(product.nameToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -35,13 +41,13 @@ class PastryService {
     });
   }
 
-  //update pastry category
-  Future<void> updatePastryCategory(
-      Pastry pastry, BuildContext context, String itemId) {
+  //update Product category
+  Future<void> updateProductCategory(
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.categoryToMap())
+        .update(product.categoryToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -49,13 +55,13 @@ class PastryService {
     });
   }
 
-  //update pastry price
-  Future<void> updatePastryPrice(
-      Pastry pastry, BuildContext context, String itemId) {
+  //update Product price
+  Future<void> updateProductPrice(
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.priceToMap())
+        .update(product.priceToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -63,13 +69,13 @@ class PastryService {
     });
   }
 
-  //update pastry des
-  Future<void> updatePastryDes(
-      Pastry pastry, BuildContext context, String itemId) {
+  //update Product des
+  Future<void> updateProductDes(
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.descriptionToMap())
+        .update(product.descriptionToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -77,13 +83,13 @@ class PastryService {
     });
   }
 
-  //update pastry image
-  Future<void> updatePastryImage(
-      Pastry pastry, BuildContext context, String itemId) {
+  //update Product image
+  Future<void> updateProductImage(
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.imageToMap())
+        .update(product.imageToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -91,13 +97,13 @@ class PastryService {
     });
   }
 
-  //update pastry image
+  //update Product image
   Future<void> updateNameAndPrice(
-      Pastry pastry, BuildContext context, String itemId) {
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.nameAndPriceToMap())
+        .update(product.nameAndPriceToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -105,13 +111,13 @@ class PastryService {
     });
   }
 
-  //update pastry name and description
+  //update Product name and description
   Future<void> updateNameAndDescription(
-      Pastry pastry, BuildContext context, String itemId) {
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.nameAndDescriptionToMap())
+        .update(product.nameAndDescriptionToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -119,13 +125,13 @@ class PastryService {
     });
   }
 
-  //update pastry name , price and description
+  //update Product name , price and description
   Future<void> updateNamePriceAndDescription(
-      Pastry pastry, BuildContext context, String itemId) {
+      Product product, BuildContext context, String itemId) {
     return firestoreService
-        .collection('Pastry')
+        .collection('Product')
         .doc(itemId)
-        .update(pastry.namePriceAndDescriptionToMap())
+        .update(product.namePriceAndDescriptionToMap())
         .whenComplete(() async {
       showUpdatingSuccessful(context);
     }).catchError((onError) {
@@ -162,9 +168,18 @@ class PastryService {
     // Navigator.of(context, rootNavigator: true).pop();
   }
 
-  showSuccess(context) async {
+  showSuccess(context, category) async {
     ShowAction().showToast(successful, Colors.black); //show complete msg
     Navigator.of(context, rootNavigator: true).pop();
+    //push to medicine page
+    if (category == vaginne || category == vtide || category == adwelle) {
+      Navigator.of(context)
+          .pushReplacementNamed(AdminPage.routeName, arguments: 2);
+    } else {
+      //push to pastry page
+      Navigator.of(context)
+          .pushReplacementNamed(AdminPage.routeName, arguments: 1);
+    }
   }
 
   showFailure(context, error) {

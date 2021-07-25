@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 import 'datasource.dart';
 
-class PastryListBloc {
+class ProductListBloc {
   FirebaseDataProvider? firebaseDataProvider;
 
   bool showIndicator = false;
@@ -15,7 +15,7 @@ class PastryListBloc {
 
   BehaviorSubject<bool>? showIndicatorController;
 
-  PastryListBloc() {
+  ProductListBloc() {
     listItemController = BehaviorSubject<List<DocumentSnapshot>>();
     showIndicatorController = BehaviorSubject<bool>();
     firebaseDataProvider = FirebaseDataProvider();
@@ -96,11 +96,11 @@ class PastryListBloc {
   }
 
 //paginate next pastries
-  fetchNextPastryListItems(CollectionReference collectionReference) async {
+  fetchNextProductListItems(CollectionReference collectionReference) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
-          .fetchNextPastryListItems(collectionReference, documentList!);
+          .fetchNextProductListItems(collectionReference, documentList!);
       documentList!.addAll(newDocumentList);
       listItemController!.sink.add(documentList!);
       try {

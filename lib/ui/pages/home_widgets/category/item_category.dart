@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 
 class CategoryItems extends StatefulWidget {
@@ -17,18 +17,18 @@ class CategoryItems extends StatefulWidget {
 }
 
 class _CategoryItemsState extends State<CategoryItems> {
-  PastryListBloc? _pastryList;
-  CollectionReference _pastryRef =
-      FirebaseFirestore.instance.collection("Pastry");
+  ProductListBloc? _productList;
+  CollectionReference _productRef =
+      FirebaseFirestore.instance.collection("Product");
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    _pastryList = PastryListBloc();
+    _productList = ProductListBloc();
     if (widget.category.toString().isEmpty) {
-      _pastryList!.fetchPastries(_pastryRef);
+      _productList!.fetchPastries(_productRef);
     } else {
-      _pastryList!.fetchCategoryList(_pastryRef, widget.category);
+      _productList!.fetchCategoryList(_productRef, widget.category);
     }
     controller.addListener(_scrollListener);
     super.initState();
@@ -38,9 +38,9 @@ class _CategoryItemsState extends State<CategoryItems> {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
       if (widget.category.toString().isEmpty) {
-        _pastryList!.fetchNextPastryListItems(_pastryRef);
+        _productList!.fetchNextProductListItems(_productRef);
       } else {
-        _pastryList!.fetchNextCategoryListItems(_pastryRef, widget.category);
+        _productList!.fetchNextCategoryListItems(_productRef, widget.category);
       }
     }
   }
@@ -84,7 +84,7 @@ class _CategoryItemsState extends State<CategoryItems> {
         ],
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
-          stream: _pastryList!.itemListStream,
+          stream: _productList!.itemListStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -94,7 +94,7 @@ class _CategoryItemsState extends State<CategoryItems> {
 
             return ListView.builder(
               itemBuilder: (context, index) {
-                Pastry pastry = Pastry.fromSnapshot(snapshot.data![index]);
+                Product product = Product.fromSnapshot(snapshot.data![index]);
                 return Container(
                   child: Stack(
                     alignment: Alignment.topLeft,
@@ -137,7 +137,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 Center(child: CircularProgressIndicator()),
                             width: oneThirtyDp,
                             height: oneTwentyDp,
-                            imageUrl: pastry.image!,
+                            imageUrl: product.image!,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -153,7 +153,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                                   twoHundredDp,
                               child: Text(
                                 //item name
-                                pastry.name!,
+                                product.name!,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
@@ -169,7 +169,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                               children: [
                                 Text(
                                   //item price
-                                  "$kGhanaCedi ${pastry.price}",
+                                  "$kGhanaCedi ${product.price}",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -185,7 +185,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                                     showModalBottomSheet(
                                         context: context,
                                         builder: (context) => PreOrder(
-                                              pastry: pastry,
+                                          product: product,
                                             ));
                                   },
                                   child: Container(

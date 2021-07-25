@@ -2,16 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:intl/intl.dart';
 
 class PreOrder extends StatefulWidget {
   static const routeName = '/placeOrder';
-  final Pastry pastry;
+  final Product product;
 
-  const PreOrder({Key? key, required this.pastry}) : super(key: key);
+  const PreOrder({Key? key, required this.product}) : super(key: key);
 
   @override
   _PreOrderState createState() => _PreOrderState();
@@ -31,7 +31,7 @@ class _PreOrderState extends State<PreOrder> {
 
   @override
   void initState() {
-    initialPrice = widget.pastry.price;
+    initialPrice = widget.product.price;
     subTotal = initialPrice;
     super.initState();
   }
@@ -102,7 +102,7 @@ class _PreOrderState extends State<PreOrder> {
                             child: CachedNetworkImage(
                               placeholder: (context, url) =>
                                   Center(child: CircularProgressIndicator()),
-                              imageUrl: "${widget.pastry.image}",
+                              imageUrl: "${widget.product.image}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -116,7 +116,7 @@ class _PreOrderState extends State<PreOrder> {
                             children: [
                               SizedBox(
                                 width: twoHundredDp,
-                                child: Text("${widget.pastry.name}",
+                                child: Text("${widget.product.name}",
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -140,7 +140,7 @@ class _PreOrderState extends State<PreOrder> {
                                             color: Colors.black45,
                                           )),
                                       Text(
-                                        "${widget.pastry.category}",
+                                        "${widget.product.category}",
                                         style: TextStyle(
                                             color: Colors.pink,
                                             fontWeight: FontWeight.bold),
@@ -163,7 +163,8 @@ class _PreOrderState extends State<PreOrder> {
                                           style: TextStyle(
                                             color: Colors.black45,
                                           )),
-                                      Text("$kGhanaCedi ${widget.pastry.price}",
+                                      Text(
+                                          "$kGhanaCedi ${widget.product.price}",
                                           style: TextStyle(
                                               color: Colors.pink,
                                               fontWeight: FontWeight.bold)),
@@ -297,8 +298,8 @@ class _PreOrderState extends State<PreOrder> {
                       _ordersProvider.setData(
                           quantity,
                           subTotal as int,
-                          widget.pastry.name!,
-                          widget.pastry.image!,
+                          widget.product.name!,
+                          widget.product.image!,
                           _dateTimeController.text);
                       //3. create order
                       _ordersProvider.createOrder(context);

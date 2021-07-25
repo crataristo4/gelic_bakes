@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 /*import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';*/
-import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
-import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 class OrdersPage extends StatefulWidget with NavigationState {
@@ -25,15 +24,15 @@ class _OrdersPageState extends State<OrdersPage> {
 
   // final String currency = FlutterwaveCurrency.GHS;
 
-  PastryListBloc? _pastryList;
-  CollectionReference _pastryRef =
+  ProductListBloc? _productList;
+  CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Orders");
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    _pastryList = PastryListBloc();
-    _pastryList!.fetchOrders(_pastryRef);
+    _productList = ProductListBloc();
+    _productList!.fetchOrders(_productRef);
     controller.addListener(_scrollListener);
     super.initState();
   }
@@ -41,7 +40,7 @@ class _OrdersPageState extends State<OrdersPage> {
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
-      _pastryList!.fetchNextOrderListItems(_pastryRef);
+      _productList!.fetchNextOrderListItems(_productRef);
     }
   }
 
@@ -55,7 +54,7 @@ class _OrdersPageState extends State<OrdersPage> {
         backgroundColor: Colors.pinkAccent,
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
-          stream: _pastryList!.itemListStream,
+          stream: _productList!.itemListStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(

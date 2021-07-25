@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
-import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 
@@ -16,14 +16,14 @@ class FreshFromOven extends StatefulWidget {
 }
 
 class _FreshFromOvenState extends State<FreshFromOven> {
-  PastryListBloc? _pastryList;
+  ProductListBloc? _productList;
   CollectionReference _freshFromOvenRef =
       FirebaseFirestore.instance.collection("Fresh");
 
   @override
   void initState() {
-    _pastryList = PastryListBloc();
-    _pastryList!.fetchFreshFromOven(_freshFromOvenRef);
+    _productList = ProductListBloc();
+    _productList!.fetchFreshFromOven(_freshFromOvenRef);
     super.initState();
   }
 
@@ -80,7 +80,7 @@ class _FreshFromOvenState extends State<FreshFromOven> {
 
   Widget buildItemList() {
     return StreamBuilder<List<DocumentSnapshot>>(
-        stream: _pastryList!.itemListStream,
+        stream: _productList!.itemListStream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -96,8 +96,8 @@ class _FreshFromOvenState extends State<FreshFromOven> {
             addAutomaticKeepAlives: true,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              Pastry freshFromOven =
-                  Pastry.freshFromOven(snapshot.data![index]);
+              Product freshFromOven =
+                  Product.freshFromOven(snapshot.data![index]);
               return Container(
                 width: twoFiftyDp,
                 child: Stack(
@@ -184,7 +184,7 @@ class _FreshFromOvenState extends State<FreshFromOven> {
                                         showModalBottomSheet(
                                             context: context,
                                             builder: (context) => PreOrder(
-                                                  pastry: freshFromOven,
+                                              product: freshFromOven,
                                                 ));
                                       },
                                       child: Container(

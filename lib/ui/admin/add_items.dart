@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
-import 'package:gelic_bakes/models/pastry.dart';
-import 'package:gelic_bakes/provider/pastry_provider.dart';
+import 'package:gelic_bakes/models/product.dart';
+import 'package:gelic_bakes/provider/product_provider.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,12 +19,12 @@ import 'admin_page.dart';
 
 class AddItem extends StatefulWidget {
   static const routeName = '/addItemAdmin';
-  Pastry? pastry;
+  Product? product;
   String? itemId;
 
   AddItem({Key? key}) : super(key: key);
 
-  AddItem.pastry({Key? key, this.pastry, this.itemId}) : super(key: key);
+  AddItem.product({Key? key, this.product, this.itemId}) : super(key: key);
 
   @override
   _AddItemState createState() => _AddItemState();
@@ -37,7 +37,7 @@ class _AddItemState extends State<AddItem> {
   final picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
   String? _selectedItem;
-  PastryProvider _pastryProvider = PastryProvider();
+  ProductProvider _productProvider = ProductProvider();
 
   TextEditingController _priceController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -45,11 +45,11 @@ class _AddItemState extends State<AddItem> {
 
   @override
   void initState() {
-    if (widget.pastry != null) {
-      int price = widget.pastry!.price!;
+    if (widget.product != null) {
+      int price = widget.product!.price!;
       _priceController.text = "$price";
-      _itemNameController.text = widget.pastry!.name!;
-      _descriptionController.text = widget.pastry!.description!;
+      _itemNameController.text = widget.product!.name!;
+      _descriptionController.text = widget.product!.description!;
     }
     super.initState();
   }
@@ -97,7 +97,7 @@ class _AddItemState extends State<AddItem> {
       firebase_storage.Reference firebaseStorageRef = firebase_storage
           .FirebaseStorage.instance
           .ref()
-          .child('pastry/$fileName.$fileExtension');
+          .child('Product/$fileName.$fileExtension');
 
       //put image file to storage
       await firebaseStorageRef.putFile(_image!);
@@ -109,13 +109,13 @@ class _AddItemState extends State<AddItem> {
       }).whenComplete(() {
         //CHECK IF IMAGE URL IS READY
         if (imageUrl != null) {
-          _pastryProvider.setData(
+          _productProvider.setData(
               _itemNameController.text,
               _selectedItem!,
               _descriptionController.text,
               imageUrl!,
               int.parse(_priceController.text));
-          _pastryProvider.insertIntoDb(context);
+          _productProvider.insertIntoDb(context);
         } else {}
       }).catchError((onError) {
         ShowAction().showToast("Error occurred : $onError", Colors.black);
@@ -175,7 +175,7 @@ class _AddItemState extends State<AddItem> {
     return TextFormField(
         maxLength: 100,
         maxLines:
-            widget.pastry != null && widget.pastry!.name!.length > 60 ? 2 : 1,
+            widget.product != null && widget.product!.name!.length > 60 ? 2 : 1,
         keyboardType: TextInputType.text,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         controller: _itemNameController,
@@ -184,7 +184,7 @@ class _AddItemState extends State<AddItem> {
         },
         onChanged: (value) {},
         decoration: InputDecoration(
-          labelText: widget.pastry != null ? "Item name" : 'Enter item name',
+          labelText: widget.product != null ? "Item name" : 'Enter item name',
           fillColor: Color(0xFFF5F5F5),
           filled: true,
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
@@ -206,7 +206,7 @@ class _AddItemState extends State<AddItem> {
         },
         onChanged: (value) {},
         decoration: InputDecoration(
-          labelText: widget.pastry != null ? price : enterPrice,
+          labelText: widget.product != null ? price : enterPrice,
           fillColor: Color(0xFFF5F5F5),
           filled: true,
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
@@ -221,7 +221,7 @@ class _AddItemState extends State<AddItem> {
     return TextFormField(
         maxLength: 200,
         maxLines:
-            widget.pastry != null && widget.pastry!.description!.length > 40
+        widget.product != null && widget.product!.description!.length > 40
                 ? 3
                 : 1,
         keyboardType: TextInputType.text,
@@ -232,7 +232,8 @@ class _AddItemState extends State<AddItem> {
         },*/
         onChanged: (value) {},
         decoration: InputDecoration(
-          labelText: widget.pastry != null ? description : enterItemDescription,
+          labelText:
+              widget.product != null ? description : enterItemDescription,
           fillColor: Color(0xFFF5F5F5),
           filled: true,
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
@@ -243,7 +244,7 @@ class _AddItemState extends State<AddItem> {
         ));
   }
 
-  Widget buildPastryType() {
+  Widget buildProductType() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -255,8 +256,8 @@ class _AddItemState extends State<AddItem> {
               border:
                   Border.all(width: 0.5, color: Colors.grey.withOpacity(0.5))),
           child: DropdownButtonFormField<String>(
-            value: widget.pastry != null
-                ? widget.pastry!.category!
+            value: widget.product != null
+                ? widget.product!.category!
                 : _selectedItem,
             elevation: 1,
             isExpanded: true,
@@ -300,11 +301,11 @@ class _AddItemState extends State<AddItem> {
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          widget.pastry != null ? edit : addItem,
+          widget.product != null ? edit : addItem,
           style: TextStyle(color: Colors.black),
         ),
         leading: InkWell(
-          onTap: () => widget.pastry != null
+          onTap: () => widget.product != null
               ? Navigator.of(context)
                   .pushReplacementNamed(AdminPage.routeName, arguments: 1)
               : Navigator.of(context).pop(),
@@ -339,7 +340,7 @@ class _AddItemState extends State<AddItem> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      widget.pastry != null
+                      widget.product != null
                           ? GestureDetector(
                               onTap: () => _showPicker(context),
                               child: Container(
@@ -355,10 +356,10 @@ class _AddItemState extends State<AddItem> {
                                               fit: BoxFit.cover,
                                             )
                                           : CachedNetworkImage(
-                                              filterQuality: FilterQuality.high,
+                                        filterQuality: FilterQuality.high,
                                               fit: BoxFit.cover,
                                               imageUrl:
-                                                  '${widget.pastry!.image}',
+                                                  '${widget.product!.image}',
                                             ),
                                     )),
                               ),
@@ -415,11 +416,11 @@ class _AddItemState extends State<AddItem> {
                                 width: MediaQuery.of(context).size.width,
                                 child:   ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: widget.pastry != null ? ClipRRect(
+                                  child: widget.Product != null ? ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: CachedNetworkImage(
                                       filterQuality: FilterQuality.high,
-                                      fit: BoxFit.cover, imageUrl: '${widget.pastry!.image}',
+                                      fit: BoxFit.cover, imageUrl: '${widget.Product!.image}',
                                     ),
                                   ):  Image.file(
                                     _image!,
@@ -431,7 +432,7 @@ class _AddItemState extends State<AddItem> {
                       SizedBox(height: 10),
                       buildItemName(),
                       SizedBox(height: 10),
-                      buildPastryType(),
+                      buildProductType(),
                       SizedBox(height: 10),
                       buildPrice(),
                       SizedBox(height: 10),
@@ -451,100 +452,100 @@ class _AddItemState extends State<AddItem> {
                                       borderRadius:
                                           BorderRadius.circular(eightDp))),
                               onPressed: () {
-                                //check is pastry item is not null before updating
-                                if (widget.pastry != null) {
+                                //check is Product item is not null before updating
+                                if (widget.product != null) {
                                   //update item name only
                                   if (_itemNameController.text !=
-                                          widget.pastry!.name &&
+                                          widget.product!.name &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider
+                                    _productProvider
                                         .setItemName(_itemNameController.text);
-                                    _pastryProvider.updatePastryName(
+                                    _productProvider.updateProductName(
                                         context, widget.itemId!);
                                   }
                                   //update item price only
                                   if (_priceController.text !=
-                                          '${widget.pastry!.price.toString()}' &&
+                                          '${widget.product!.price.toString()}' &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider.setItemPrice(
+                                    _productProvider.setItemPrice(
                                         int.parse(_priceController.text));
-                                    _pastryProvider.updatePastryPrice(
+                                    _productProvider.updateProductPrice(
                                         context, widget.itemId!);
                                   }
 
                                   //update description only
                                   if (_descriptionController.text !=
-                                          widget.pastry!.description &&
+                                          widget.product!.description &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider.setItemDescription(
+                                    _productProvider.setItemDescription(
                                         _descriptionController.text);
-                                    _pastryProvider.updatePastryDescription(
+                                    _productProvider.updateProductDescription(
                                         context, widget.itemId!);
                                   }
 
                                   //update category only
                                   if (_selectedItem !=
-                                          widget.pastry!.category &&
+                                          widget.product!.category &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider
+                                    _productProvider
                                         .setItemCategory(_selectedItem!);
-                                    _pastryProvider.updatePastryCategory(
+                                    _productProvider.updateProductCategory(
                                         context, widget.itemId!);
                                   }
 
                                   //update name and price
                                   if (_itemNameController.text !=
-                                          widget.pastry!.name &&
+                                          widget.product!.name &&
                                       _priceController.text !=
-                                          '${widget.pastry!.price.toString()}' &&
+                                          '${widget.product!.price.toString()}' &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider
+                                    _productProvider
                                         .setItemName(_itemNameController.text);
-                                    _pastryProvider.setItemPrice(
+                                    _productProvider.setItemPrice(
                                         int.parse(_priceController.text));
 
-                                    _pastryProvider.updatePastryNameAndPrice(
+                                    _productProvider.updateProductNameAndPrice(
                                         context, widget.itemId!);
                                   }
 
                                   //update name and description
                                   if (_itemNameController.text !=
-                                          widget.pastry!.name &&
+                                          widget.product!.name &&
                                       _priceController.text !=
-                                          '${widget.pastry!.price.toString()}' &&
+                                          '${widget.product!.price.toString()}' &&
                                       _descriptionController.text !=
-                                          '${widget.pastry!.description.toString()}' &&
+                                          '${widget.product!.description.toString()}' &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider
+                                    _productProvider
                                         .setItemName(_itemNameController.text);
-                                    _pastryProvider.setItemDescription(
+                                    _productProvider.setItemDescription(
                                         _descriptionController.text);
 
-                                    _pastryProvider.updatePastryNameAndPrice(
+                                    _productProvider.updateProductNameAndPrice(
                                         context, widget.itemId!);
                                   }
 
                                   //update name , price and description
                                   if (_itemNameController.text !=
-                                          widget.pastry!.name &&
+                                          widget.product!.name &&
                                       _descriptionController.text !=
-                                          widget.pastry!.description &&
+                                          widget.product!.description &&
                                       _priceController.text !=
-                                          '${widget.pastry!.price.toString()}' &&
+                                          '${widget.product!.price.toString()}' &&
                                       _formKey.currentState!.validate()) {
-                                    _pastryProvider
+                                    _productProvider
                                         .setItemName(_itemNameController.text);
-                                    _pastryProvider.setItemPrice(
+                                    _productProvider.setItemPrice(
                                         int.parse(_priceController.text));
 
-                                    _pastryProvider.setItemDescription(
+                                    _productProvider.setItemDescription(
                                         _descriptionController.text);
 
-                                    _pastryProvider
-                                        .updatePastryNamePriceAndDescription(
+                                    _productProvider
+                                        .updateProductNamePriceAndDescription(
                                             context, widget.itemId!);
                                   }
-                                } else if (widget.pastry != null &&
+                                } else if (widget.product != null &&
                                     _formKey.currentState!.validate() &&
                                     _image != null) {
                                   // trigger function
@@ -555,7 +556,7 @@ class _AddItemState extends State<AddItem> {
                                 }
                               },
                               child: Text(
-                                widget.pastry != null ? updateItem : done,
+                                widget.product != null ? updateItem : done,
                                 style: TextStyle(
                                     fontSize: fourteenDp, color: Colors.white),
                               )),

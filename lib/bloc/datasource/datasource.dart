@@ -12,8 +12,8 @@ class FirebaseDataProvider {
         .docs;
   }
 
-//fetch next pastry list
-  Future<List<DocumentSnapshot>> fetchNextPastryListItems(
+//fetch next Product list
+  Future<List<DocumentSnapshot>> fetchNextProductListItems(
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference
