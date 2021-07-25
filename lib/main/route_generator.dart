@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/models/pastry.dart';
+import 'package:gelic_bakes/ui/admin/add_items.dart';
+import 'package:gelic_bakes/ui/admin/admin_page.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/add/add_item.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
@@ -16,6 +17,15 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      //admin page
+      //user config state checker Screen
+      case AdminPage.routeName:
+        final data = settings.arguments as int;
+        return MaterialPageRoute(
+            builder: (_) => AdminPage(
+                  selectedIndex: data,
+                ));
+
       //user config state checker Screen
       case ConfigurationPage.routeName:
         return MaterialPageRoute(builder: (_) => ConfigurationPage());

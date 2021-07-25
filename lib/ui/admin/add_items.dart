@@ -1,21 +1,30 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
+import 'package:gelic_bakes/models/pastry.dart';
 import 'package:gelic_bakes/provider/pastry_provider.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
-class AddItem extends StatefulWidget {
-  static const routeName = '/addItem';
+import 'admin_page.dart';
 
-  const AddItem({Key? key}) : super(key: key);
+class AddItem extends StatefulWidget {
+  static const routeName = '/addItemAdmin';
+  Pastry? pastry;
+  String? itemId;
+
+  AddItem({Key? key}) : super(key: key);
+
+  AddItem.pastry({Key? key, this.pastry, this.itemId}) : super(key: key);
 
   @override
   _AddItemState createState() => _AddItemState();
@@ -24,7 +33,7 @@ class AddItem extends StatefulWidget {
 class _AddItemState extends State<AddItem> {
   String? imageUrl;
   File? _image;
-  String? price;
+  String? ItemPrice;
   final picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
   String? _selectedItem;
@@ -33,6 +42,17 @@ class _AddItemState extends State<AddItem> {
   TextEditingController _priceController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _itemNameController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.pastry != null) {
+      int price = widget.pastry!.price!;
+      _priceController.text = "$price";
+      _itemNameController.text = widget.pastry!.name!;
+      _descriptionController.text = widget.pastry!.description!;
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -96,7 +116,7 @@ class _AddItemState extends State<AddItem> {
               imageUrl!,
               int.parse(_priceController.text));
           _pastryProvider.insertIntoDb(context);
-        }
+        } else {}
       }).catchError((onError) {
         ShowAction().showToast("Error occurred : $onError", Colors.black);
       });
@@ -154,7 +174,9 @@ class _AddItemState extends State<AddItem> {
   Widget buildItemName() {
     return TextFormField(
         maxLength: 100,
-        keyboardType: TextInputType.number,
+        maxLines:
+            widget.pastry != null && widget.pastry!.name!.length > 60 ? 2 : 1,
+        keyboardType: TextInputType.text,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         controller: _itemNameController,
         validator: (value) {
@@ -162,7 +184,7 @@ class _AddItemState extends State<AddItem> {
         },
         onChanged: (value) {},
         decoration: InputDecoration(
-          labelText: 'Enter item name',
+          labelText: widget.pastry != null ? "Item name" : 'Enter item name',
           fillColor: Color(0xFFF5F5F5),
           filled: true,
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
@@ -184,7 +206,7 @@ class _AddItemState extends State<AddItem> {
         },
         onChanged: (value) {},
         decoration: InputDecoration(
-          labelText: 'Enter the price',
+          labelText: widget.pastry != null ? price : enterPrice,
           fillColor: Color(0xFFF5F5F5),
           filled: true,
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
@@ -198,7 +220,11 @@ class _AddItemState extends State<AddItem> {
   Widget buildDescription() {
     return TextFormField(
         maxLength: 200,
-        keyboardType: TextInputType.number,
+        maxLines:
+            widget.pastry != null && widget.pastry!.description!.length > 40
+                ? 3
+                : 1,
+        keyboardType: TextInputType.text,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         controller: _descriptionController,
         /*validator: (value) {
@@ -206,7 +232,7 @@ class _AddItemState extends State<AddItem> {
         },*/
         onChanged: (value) {},
         decoration: InputDecoration(
-          labelText: 'Enter the description',
+          labelText: widget.pastry != null ? description : enterItemDescription,
           fillColor: Color(0xFFF5F5F5),
           filled: true,
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: tenDp),
@@ -229,13 +255,23 @@ class _AddItemState extends State<AddItem> {
               border:
                   Border.all(width: 0.5, color: Colors.grey.withOpacity(0.5))),
           child: DropdownButtonFormField<String>(
-            value: _selectedItem,
+            value: widget.pastry != null
+                ? widget.pastry!.category!
+                : _selectedItem,
             elevation: 1,
             isExpanded: true,
             style: TextStyle(color: Color(0xFF424242)),
             // underline: Container(),
-            items: [cake, chips, cookies, doughnut, pie]
-                .map<DropdownMenuItem<String>>((String value) {
+            items: [
+              adwelle,
+              cake,
+              chips,
+              cookies,
+              doughnut,
+              pie,
+              vaginne,
+              vtide
+            ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -243,7 +279,7 @@ class _AddItemState extends State<AddItem> {
             }).toList(),
             hint: Text(
               selectAType,
-              style: TextStyle(color: Color(0xFF757575), fontSize: 16),
+              style: TextStyle(color: Color(0xFF757575), fontSize: sixteenDp),
             ),
             onChanged: (String? value) {
               setState(() {
@@ -261,26 +297,99 @@ class _AddItemState extends State<AddItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(addItem),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Text(
+          widget.pastry != null ? edit : addItem,
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: InkWell(
+          onTap: () => widget.pastry != null
+              ? Navigator.of(context)
+                  .pushReplacementNamed(AdminPage.routeName, arguments: 1)
+              : Navigator.of(context).pop(),
+          child: Container(
+            margin: EdgeInsets.all(tenDp),
+            decoration: BoxDecoration(
+                border: Border.all(width: 0.3, color: Colors.grey),
+                color: Colors.pink,
+                borderRadius: BorderRadius.circular(thirtyDp)),
+            child: Padding(
+              padding: EdgeInsets.all(eightDp),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+                size: sixteenDp,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Container(
         child: Form(
           key: _formKey,
           child: Container(
-            color: Color(0xFF757575),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(twentyDp),
-                      topRight: Radius.circular(twentyDp))),
+                color: Colors.white,
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(twentyFourDp),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      _image == null
+                      widget.pastry != null
+                          ? GestureDetector(
+                              onTap: () => _showPicker(context),
+                              child: Container(
+                                height: 200,
+                                width: MediaQuery.of(context).size.width,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: _image != null
+                                          ? Image.file(
+                                              _image!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : CachedNetworkImage(
+                                              filterQuality: FilterQuality.high,
+                                              fit: BoxFit.cover,
+                                              imageUrl:
+                                                  '${widget.pastry!.image}',
+                                            ),
+                                    )),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () => _showPicker(context),
+                              child: Material(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey[300],
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(10),
+                                  onTap: () {
+                                    _showPicker(context);
+                                  },
+                                  child: Container(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: _image != null
+                                        ? Image.file(
+                                            _image!,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Center(
+                                            child: Text(tapImageToAdd,
+                                                style: TextStyle(
+                                                    color: Colors.black54))),
+                                  ),
+                                ),
+                              ),
+                            ),
+                      /*  _image == null
                           ? Material(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.grey[300],
@@ -293,7 +402,7 @@ class _AddItemState extends State<AddItem> {
                                   height: 200,
                                   width: MediaQuery.of(context).size.width,
                                   child: Center(
-                                      child: Text('tap to add image',
+                                      child: Text(tapImageToAdd,
                                           style: TextStyle(
                                               color: Colors.black54))),
                                 ),
@@ -304,15 +413,21 @@ class _AddItemState extends State<AddItem> {
                               child: Container(
                                 height: 200,
                                 width: MediaQuery.of(context).size.width,
-                                child: ClipRRect(
+                                child:   ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.file(
+                                  child: widget.pastry != null ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: CachedNetworkImage(
+                                      filterQuality: FilterQuality.high,
+                                      fit: BoxFit.cover, imageUrl: '${widget.pastry!.image}',
+                                    ),
+                                  ):  Image.file(
                                     _image!,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                            ),
+                            ),*/
                       SizedBox(height: 10),
                       buildItemName(),
                       SizedBox(height: 10),
@@ -336,7 +451,101 @@ class _AddItemState extends State<AddItem> {
                                       borderRadius:
                                           BorderRadius.circular(eightDp))),
                               onPressed: () {
-                                if (_formKey.currentState!.validate() &&
+                                //check is pastry item is not null before updating
+                                if (widget.pastry != null) {
+                                  //update item name only
+                                  if (_itemNameController.text !=
+                                          widget.pastry!.name &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider
+                                        .setItemName(_itemNameController.text);
+                                    _pastryProvider.updatePastryName(
+                                        context, widget.itemId!);
+                                  }
+                                  //update item price only
+                                  if (_priceController.text !=
+                                          '${widget.pastry!.price.toString()}' &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider.setItemPrice(
+                                        int.parse(_priceController.text));
+                                    _pastryProvider.updatePastryPrice(
+                                        context, widget.itemId!);
+                                  }
+
+                                  //update description only
+                                  if (_descriptionController.text !=
+                                          widget.pastry!.description &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider.setItemDescription(
+                                        _descriptionController.text);
+                                    _pastryProvider.updatePastryDescription(
+                                        context, widget.itemId!);
+                                  }
+
+                                  //update category only
+                                  if (_selectedItem !=
+                                          widget.pastry!.category &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider
+                                        .setItemCategory(_selectedItem!);
+                                    _pastryProvider.updatePastryCategory(
+                                        context, widget.itemId!);
+                                  }
+
+                                  //update name and price
+                                  if (_itemNameController.text !=
+                                          widget.pastry!.name &&
+                                      _priceController.text !=
+                                          '${widget.pastry!.price.toString()}' &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider
+                                        .setItemName(_itemNameController.text);
+                                    _pastryProvider.setItemPrice(
+                                        int.parse(_priceController.text));
+
+                                    _pastryProvider.updatePastryNameAndPrice(
+                                        context, widget.itemId!);
+                                  }
+
+                                  //update name and description
+                                  if (_itemNameController.text !=
+                                          widget.pastry!.name &&
+                                      _priceController.text !=
+                                          '${widget.pastry!.price.toString()}' &&
+                                      _descriptionController.text !=
+                                          '${widget.pastry!.description.toString()}' &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider
+                                        .setItemName(_itemNameController.text);
+                                    _pastryProvider.setItemDescription(
+                                        _descriptionController.text);
+
+                                    _pastryProvider.updatePastryNameAndPrice(
+                                        context, widget.itemId!);
+                                  }
+
+                                  //update name , price and description
+                                  if (_itemNameController.text !=
+                                          widget.pastry!.name &&
+                                      _descriptionController.text !=
+                                          widget.pastry!.description &&
+                                      _priceController.text !=
+                                          '${widget.pastry!.price.toString()}' &&
+                                      _formKey.currentState!.validate()) {
+                                    _pastryProvider
+                                        .setItemName(_itemNameController.text);
+                                    _pastryProvider.setItemPrice(
+                                        int.parse(_priceController.text));
+
+                                    _pastryProvider.setItemDescription(
+                                        _descriptionController.text);
+
+                                    _pastryProvider
+                                        .updatePastryNamePriceAndDescription(
+                                            context, widget.itemId!);
+                                  }
+                                } else if (widget.pastry != null &&
+                                    _formKey.currentState!.validate() &&
                                     _image != null) {
                                   // trigger function
                                   uploadImage();
@@ -346,7 +555,7 @@ class _AddItemState extends State<AddItem> {
                                 }
                               },
                               child: Text(
-                                done,
+                                widget.pastry != null ? updateItem : done,
                                 style: TextStyle(
                                     fontSize: fourteenDp, color: Colors.white),
                               )),

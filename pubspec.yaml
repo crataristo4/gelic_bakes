@@ -52,7 +52,7 @@ dependencies:
   geolocator: ^7.3.0
   rxdart: ^0.27.1
   flutter_bloc: ^7.0.1
-  flutter_paystack: ^1.0.5+1
+  #flutter_paystack: ^1.0.5+1
   flutterwave: ^0.0.2
 
 flutter_icons:

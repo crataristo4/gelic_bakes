@@ -76,7 +76,7 @@ class FirebaseDataProvider {
 
   //...........................END.............................................//
 
-  //fetch ORDERS
+  //fetch users ORDERS
   Future<List<DocumentSnapshot>> fetchOrders(
       CollectionReference collectionReference) async {
     return (await collectionReference
@@ -87,13 +87,35 @@ class FirebaseDataProvider {
         .docs;
   }
 
-  //paginate category data
+  //paginate orders data
   Future<List<DocumentSnapshot>> fetchNextOrderListItems(
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference
             .orderBy("timestamp", descending: true)
             .where('uid', isEqualTo: currentUserId)
+            .startAfterDocument(documentList[documentList.length - 1])
+            .limit(20)
+            .get())
+        .docs;
+  }
+
+//admin
+  Future<List<DocumentSnapshot>> fetchAllOrders(
+      CollectionReference collectionReference) async {
+    return (await collectionReference
+            .orderBy("timestamp", descending: true)
+            .limit(20)
+            .get())
+        .docs;
+  }
+
+  //paginate orders data
+  Future<List<DocumentSnapshot>> fetchNextAllOrderListItems(
+      CollectionReference collectionReference,
+      List<DocumentSnapshot> documentList) async {
+    return (await collectionReference
+            .orderBy("timestamp", descending: true)
             .startAfterDocument(documentList[documentList.length - 1])
             .limit(20)
             .get())

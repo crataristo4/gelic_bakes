@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gelic_bakes/ui/admin/admin_page.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
-import 'package:gelic_bakes/ui/sidebar/sidebar_layout.dart';
 
 String? currentUserId;
 String? phoneNumber;
@@ -46,7 +46,9 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
             bottom: false,
             child: Scaffold(
                 body: currentUserId != null
-                    ? SidebarLayout()
+                    ? AdminPage(
+                        selectedIndex: 0,
+                      ) //change to users --todo
                     : RegistrationPage())),
       ),
     );

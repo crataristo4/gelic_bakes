@@ -64,6 +64,6 @@ class Orders {
   }
 
   int getTotalPayment() {
-    return deliveryFee! + totalPrice!;
+    return (deliveryFee! + totalPrice!);
   }
 }
