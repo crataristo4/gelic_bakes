@@ -26,7 +26,7 @@ class _CategoryItemsState extends State<CategoryItems> {
   void initState() {
     _productList = ProductListBloc();
     if (widget.category.toString().isEmpty) {
-      _productList!.fetchPastries(_productRef);
+      _productList!.fetchProducts(_productRef);
     } else {
       _productList!.fetchCategoryList(_productRef, widget.category);
     }
@@ -38,7 +38,7 @@ class _CategoryItemsState extends State<CategoryItems> {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
       if (widget.category.toString().isEmpty) {
-        _productList!.fetchNextProductListItems(_productRef);
+        _productList!.fetchNextProducts(_productRef);
       } else {
         _productList!.fetchNextCategoryListItems(_productRef, widget.category);
       }

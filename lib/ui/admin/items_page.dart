@@ -16,15 +16,15 @@ class ItemsPage extends StatefulWidget {
 }
 
 class _ItemsPageState extends State<ItemsPage> {
-  ProductListBloc? _ProductList;
-  CollectionReference _ProductRef =
-      FirebaseFirestore.instance.collection("Product");
+  ProductListBloc? _productList;
+  CollectionReference _productRef =
+      FirebaseFirestore.instance.collection("Pastry");
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    _ProductList = ProductListBloc();
-    _ProductList!.fetchPastries(_ProductRef);
+    _productList = ProductListBloc();
+    _productList!.fetchProducts(_productRef);
 
     controller.addListener(_scrollListener);
     super.initState();
@@ -33,7 +33,7 @@ class _ItemsPageState extends State<ItemsPage> {
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
-      _ProductList!.fetchNextProductListItems(_ProductRef);
+      _productList!.fetchNextProducts(_productRef);
     }
   }
 
@@ -47,7 +47,7 @@ class _ItemsPageState extends State<ItemsPage> {
         toolbarHeight: 10,
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
-          stream: _ProductList!.itemListStream,
+          stream: _productList!.itemListStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(

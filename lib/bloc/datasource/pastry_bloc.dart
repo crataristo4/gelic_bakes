@@ -76,10 +76,10 @@ class ProductListBloc {
 
   //........................FETCH ALL PASTRIES........................................................//
 
-  Future fetchPastries(CollectionReference collectionReference) async {
+  Future fetchProducts(CollectionReference collectionReference) async {
     try {
       documentList =
-          await firebaseDataProvider!.fetchAllPastries(collectionReference);
+          await firebaseDataProvider!.fetchProducts(collectionReference);
       listItemController!.sink.add(documentList!);
       try {
         if (documentList!.length == 0) {
@@ -96,11 +96,11 @@ class ProductListBloc {
   }
 
 //paginate next pastries
-  fetchNextProductListItems(CollectionReference collectionReference) async {
+  fetchNextProducts(CollectionReference collectionReference) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
-          .fetchNextProductListItems(collectionReference, documentList!);
+          .fetchNextProducts(collectionReference, documentList!);
       documentList!.addAll(newDocumentList);
       listItemController!.sink.add(documentList!);
       try {

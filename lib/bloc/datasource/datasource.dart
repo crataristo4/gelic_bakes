@@ -3,7 +3,7 @@ import 'package:gelic_bakes/ui/auth/config.dart';
 
 class FirebaseDataProvider {
   //fetch all pastries ---------------------------------------------------------------//
-  Future<List<DocumentSnapshot>> fetchAllPastries(
+  Future<List<DocumentSnapshot>> fetchProducts(
       CollectionReference collectionReference) async {
     return (await collectionReference
             .orderBy("name", descending: false)
@@ -13,7 +13,7 @@ class FirebaseDataProvider {
   }
 
 //fetch next Product list
-  Future<List<DocumentSnapshot>> fetchNextProductListItems(
+  Future<List<DocumentSnapshot>> fetchNextProducts(
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference

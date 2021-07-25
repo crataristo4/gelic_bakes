@@ -180,7 +180,7 @@ class _AddItemState extends State<AddItem> {
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         controller: _itemNameController,
         validator: (value) {
-          return value!.trim().length < 1 ? 'Enter item name' : null;
+          return value!.trim().length < 3 ? 'Enter item name' : null;
         },
         onChanged: (value) {},
         decoration: InputDecoration(
@@ -220,10 +220,11 @@ class _AddItemState extends State<AddItem> {
   Widget buildDescription() {
     return TextFormField(
         maxLength: 200,
-        maxLines:
-        widget.product != null && widget.product!.description!.length > 40
-                ? 3
-                : 1,
+        maxLines: widget.product != null &&
+                    widget.product!.description!.length > 40 ||
+                _descriptionController.text.length > 40
+            ? 4
+            : 1,
         keyboardType: TextInputType.text,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         controller: _descriptionController,
@@ -545,7 +546,7 @@ class _AddItemState extends State<AddItem> {
                                         .updateProductNamePriceAndDescription(
                                             context, widget.itemId!);
                                   }
-                                } else if (widget.product != null &&
+                                } else if (widget.product == null &&
                                     _formKey.currentState!.validate() &&
                                     _image != null) {
                                   // trigger function
