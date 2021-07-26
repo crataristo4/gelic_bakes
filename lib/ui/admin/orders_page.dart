@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
+import 'package:gelic_bakes/provider/orders_provider.dart';
+import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 ///fOR ADMIN
@@ -21,6 +24,138 @@ class _OrdersPageState extends State<OrdersPage> {
   CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Orders");
   ScrollController controller = ScrollController();
+  OrdersProvider ordersProvider = OrdersProvider();
+  TextEditingController _controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  //choose set delivery or payment status
+  void _showPicker(context, itemId) async {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: Icon(
+                        Icons.delivery_dining,
+                        color: Colors.indigo,
+                      ),
+                      title: Text(setDeliveryFee,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.pink)),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        ShowAction.showAlertDialog(
+                            setDeliveryFee,
+                            abtToSetDeliveryFee,
+                            context,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Form(
+                                  key: _formKey,
+                                  child: Container(
+                                    width: hundredDp,
+                                    height: fortyEightDp,
+                                    child: TextFormField(
+                                        autovalidate: true,
+                                        validator: (value) => value!.length > 0
+                                            ? null
+                                            : 'invalid fee',
+                                        keyboardType: TextInputType.number,
+                                        controller: _controller,
+                                        onChanged: (value) {},
+                                        maxLengthEnforcement:
+                                            MaxLengthEnforcement.enforced,
+                                        decoration: InputDecoration(
+                                          hintText: 'Delivery fee',
+                                          fillColor: Color(0xFFF5F5F5),
+                                          filled: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: fourDp),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFFF5F5F5))),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFFF5F5F5))),
+                                        )),
+                                  ),
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    yesSet,
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      ordersProvider.setDelivery(int.parse(
+                                          "${_controller.text.toString()}"));
+                                      ordersProvider.updateDeliveryFee(
+                                          itemId, context);
+                                    } else {
+                                      ShowAction().showToast(
+                                          "Delivery fee required", Colors.red);
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                            TextButton(
+                              child: Text(
+                                cancel,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              onPressed: () => Navigator.pop(context),
+                            ));
+                      }),
+                  ListTile(
+                    leading: Icon(
+                      Icons.money,
+                      color: Colors.green,
+                    ),
+                    title: Text(
+                      setPaymentStatus,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      ShowAction.showAlertDialog(
+                          setPaymentStatus,
+                          youAreAbtTpSetPaymentStatus,
+                          context,
+                          TextButton(
+                            child: Text(
+                              yes,
+                              style: TextStyle(color: Colors.green),
+                            ),
+                            onPressed: () {
+                              ordersProvider.updatePaidOrder(itemId, context);
+                            },
+                          ),
+                          TextButton(
+                            child: Text(
+                              cancel,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                          ));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
@@ -61,7 +196,8 @@ class _OrdersPageState extends State<OrdersPage> {
 
                 return GestureDetector(
                   onTap: () async {
-                    //CONFIRM DELIVERY FEE
+                    //CONFIRM DELIVERY FEE and payment status
+                    _showPicker(context, snapshot.data![index].id);
                   },
                   child: Card(
                     elevation: 2,
@@ -70,7 +206,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(
-                              left: fortyDp,
+                              left: tenDp,
                               top: tenDp,
                               bottom: tenDp,
                               right: eightDp),
@@ -80,7 +216,6 @@ class _OrdersPageState extends State<OrdersPage> {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(eightDp),
-                                  color: Colors.black,
                                 ),
                                 height: hundredDp,
                                 width: hundredDp,
@@ -102,13 +237,26 @@ class _OrdersPageState extends State<OrdersPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                        "Ordered ${timeAgo.format(orders.timestamp.toDate())}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Colors.black45,
-                                        )),
+                                    Row(
+                                      children: [
+                                        Text(
+                                            "Ordered ${timeAgo.format(orders.timestamp.toDate())}",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.black45,
+                                            )),
+                                        SizedBox(
+                                          width: sixtyDp,
+                                        ),
+                                        orders.isPaid!
+                                            ? Icon(
+                                                Icons.check_circle,
+                                                color: Colors.green,
+                                              )
+                                            : Container()
+                                      ],
+                                    ),
                                     SizedBox(
                                       height: eightDp,
                                     ),
@@ -161,6 +309,39 @@ class _OrdersPageState extends State<OrdersPage> {
                           height: eightDp,
                         ),
                         buildTotal(orders),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: tenDp),
+                          child: Center(
+                            child: FloatingActionButton(
+                              child: Icon(
+                                Icons.call,
+                                color: Colors.white,
+                              ),
+                              mini: true,
+                              onPressed: () {
+                                SnackBar snackBar = SnackBar(
+                                    padding: EdgeInsets.all(tenDp),
+                                    duration: Duration(seconds: 5),
+                                    action: SnackBarAction(
+                                      label: 'Yes',
+                                      onPressed: () {
+                                        ShowAction.makePhoneCall(
+                                            'tel:${orders.phoneNumber}');
+                                      },
+                                      textColor: Colors.white,
+                                    ),
+                                    backgroundColor: Colors.pink,
+                                    content: Text(
+                                      'Do you want to Call ${orders.name} now ?',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),

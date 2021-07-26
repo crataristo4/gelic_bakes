@@ -58,130 +58,125 @@ class _ItemsPageState extends State<ItemsPage> {
             return ListView.builder(
               itemBuilder: (context, index) {
                 Product product = Product.fromSnapshot(snapshot.data![index]);
-                return Container(
-                  child: Stack(
-                    alignment: Alignment.topLeft,
-                    children: [
-                      Positioned(
-                        top: thirtyDp,
-                        left: fourteenDp,
-                        right: eightDp,
-                        child: Container(
-                          // margin: EdgeInsets.only(left: 14),
-                          width: MediaQuery.of(context).size.width,
-                          height: hundredDp,
-                          decoration: BoxDecoration(
-                              color: Colors.pinkAccent.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(eightDp)),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: fourDp,
-                                bottom: tenDp,
-                                right: fourDp,
-                              ),
+                return Stack(
+                  alignment: Alignment.topLeft,
+                  children: [
+                    Positioned(
+                      top: thirtyDp,
+                      left: fourteenDp,
+                      right: eightDp,
+                      child: Container(
+                        // margin: EdgeInsets.only(left: 14),
+                        width: MediaQuery.of(context).size.width,
+                        height: hundredDp,
+                        decoration: BoxDecoration(
+                            color: Colors.pinkAccent.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(eightDp)),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: fourDp,
+                              bottom: tenDp,
+                              right: fourDp,
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        margin:
-                            EdgeInsets.only(bottom: sixtyDp, left: sixteenDp),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(eightDp),
-                        ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: sixtyDp, left: sixteenDp),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(eightDp),
+                      ),
 
-                        //contains the image of product
-                        child: ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          borderRadius: BorderRadius.circular(eightDp),
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                            width: oneThirtyDp,
-                            height: oneTwentyDp,
-                            imageUrl: product.image!,
-                            fit: BoxFit.cover,
-                          ),
+                      //contains the image of product
+                      child: ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        borderRadius: BorderRadius.circular(eightDp),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              Center(child: CircularProgressIndicator()),
+                          width: oneThirtyDp,
+                          height: oneTwentyDp,
+                          imageUrl: product.image!,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      Positioned(
-                        left: oneSixtyDp,
-                        top: fiftyDp,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width -
-                                  twoHundredDp,
-                              child: Text(
-                                //item name
-                                product.name!,
+                    ),
+                    Positioned(
+                      left: oneSixtyDp,
+                      top: fiftyDp,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width -
+                                twoHundredDp,
+                            child: Text(
+                              //item name
+                              product.name!,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: fourteenDp),
+                            ),
+                          ),
+                          SizedBox(
+                            height: tenDp,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                //item price
+                                "$kGhanaCedi ${product.price}",
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
+                                maxLines: 1,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: fourteenDp),
                               ),
-                            ),
-                            SizedBox(
-                              height: tenDp,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  //item price
-                                  "$kGhanaCedi ${product.price}",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: fourteenDp),
+                              SizedBox(
+                                width: sixtyDp,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AddItem.product(
+                                            product: product,
+                                            itemId: snapshot.data![index].id,
+                                          )));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      top: eightDp, bottom: eightDp),
+                                  margin: EdgeInsets.only(right: eightDp),
+                                  child: Center(
+                                      child: Text(
+                                    edit,
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(eightyDp),
+                                      color: Colors.pinkAccent),
+                                  height: thirtyDp,
+                                  width: hundredDp,
                                 ),
-                                SizedBox(
-                                  width: sixtyDp,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddItem.product(
-                                                  product: product,
-                                                  itemId:
-                                                      snapshot.data![index].id,
-                                                )));
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        top: eightDp, bottom: eightDp),
-                                    margin: EdgeInsets.only(right: eightDp),
-                                    child: Center(
-                                        child: Text(
-                                      edit,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(eightyDp),
-                                        color: Colors.pinkAccent),
-                                    height: thirtyDp,
-                                    width: hundredDp,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 );
               },
               itemCount: snapshot.data!.length,
               shrinkWrap: true,
+              addAutomaticKeepAlives: true,
             );
           }),
     );

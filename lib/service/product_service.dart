@@ -141,18 +141,6 @@ class ProductService {
 
 //..............................................................................
 
-  //create order ...............................................................
-  Future<void> createNewOrder(Orders orders, BuildContext context) {
-    return firestoreService
-        .collection('Orders')
-        .add(orders.toMap())
-        .whenComplete(() async {
-      showOrderSuccess(context);
-    }).catchError((onError) {
-      showFailure(context, onError);
-    });
-  }
-
   //...........................................................................
 
   showOrderSuccess(context) async {

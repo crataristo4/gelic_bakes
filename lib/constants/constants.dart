@@ -84,6 +84,11 @@ const DistanceDes =
     'This app uses your location to find the distance between you and an Artisan';
 const photoLibrary = 'Photo Library';
 const camera = 'Camera';
+const setDeliveryFee = 'Set Delivery Fee';
+const abtToSetDeliveryFee =
+    'You are about to set the delivery fee for this order';
+const setPaymentStatus = 'Set Payment Status';
+const youAreAbtTpSetPaymentStatus = 'Are you sure you want to proceed ?';
 const chooseImage = 'Choose Image';
 const changeImage = 'Choose Photo';
 const couldNotLaunch = "Could not launch";
@@ -119,6 +124,8 @@ const enterCode = 'Enter code';
 const enterVerificationCode = 'Enter the verification code sent to your SMS';
 const cancel = 'Cancel';
 const edit = 'Edit';
+const yesSet = 'Yes set fee';
+const yes = 'Yes';
 const rate = 'Rate';
 const ratingUser = "rating user";
 const rated = 'Rated';

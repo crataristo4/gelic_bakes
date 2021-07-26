@@ -15,10 +15,13 @@ class OrdersProvider with ChangeNotifier {
   String? _itemName;
   String? _itemImage;
   String? _orderDate;
+  int? _deliveryFee;
 
   get getQty => _quantity;
 
   get getTotalPrice => _totalPrice;
+
+  get getDeliveryAmount => _deliveryFee;
 
   get getItemName => _itemName;
 
@@ -37,6 +40,11 @@ class OrdersProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  setDelivery(int deliveryFee) {
+    _deliveryFee = deliveryFee;
+    notifyListeners();
+  }
+
   createOrder(BuildContext context) {
     Orders newOrder = Orders(
         uid: currentUserId,
@@ -50,8 +58,20 @@ class OrdersProvider with ChangeNotifier {
         itemName: getItemName,
         itemImage: getItemImage,
         orderDate: getOrderDate,
-        timestamp: timeStamp);
+        timestamp: timeStamp,
+        isPaid: false);
 
     orderService.createNewOrder(newOrder, context);
+  }
+
+  updateDeliveryFee(String id, context) {
+    Orders updateDeliveryFee =
+        Orders.updateDeliveryFee(deliveryFee: getDeliveryAmount);
+    orderService.updateDeliveryFee(updateDeliveryFee, id, context);
+  }
+
+  updatePaidOrder(String id, context) {
+    Orders updatePaidOrders = Orders.updatePaymentStatus(isPaid: true);
+    orderService.updatePaidOrders(updatePaidOrders, id, context);
   }
 }

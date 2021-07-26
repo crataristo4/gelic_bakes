@@ -13,6 +13,7 @@ class Orders {
   String? itemImage;
   String? orderDate;
   dynamic timestamp;
+  bool? isPaid;
 
   Orders(
       {this.uid,
@@ -26,9 +27,24 @@ class Orders {
       this.itemName,
       this.itemImage,
       this.orderDate,
-      this.timestamp});
+      this.timestamp,
+      this.isPaid});
 
-  Orders.updateDeliveryFee({required this.deliveryFee});
+  Orders.updateDeliveryFee({this.deliveryFee});
+
+  Map<String, dynamic> deliveryFeeToMap() {
+    return {
+      'deliveryFee': deliveryFee,
+    };
+  }
+
+  Orders.updatePaymentStatus({this.isPaid});
+
+  Map<String, dynamic> isPaidToMap() {
+    return {
+      'isPaid': isPaid,
+    };
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,6 +60,7 @@ class Orders {
       'itemImage': itemImage,
       'orderDate': orderDate,
       'timestamp': timestamp,
+      'isPaid': isPaid,
     };
   }
 
@@ -60,7 +77,8 @@ class Orders {
         itemImage: ds['itemImage'],
         orderDate: ds['orderDate'],
         timestamp: ds['timestamp'],
-        deliveryFee: ds['deliveryFee']);
+        deliveryFee: ds['deliveryFee'],
+        isPaid: ds['isPaid']);
   }
 
   int getTotalPayment() {
