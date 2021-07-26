@@ -103,11 +103,13 @@ class Category extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: sixteenDp),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildItemCategory(context, 'assets/images/cake.jpg', adwelle),
-                buildItemCategory(context, 'assets/images/chips.jpg', vaginne),
-                buildItemCategory(context, 'assets/images/cookie.jpg', vtide),
+                buildItemCategory(
+                    context, 'assets/images/adwelle.jpg', adwelle),
+                buildItemCategory(
+                    context, 'assets/images/vaginne.jpg', vaginne),
+                buildItemCategory(context, 'assets/images/vtide.jpg', vtide),
               ],
             ),
           ),
@@ -135,19 +137,33 @@ class Category extends StatelessWidget {
                         category == vtide
                     ? BorderRadius.circular(tenDp)
                     : BorderRadius.circular(thirtyTwoDp),
+                border: category == vaginne ||
+                        category == adwelle ||
+                        category == vtide
+                    ? Border.all(color: Colors.pink, width: 0.3)
+                    : Border.all(color: Colors.white, width: 0.3),
                 image: DecorationImage(
                     image: AssetImage(image), fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: eightDp),
-            child: Text(category),
+            child:
+                category == vaginne || category == adwelle || category == vtide
+                    ? Text(
+                        category,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 3),
+                      )
+                    : Text(category),
           )
         ],
       ),
     );
   }
 
-  Widget buildImmeriProducts(context, image, category) {
+/*Widget buildImmeriProducts(context, image, category) {
     return GestureDetector(
       onTap: () async {
         await Navigator.of(context)
@@ -162,15 +178,22 @@ class Category extends StatelessWidget {
             height: sixtyDp,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.pink, width: 0.3),
                 image: DecorationImage(
                     image: AssetImage(image), fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: eightDp),
-            child: Text(category),
+            child: Text(
+              category,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 3),
+            ),
           )
         ],
       ),
     );
-  }
+  }*/
 }

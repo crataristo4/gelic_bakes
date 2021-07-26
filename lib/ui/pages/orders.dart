@@ -202,6 +202,7 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
               itemCount: snapshot.data!.length,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
+              controller: controller,
             );
           }),
     );

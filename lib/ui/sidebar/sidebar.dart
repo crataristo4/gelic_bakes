@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
@@ -188,15 +189,35 @@ class _SidebarItemState extends State<SidebarItem>
                                               .onOrdersClickEvent);
                                     },
                                   ),
-                                  SideBarMenuItems(
-                                    iconData: Icons.notifications,
-                                    title: notifications,
-                                    onTap: () {
-                                      triggerSideBar();
-                                      BlocProvider.of<NavigationBloc>(context)
-                                          .add(NavigationEvents
-                                              .onNotificationClickEvent);
-                                    },
+                                  Text(
+                                    "Follow us",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: sixteenDp),
+                                  ),
+                                  Divider(
+                                    color: Colors.white,
+                                    height: 1,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      buildSocialMediaHandles(
+                                          'assets/logo/fb.png', 0),
+                                      buildSocialMediaHandles(
+                                          'assets/logo/wts.png', 1),
+                                      buildSocialMediaHandles(
+                                          'assets/logo/ig.png', 2),
+                                      buildSocialMediaHandles(
+                                          'assets/logo/link.png', 3),
+                                    ],
+                                  ),
+                                  Divider(
+                                    color: Colors.white,
+                                    height: 1,
                                   ),
                                   SideBarMenuItems(
                                     iconData: Icons.exit_to_app,
@@ -244,6 +265,39 @@ class _SidebarItemState extends State<SidebarItem>
             ),
           );
         });
+  }
+
+  buildSocialMediaHandles(image, index) {
+    return GestureDetector(
+      onTap: () {
+        switch (index) {
+          case 0:
+            ShowAction.launchURL(fbLink);
+            break;
+          case 1:
+            ShowAction.launchURL(whatsappLink);
+            break;
+          case 2:
+            ShowAction.launchURL(instagramLink);
+            break;
+          case 3:
+            ShowAction.launchURL(veeparLink);
+            break;
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: tenDp),
+        child: Image.asset(
+          image,
+          fit: BoxFit.cover,
+        ),
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(sixDp)),
+        width: fiftyDp,
+        height: fiftyDp,
+      ),
+    );
   }
 }
 

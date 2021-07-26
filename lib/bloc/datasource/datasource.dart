@@ -6,8 +6,8 @@ class FirebaseDataProvider {
   Future<List<DocumentSnapshot>> fetchProducts(
       CollectionReference collectionReference) async {
     return (await collectionReference
-            .orderBy("name", descending: true)
-            .limit(20)
+            .orderBy("name", descending: false)
+            .limit(10)
             .get())
         .docs;
   }
@@ -17,9 +17,9 @@ class FirebaseDataProvider {
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference
-            .orderBy('name', descending: true)
+            .orderBy('name', descending: false)
             .startAfterDocument(documentList[documentList.length - 1])
-            .limit(20)
+            .limit(10)
             .get())
         .docs;
   }
@@ -55,7 +55,7 @@ class FirebaseDataProvider {
     return (await collectionReference
             .orderBy("name", descending: false)
             .where('category', isEqualTo: category)
-            .limit(20)
+            .limit(10)
             .get())
         .docs;
   }
@@ -69,7 +69,7 @@ class FirebaseDataProvider {
             .orderBy('name', descending: false)
             .where('category', isEqualTo: category)
             .startAfterDocument(documentList[documentList.length - 1])
-            .limit(20)
+            .limit(10)
             .get())
         .docs;
   }

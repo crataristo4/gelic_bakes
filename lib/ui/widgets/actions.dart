@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gelic_bakes/constants/constants.dart';
@@ -54,6 +55,23 @@ class ShowAction {
       await launch(url);
     } else {
       throw 'Could not launch $url';
+    }
+  }
+
+  static Future<void> launchURL(String url) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceWebView: false,
+        );
+      } else {
+        ShowAction().showToast("Could not launch url", Colors.black);
+      }
+    } else {
+      ShowAction().showToast(unableToConnect, Colors.black);
     }
   }
 }

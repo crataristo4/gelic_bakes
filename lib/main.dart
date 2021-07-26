@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gelic_bakes/provider/auth_provider.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
@@ -19,7 +20,9 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   onboardingPrefs = prefs.getInt("onboarding");
   await prefs.setInt("onboarding", 1);
-  runApp(EntryPoint());
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(EntryPoint()));
 }
 
 class EntryPoint extends StatelessWidget {

@@ -25,6 +25,8 @@ class _CategoryItemsState extends State<CategoryItems> {
 
   @override
   void initState() {
+    // controller.addListener(_scrollListener);
+    super.initState();
     _productList = ProductListBloc();
     if (widget.category.toString().isEmpty) {
       _productList!.fetchProducts(_productRef);
@@ -32,18 +34,25 @@ class _CategoryItemsState extends State<CategoryItems> {
       _productList!.fetchCategoryList(_productRef, widget.category);
     }
     controller.addListener(_scrollListener);
-    super.initState();
   }
 
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
-        !controller.position.outOfRange) {
-      if (widget.category.toString().isEmpty) {
-        _productList!.fetchNextProducts(_productRef);
-      } else {
-        _productList!.fetchNextCategoryListItems(_productRef, widget.category);
-      }
+        !controller.position.outOfRange &&
+        widget.category.toString().isEmpty) {
+      _productList!.fetchNextProducts(_productRef);
     }
+    if (controller.offset >= controller.position.maxScrollExtent &&
+        !controller.position.outOfRange &&
+        widget.category.toString().isNotEmpty) {
+      _productList!.fetchNextCategoryListItems(_productRef, widget.category);
+    }
+  }
+
+  @override
+  void dispose() {
+    _productList!.dispose();
+    super.dispose();
   }
 
   @override
@@ -233,6 +242,8 @@ class _CategoryItemsState extends State<CategoryItems> {
               },
               itemCount: snapshot.data!.length,
               shrinkWrap: true,
+              controller: controller,
+              physics: ClampingScrollPhysics(),
             );
           }),
     );

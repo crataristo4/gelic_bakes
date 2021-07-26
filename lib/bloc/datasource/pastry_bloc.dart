@@ -153,6 +153,7 @@ class ProductListBloc {
       List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
           .fetchNextCategoryListItems(
               collectionReference, category, documentList!);
+      print("Fetching .....");
       documentList!.addAll(newDocumentList);
       listItemController!.sink.add(documentList!);
       try {

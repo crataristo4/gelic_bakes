@@ -237,6 +237,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
               itemCount: snapshot.data!.length,
               //  scrollDirection: Axis.horizontal,
               physics: ClampingScrollPhysics(),
+              controller: controller,
             );
           }),
     );
