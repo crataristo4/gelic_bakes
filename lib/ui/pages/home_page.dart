@@ -36,9 +36,12 @@ class _HomeState extends State<Home> {
           ),
           Category(),
           SizedBox(
-            height: fiftyDp,
+            height: twentyDp,
           ),
           SpecialOffers(),
+          SizedBox(
+            height: twentyDp,
+          ),
         ],
       )),
     );

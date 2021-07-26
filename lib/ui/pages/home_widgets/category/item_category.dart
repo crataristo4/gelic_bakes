@@ -5,6 +5,7 @@ import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
+import 'package:gelic_bakes/ui/pages/orders.dart';
 
 class CategoryItems extends StatefulWidget {
   static const routeName = '/categoryItem';
@@ -76,7 +77,10 @@ class _CategoryItemsState extends State<CategoryItems> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(UsersOrdersPage.routeName, arguments: true);
+              },
               icon: Icon(
                 Icons.shopping_cart,
                 color: Colors.pink,
@@ -106,7 +110,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                         child: Container(
                           // margin: EdgeInsets.only(left: 14),
                           width: MediaQuery.of(context).size.width,
-                          height: hundredDp,
+                          height: oneTwentyDp,
                           decoration: BoxDecoration(
                               color: Colors.pinkAccent.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(eightDp)),
@@ -144,7 +148,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                       ),
                       Positioned(
                         left: oneSixtyDp,
-                        top: fiftyDp,
+                        top: fortyDp,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -160,6 +164,19 @@ class _CategoryItemsState extends State<CategoryItems> {
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: fourteenDp),
+                              ),
+                            ),
+                            SizedBox(
+                              //item description
+                              width: MediaQuery.of(context).size.width -
+                                  twoHundredDp,
+                              child: Text(
+                                //item name
+                                product.description!,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: fourteenDp),
                               ),
                             ),
                             SizedBox(

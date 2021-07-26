@@ -18,7 +18,7 @@ class ItemsPage extends StatefulWidget {
 class _ItemsPageState extends State<ItemsPage> {
   ProductListBloc? _productList;
   CollectionReference _productRef =
-      FirebaseFirestore.instance.collection("Pastry");
+      FirebaseFirestore.instance.collection("Products");
   ScrollController controller = ScrollController();
 
   @override

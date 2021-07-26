@@ -32,7 +32,9 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
         );
         break;
       case NavigationEvents.onOrdersClickEvent:
-        yield OrdersPage();
+        yield UsersOrdersPage(
+          isBack: false,
+        );
         break;
       case NavigationEvents.onNotificationClickEvent:
         yield NotificationPage();

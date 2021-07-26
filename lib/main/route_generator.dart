@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/admin/add_items.dart';
 import 'package:gelic_bakes/ui/admin/admin_page.dart';
+import 'package:gelic_bakes/ui/admin/orders_page.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
@@ -82,9 +83,17 @@ class RouteGenerator {
                       price: data.price),
                 ));
 
-      // orders page
+      //admin orders page
       case OrdersPage.routeName:
         return MaterialPageRoute(builder: (_) => OrdersPage());
+
+      // users orders page
+      case UsersOrdersPage.routeName:
+        final data = settings.arguments as bool;
+        return MaterialPageRoute(
+            builder: (_) => UsersOrdersPage(
+                  isBack: data,
+                ));
 
       default:
         return _errorRoute();

@@ -9,16 +9,17 @@ import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
-class OrdersPage extends StatefulWidget with NavigationState {
-  static const routeName = '/orderPage';
+class UsersOrdersPage extends StatefulWidget with NavigationState {
+  static const routeName = '/ordersPageUsers';
+  final bool isBack;
 
-  const OrdersPage({Key? key}) : super(key: key);
+  const UsersOrdersPage({Key? key, required this.isBack}) : super(key: key);
 
   @override
-  _OrdersPageState createState() => _OrdersPageState();
+  _UsersOrdersPageState createState() => _UsersOrdersPageState();
 }
 
-class _OrdersPageState extends State<OrdersPage> {
+class _UsersOrdersPageState extends State<UsersOrdersPage> {
   final String txref = "orderPayment";
   String? amount, customerName;
 
@@ -49,9 +50,33 @@ class _OrdersPageState extends State<OrdersPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 0,
         elevation: 0,
-        backgroundColor: Colors.pinkAccent,
+        title: Text(
+          yourOrders,
+          style: TextStyle(color: Colors.pink),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        leading: !widget.isBack
+            ? Container()
+            : InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  margin: EdgeInsets.all(tenDp),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.3, color: Colors.grey),
+                      color: Colors.pink,
+                      borderRadius: BorderRadius.circular(thirtyDp)),
+                  child: Padding(
+                    padding: EdgeInsets.all(eightDp),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: sixteenDp,
+                    ),
+                  ),
+                ),
+              ),
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
           stream: _productList!.itemListStream,

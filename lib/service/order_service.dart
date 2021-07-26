@@ -59,7 +59,7 @@ class OrderService {
     Navigator.of(context).pop();
 
     Navigator.of(context).pushNamed(
-      OrdersPage.routeName,
+      UsersOrdersPage.routeName,
     );
   }
 

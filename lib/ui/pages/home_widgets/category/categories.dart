@@ -63,6 +63,54 @@ class Category extends StatelessWidget {
               ],
             ),
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: thirtyDp, left: sixteenDp),
+                child: Text(weAlsoHave,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold)),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.of(context)
+                      .pushNamed(CategoryItems.routeName, arguments: '');
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
+                  margin: EdgeInsets.only(right: eightDp, top: twentyDp),
+                  child: Center(
+                      child: Text(
+                    seeAll,
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(eightyDp),
+                      color: Colors.black),
+                  height: thirtyDp,
+                  width: hundredDp,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: tenDp,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: sixteenDp),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildItemCategory(context, 'assets/images/cake.jpg', adwelle),
+                buildItemCategory(context, 'assets/images/chips.jpg', vaginne),
+                buildItemCategory(context, 'assets/images/cookie.jpg', vtide),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -82,7 +130,38 @@ class Category extends StatelessWidget {
             width: sixtyDp,
             height: sixtyDp,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(thirtyTwoDp),
+                borderRadius: category == vaginne ||
+                        category == adwelle ||
+                        category == vtide
+                    ? BorderRadius.circular(tenDp)
+                    : BorderRadius.circular(thirtyTwoDp),
+                image: DecorationImage(
+                    image: AssetImage(image), fit: BoxFit.cover)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: eightDp),
+            child: Text(category),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildImmeriProducts(context, image, category) {
+    return GestureDetector(
+      onTap: () async {
+        await Navigator.of(context)
+            .pushNamed(CategoryItems.routeName, arguments: category);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: sixtyDp,
+            height: sixtyDp,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                     image: AssetImage(image), fit: BoxFit.cover)),
           ),
