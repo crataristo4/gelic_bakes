@@ -176,7 +176,6 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                       //pre order
                                       GestureDetector(
                                         onTap: () {
-                                          //todo pass data
                                           showModalBottomSheet(
                                               context: context,
                                               builder: (context) => PreOrder(

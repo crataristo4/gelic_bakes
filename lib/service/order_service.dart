@@ -37,6 +37,17 @@ class OrderService {
     });
   }
 
+  //delete order
+  Future<void> deleteOrder(String orderId, BuildContext context) {
+    return firestoreService
+        .collection('Orders')
+        .doc(orderId)
+        .delete()
+        .whenComplete(() {
+      showDeliverySuccess(context);
+    });
+  }
+
   //manually update paid orders ...............................................................
   Future<void> updatePaidOrders(
       Orders orders, String id, BuildContext context) {
@@ -69,6 +80,14 @@ class OrderService {
 
     Navigator.of(context)
         .pushReplacementNamed(AdminPage.routeName, arguments: 0);
+  }
+
+  showDeletingSuccess(context) async {
+    ShowAction().showToast(successful, Colors.black); //show complete msg
+    Navigator.of(context, rootNavigator: true).pop();
+/*
+    Navigator.of(context)
+        .pushReplacementNamed(OrdersPage.routeName);*/
   }
 
   showFailure(context, error) {

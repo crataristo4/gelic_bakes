@@ -7,7 +7,11 @@ import 'package:flutterwave/models/responses/charge_response.dart';*/
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
+import 'package:gelic_bakes/ui/widgets/actions.dart';
+import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
+
+import '../../main.dart';
 
 class UsersOrdersPage extends StatefulWidget with NavigationState {
   static const routeName = '/ordersPageUsers';
@@ -135,13 +139,58 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                        "Ordered ${timeAgo.format(orders.timestamp.toDate())}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Colors.black45,
-                                        )),
+                                    Row(
+                                      children: [
+                                        Text(
+                                            "Ordered ${timeAgo.format(orders.timestamp.toDate())}",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.black45,
+                                            )),
+                                        SizedBox(
+                                          width: fiftyDp,
+                                        ),
+                                        orders.isPaid!
+                                            ? Icon(
+                                                Icons.check_circle,
+                                                color: Colors.green,
+                                              )
+                                            : Container(),
+                                        SizedBox(
+                                          width: twentyDp,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            ShowAction.showAlertDialog(
+                                                deleteOrder,
+                                                deleteOrderDes,
+                                                context,
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(cancel)),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                    Dialogs.showLoadingDialog(
+                                                        context,
+                                                        loadingKey,
+                                                        deletingOrder,
+                                                        Colors.white);
+                                                  },
+                                                  child: Text(delete),
+                                                ));
+                                          },
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                     SizedBox(
                                       height: eightDp,
                                     ),

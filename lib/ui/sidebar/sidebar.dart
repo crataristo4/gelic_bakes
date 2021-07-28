@@ -189,11 +189,24 @@ class _SidebarItemState extends State<SidebarItem>
                                               .onOrdersClickEvent);
                                     },
                                   ),
-                                  Text(
-                                    "Follow us",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: sixteenDp),
+                                  SideBarMenuItems(
+                                    iconData: Icons.reviews,
+                                    title: writeAReview,
+                                    onTap: () {
+                                      triggerSideBar();
+                                      BlocProvider.of<NavigationBloc>(context)
+                                          .add(NavigationEvents
+                                              .onReviewPageClickEvent);
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(eightDp),
+                                    child: Text(
+                                      followUs,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: sixteenDp),
+                                    ),
                                   ),
                                   Divider(
                                     color: Colors.white,

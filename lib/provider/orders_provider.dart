@@ -74,4 +74,8 @@ class OrdersProvider with ChangeNotifier {
     Orders updatePaidOrders = Orders.updatePaymentStatus(isPaid: true);
     orderService.updatePaidOrders(updatePaidOrders, id, context);
   }
+
+  deleteOrder(String orderId, context) {
+    orderService.deleteOrder(orderId, context);
+  }
 }
