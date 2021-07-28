@@ -121,6 +121,9 @@ const updatingName = 'Updating name...';
 const updated = 'Updated';
 const customerCare = 'Customer care';
 const register = 'Register';
+const aboutGelicHub =
+    'Gelichub is a Ghanaian retailer that deals in pastries,medicines, hair and basic essentials.\nFounded in August 2020 in Accra, its goal is to give it\'s customers the convenience of shopping from the comfort of their homes the following\n✓Assorted fruit and vegetable cakes\n✓Tasty pies and doughnuts\n✓Female intimate care,peptides,male and female reproductive drugs approved by FDA.\n✓Quality hair\n✓Beaded slippers\n✓Branded perfumes and body sprays.\nCEO:Madam Angela Antwiwaa Antwi \n';
+
 const logout = 'Log Out';
 const logoutDes = 'You will be Logged out from this account';
 const yesLogMeOut = 'Yes! Logout';
