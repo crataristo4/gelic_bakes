@@ -16,6 +16,7 @@ import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh
 import 'package:gelic_bakes/ui/pages/home_widgets/reviews_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/special_offer/view_special_offer.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
+import 'package:gelic_bakes/ui/sidebar/sidebar_layout.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -50,6 +51,11 @@ class RouteGenerator {
             builder: (_) => VerificationPage(
                   phoneNumber: data,
                 ));
+
+      // SidebarLayout
+      case SidebarLayout.routeName:
+        final data = settings.arguments as bool;
+        return MaterialPageRoute(builder: (_) => SidebarLayout());
 
       //fresh from oven
       case ViewAllFreshFromOven.routeName:

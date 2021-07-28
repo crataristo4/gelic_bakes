@@ -4,6 +4,7 @@ import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
 import 'package:gelic_bakes/ui/admin/admin_page.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
+import 'package:gelic_bakes/ui/sidebar/sidebar_layout.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 
 class OrderService {
@@ -69,8 +70,7 @@ class OrderService {
     Navigator.of(context, rootNavigator: true).pop();
     Navigator.of(context).pop();
 
-    Navigator.of(context).pushNamed(
-        UsersOrdersPage.routeName, arguments: true);
+    Navigator.of(context).pushNamed(UsersOrdersPage.routeName, arguments: true);
   }
 
   showDeliverySuccess(context) async {
@@ -84,8 +84,7 @@ class OrderService {
   showDeletingSuccess(context) async {
     ShowAction().showToast(successful, Colors.black); //show complete msg
     Navigator.of(context, rootNavigator: true).pop();
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(UsersOrdersPage.routeName, (route) => false);
+    Navigator.of(context).pushNamed(SidebarLayout.routeName, arguments: true);
   }
 
   showFailure(context, error) {

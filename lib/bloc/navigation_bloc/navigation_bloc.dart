@@ -1,5 +1,6 @@
 /*import 'package:flutter_bloc/flutter_bloc.dart';*/
 import 'package:bloc/bloc.dart';
+import 'package:gelic_bakes/ui/pages/about_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/pages/home_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/reviews_page.dart';
@@ -12,6 +13,7 @@ enum NavigationEvents {
   onOrdersClickEvent,
   onNotificationClickEvent,
   onReviewPageClickEvent,
+  onAboutPageClickEvent,
 }
 
 abstract class NavigationState {}
@@ -43,6 +45,10 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
         break;
       case NavigationEvents.onReviewPageClickEvent:
         yield ReviewsPage();
+        break;
+
+      case NavigationEvents.onAboutPageClickEvent:
+        yield AboutPage();
         break;
     }
   }

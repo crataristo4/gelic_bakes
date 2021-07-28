@@ -211,10 +211,14 @@ class _SidebarItemState extends State<SidebarItem>
                                         },
                                       ),
                                       SideBarMenuItems(
-                                        iconData: Icons.star_rate,
-                                        title: rateUs,
+                                        iconData: Icons.info,
+                                        title: aboutUs,
                                         onTap: () {
                                           triggerSideBar();
+                                          BlocProvider.of<NavigationBloc>(
+                                                  context)
+                                              .add(NavigationEvents
+                                                  .onAboutPageClickEvent);
                                         },
                                       ),
                                     ],

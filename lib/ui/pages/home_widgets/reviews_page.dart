@@ -62,7 +62,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => AddReviewPage());
+              context: context,
+              builder: (context) => AddReviewPage(),
+              isDismissible: false);
         },
         child: Icon(
           Icons.add,
@@ -76,7 +78,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
           /*  Reviews reviews =
               Reviews.fromFirestore(reviewList[index].reviewToMap());*/
 
-          print("?? ${reviewList.length}");
           return reviewList.isNotEmpty
               ? buildReviewList(reviewList, index)
               : Center(

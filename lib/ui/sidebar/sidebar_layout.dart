@@ -7,6 +7,8 @@ import 'package:gelic_bakes/ui/pages/home_page.dart';
 import 'package:gelic_bakes/ui/sidebar/sidebar.dart';
 
 class SidebarLayout extends StatefulWidget {
+  static const routeName = '/sidebar';
+
   const SidebarLayout({Key? key}) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class _SidebarLayoutState extends State<SidebarLayout> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: BlocProvider(
+          lazy: false,
           create: (context) => NavigationBloc(Home()),
           child: Stack(
             children: [
