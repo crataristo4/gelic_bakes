@@ -78,7 +78,7 @@ class Category extends StatelessWidget {
               GestureDetector(
                 onTap: () async {
                   await Navigator.of(context)
-                      .pushNamed(CategoryItems.routeName, arguments: '');
+                      .pushNamed(CategoryItems.routeName, arguments: 'Drugs');
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: eightDp, bottom: eightDp),

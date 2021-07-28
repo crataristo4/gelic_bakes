@@ -9,6 +9,7 @@ import 'package:gelic_bakes/ui/auth/verify.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
@@ -83,6 +84,19 @@ class RouteGenerator {
                       price: data.price),
                 ));
 
+      //details page
+      case DetailsPage.routeName:
+        final data = settings.arguments as Product;
+        return MaterialPageRoute(
+            builder: (_) => DetailsPage(
+                  product: Product(
+                      name: data.name,
+                      category: data.category,
+                      image: data.image,
+                      price: data.price,
+                      description: data.description),
+                ));
+
       //admin orders page
       case OrdersPage.routeName:
         return MaterialPageRoute(builder: (_) => OrdersPage());
@@ -90,9 +104,7 @@ class RouteGenerator {
       // users orders page
       case UsersOrdersPage.routeName:
         final data = settings.arguments as bool;
-        return MaterialPageRoute(
-            builder: (_) => UsersOrdersPage(
-                  isBack: data));
+        return MaterialPageRoute(builder: (_) => UsersOrdersPage(isBack: data));
 
       default:
         return _errorRoute();

@@ -22,6 +22,8 @@ class _CategoryItemsState extends State<CategoryItems> {
   ProductListBloc? _productList;
   CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Product");
+  CollectionReference _drugsRef =
+      FirebaseFirestore.instance.collection("Medicine");
   ScrollController controller = ScrollController();
 
   @override
@@ -31,6 +33,8 @@ class _CategoryItemsState extends State<CategoryItems> {
     _productList = ProductListBloc();
     if (widget.category.toString().isEmpty) {
       _productList!.fetchProducts(_productRef);
+    } else if (widget.category.toString() == 'Drugs') {
+      _productList!.fetchProducts(_drugsRef);
     } else {
       _productList!.fetchCategoryList(_productRef, widget.category);
     }
@@ -82,7 +86,9 @@ class _CategoryItemsState extends State<CategoryItems> {
           ),
         ),
         title: Text(
-          widget.category.toString().isEmpty ? allPastries : widget.category,
+          widget.category.toString().isEmpty
+              ? allPastries
+              : "Available ${widget.category}",
           style: TextStyle(color: Colors.pink),
         ),
         actions: [
@@ -110,10 +116,11 @@ class _CategoryItemsState extends State<CategoryItems> {
               itemBuilder: (context, index) {
                 Product product = Product.fromSnapshot(snapshot.data![index]);
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(DetailsPage.routeName, arguments: product);
-                  },
+                  onTap: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) => DetailsPage(
+                            product: product,
+                          )),
                   child: Container(
                     child: Stack(
                       alignment: Alignment.topLeft,
@@ -266,6 +273,7 @@ class _CategoryItemsState extends State<CategoryItems> {
   }
 }
 
+//Display full image
 class ShowImageScreen extends StatelessWidget {
   final image;
 
