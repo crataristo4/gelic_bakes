@@ -128,12 +128,12 @@ class _PreOrderState extends State<PreOrder> {
                               ),
                               Container(
                                   width:
-                                  MediaQuery.of(context).size.width - 180,
+                                      MediaQuery.of(context).size.width - 180,
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(category,
                                           style: TextStyle(
@@ -152,12 +152,12 @@ class _PreOrderState extends State<PreOrder> {
                               ),
                               Container(
                                   width:
-                                  MediaQuery.of(context).size.width - 180,
+                                      MediaQuery.of(context).size.width - 180,
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(price,
                                           style: TextStyle(
@@ -175,7 +175,7 @@ class _PreOrderState extends State<PreOrder> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(setQuantity,
                                       style: TextStyle(
@@ -205,7 +205,7 @@ class _PreOrderState extends State<PreOrder> {
                                       ),
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(top: sixDp),
+                                            const EdgeInsets.only(top: sixDp),
                                         child: Text('$quantity'),
                                       ),
                                       Padding(
@@ -360,7 +360,18 @@ class _PreOrderState extends State<PreOrder> {
           });
         },
         validator: (value) {
-          return value!.length > 0 ? null : plsScheduleDate;
+          var birthdayCake = DateTime.now().add(Duration(days: 3));
+          var normalCakes = DateTime.now().add(Duration(days: 1));
+
+          if (widget.product.name!.contains("Birthday")) {
+            return value!.length > 0 && _dateTime.isAfter(birthdayCake)
+                ? null
+                : birthdayCakesTimeOrder;
+          } else {
+            return value!.length > 0 && _dateTime.isAfter(normalCakes)
+                ? null
+                : otherCakesTimeOrder;
+          }
         },
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
@@ -384,7 +395,7 @@ class _PreOrderState extends State<PreOrder> {
             fillColor: Colors.white70,
             filled: true,
             contentPadding:
-            EdgeInsets.symmetric(vertical: tenDp, horizontal: tenDp),
+                EdgeInsets.symmetric(vertical: tenDp, horizontal: tenDp),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFF5F5F5)),
             ),

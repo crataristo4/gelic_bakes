@@ -197,7 +197,10 @@ const writeAReviewDes = "Reviews helps others to patronise the app";
 const yourOrders = 'Your orders';
 const whichDayYouNeed = "Which day do you need it";
 const plsScheduleDate = 'Please schedule a day ahead for your order';
-const whichDayYouNeedDes = "Please note that all order are made a day before";
+const birthdayCakesTimeOrder = 'Birthday cakes are ordered 3 days before';
+const otherCakesTimeOrder = 'Other cakes are ordered a day or 24 hours before';
+const whichDayYouNeedDes =
+    "Please note,orders are made a day before and birthday cakes 3 days ahead";
 const sixteenDp = 16.0;
 const eightDp = 8.0;
 const eighteenDp = 18.0;
