@@ -92,8 +92,7 @@ class RouteGenerator {
         final data = settings.arguments as bool;
         return MaterialPageRoute(
             builder: (_) => UsersOrdersPage(
-                  isBack: data,
-                ));
+                  isBack: data));
 
       default:
         return _errorRoute();

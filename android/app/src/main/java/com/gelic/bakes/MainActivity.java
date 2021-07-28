@@ -1,4 +1,4 @@
-package com.gelic.bakes;
+package com.gelic.hub;
 
 import io.flutter.embedding.android.FlutterActivity;
 

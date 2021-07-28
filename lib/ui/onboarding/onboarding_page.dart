@@ -98,6 +98,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 title: chips,
                 content: chipsDes,
               ),
+              OnboardingSlideItem(
+                image: "assets/images/vaginne.jpg",
+                title: vaginne,
+                content: vaginneDes,
+              ),
             ],
           ),
           Container(
@@ -107,7 +112,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               children: indicatorCount(),
             ),
           ),
-          currentIndex != 4
+          currentIndex != 5
               ? Container()
               : InkWell(
                   onTap: () {
@@ -142,7 +147,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   List<Widget> indicatorCount() {
     List<Widget> indicators = [];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
       if (currentIndex == i) {
         indicators.add(indicator(true));
       } else {

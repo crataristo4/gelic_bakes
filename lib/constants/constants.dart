@@ -10,6 +10,8 @@ const pieDes = 'A real taste of homemade sweet Pie';
 const cookies = 'Cookies';
 const chips = 'Chips';
 const chipsDes = 'Yummy and crispy chips';
+const vaginneDes =
+    'We also have Immeri products like Vaginne , Adwelle and Vtide';
 const breadDes = 'Enjoy the mouth licking taste of cookies';
 const doughnut = 'Doughnuts';
 const doughnutDes = 'Fresh from oven';
@@ -86,6 +88,7 @@ const DistanceDes =
     'This app uses your location to find the distance between you and an Artisan';
 const photoLibrary = 'Photo Library';
 const camera = 'Camera';
+const viewLocation = 'View user\'s location';
 const setDeliveryFee = 'Set Delivery Fee';
 const abtToSetDeliveryFee =
     'You are about to set the delivery fee for this order';

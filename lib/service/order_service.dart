@@ -44,7 +44,7 @@ class OrderService {
         .doc(orderId)
         .delete()
         .whenComplete(() {
-      showDeliverySuccess(context);
+      showDeletingSuccess(context);
     });
   }
 
@@ -70,8 +70,7 @@ class OrderService {
     Navigator.of(context).pop();
 
     Navigator.of(context).pushNamed(
-      UsersOrdersPage.routeName,
-    );
+        UsersOrdersPage.routeName, arguments: true);
   }
 
   showDeliverySuccess(context) async {
@@ -85,9 +84,8 @@ class OrderService {
   showDeletingSuccess(context) async {
     ShowAction().showToast(successful, Colors.black); //show complete msg
     Navigator.of(context, rootNavigator: true).pop();
-/*
     Navigator.of(context)
-        .pushReplacementNamed(OrdersPage.routeName);*/
+        .pushNamedAndRemoveUntil(UsersOrdersPage.routeName, (route) => false);
   }
 
   showFailure(context, error) {

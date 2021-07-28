@@ -7,6 +7,7 @@ import 'package:flutterwave/models/responses/charge_response.dart';*/
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
+import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
@@ -33,6 +34,7 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
   CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Orders");
   ScrollController controller = ScrollController();
+  OrdersProvider ordersProvider = OrdersProvider();
 
   @override
   void initState() {
@@ -107,7 +109,7 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(
-                              left: fortyDp,
+                              left: thirtyTwoDp,
                               top: tenDp,
                               bottom: tenDp,
                               right: eightDp),
@@ -149,7 +151,7 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
                                               color: Colors.black45,
                                             )),
                                         SizedBox(
-                                          width: fiftyDp,
+                                          width: thirtyDp,
                                         ),
                                         orders.isPaid!
                                             ? Icon(
@@ -158,7 +160,7 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
                                               )
                                             : Container(),
                                         SizedBox(
-                                          width: twentyDp,
+                                          width: tenDp,
                                         ),
                                         GestureDetector(
                                           onTap: () {
@@ -180,14 +182,20 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
                                                         loadingKey,
                                                         deletingOrder,
                                                         Colors.white);
+                                                    ordersProvider.deleteOrder(
+                                                        snapshot
+                                                            .data![index].id,
+                                                        context);
                                                   },
                                                   child: Text(delete),
                                                 ));
                                           },
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
+                                          child: widget.isBack
+                                              ? Container()
+                                              : Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
                                         )
                                       ],
                                     ),

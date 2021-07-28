@@ -54,6 +54,7 @@ dependencies:
   flutter_bloc: ^7.0.1
   #flutter_paystack: ^1.0.5+1
   flutterwave: ^0.0.2
+  map_launcher: ^2.1.1
 
 flutter_icons:
   android: "launcher_icon"

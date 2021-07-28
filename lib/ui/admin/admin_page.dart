@@ -3,6 +3,7 @@ import 'package:gelic_bakes/ui/admin/add_items.dart';
 import 'package:gelic_bakes/ui/admin/items_page.dart';
 import 'package:gelic_bakes/ui/admin/medicine.dart';
 import 'package:gelic_bakes/ui/admin/orders_page.dart';
+import 'package:gelic_bakes/ui/pages/notification_page.dart';
 
 class AdminPage extends StatefulWidget {
   static const routeName = 'adminPage';
@@ -19,6 +20,7 @@ class _AdminPageState extends State<AdminPage> {
     OrdersPage(),
     ItemsPage(),
     Medicine(),
+    NotificationPage()
   ];
 
   void _onItemTapped(int index) {
@@ -65,6 +67,10 @@ class _AdminPageState extends State<AdminPage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.medical_services),
               label: 'Medicines',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'Notification',
             ),
           ]),
     );

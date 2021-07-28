@@ -7,6 +7,7 @@ import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 ///fOR ADMIN
@@ -145,6 +146,20 @@ class _OrdersPageState extends State<OrdersPage> {
                           ));
                     },
                   ),
+                  /* ListTile(
+                    leading: Icon(
+                      Icons.map,
+                      color: Colors.deepPurple,
+                    ),
+                    title: Text(
+                      viewLocation,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+
+                    },
+                  ),*/
                 ],
               ),
             ),
@@ -312,33 +327,56 @@ class _OrdersPageState extends State<OrdersPage> {
                         Container(
                           margin: EdgeInsets.symmetric(vertical: tenDp),
                           child: Center(
-                            child: FloatingActionButton(
-                              child: Icon(
-                                Icons.call,
-                                color: Colors.white,
-                              ),
-                              mini: true,
-                              onPressed: () {
-                                SnackBar snackBar = SnackBar(
-                                    padding: EdgeInsets.all(tenDp),
-                                    duration: Duration(seconds: 5),
-                                    action: SnackBarAction(
-                                      label: 'Yes',
-                                      onPressed: () {
-                                        ShowAction.makePhoneCall(
-                                            'tel:${orders.phoneNumber}');
-                                      },
-                                      textColor: Colors.white,
-                                    ),
-                                    backgroundColor: Colors.pink,
-                                    content: Text(
-                                      'Do you want to Call ${orders.name} now ?',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 16),
-                                    ));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FloatingActionButton(
+                                  child: Icon(
+                                    Icons.call,
+                                    color: Colors.white,
+                                  ),
+                                  mini: true,
+                                  onPressed: () {
+                                    SnackBar snackBar = SnackBar(
+                                        padding: EdgeInsets.all(tenDp),
+                                        duration: Duration(seconds: 5),
+                                        action: SnackBarAction(
+                                          label: 'Yes',
+                                          onPressed: () {
+                                            ShowAction.makePhoneCall(
+                                                'tel:${orders.phoneNumber}');
+                                          },
+                                          textColor: Colors.white,
+                                        ),
+                                        backgroundColor: Colors.pink,
+                                        content: Text(
+                                          'Do you want to Call ${orders.name} now ?',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  },
+                                ),
+                                FloatingActionButton(
+                                  child: Icon(
+                                    Icons.map,
+                                    color: Colors.white,
+                                  ),
+                                  mini: true,
+                                  onPressed: () async {
+                                    final availableMaps =
+                                        await MapLauncher.installedMaps;
+
+                                    await availableMaps.first.showMarker(
+                                      coords: Coords(orders.location!.latitude,
+                                          orders.location!.longitude),
+                                      title: '${orders.name}\'s location',
+                                    );
+                                  },
+                                )
+                              ],
                             ),
                           ),
                         )

@@ -46,7 +46,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
             bottom: false,
             child: Scaffold(
                 body: currentUserId != null
-                    ? SidebarLayout() //change to users --todo
+                    ? SidebarLayout() //AdminPage(selectedIndex: 0,) //change to users --todo
                     : RegistrationPage())),
       ),
     );
