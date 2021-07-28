@@ -6,12 +6,15 @@ import 'package:gelic_bakes/ui/admin/orders_page.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
+import 'package:gelic_bakes/ui/bottomsheets/add_review.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/reviews_page.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/special_offer/view_special_offer.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
 
 class RouteGenerator {
@@ -105,6 +108,18 @@ class RouteGenerator {
       case UsersOrdersPage.routeName:
         final data = settings.arguments as bool;
         return MaterialPageRoute(builder: (_) => UsersOrdersPage(isBack: data));
+
+      //view special offer
+      case ViewSpecialOffers.routeName:
+        return MaterialPageRoute(builder: (_) => ViewSpecialOffers());
+      //add reviews
+      case AddReviewPage.routeName:
+        return MaterialPageRoute(builder: (_) => AddReviewPage());
+
+//reviews page
+      case ReviewsPage.routeName:
+        final data = settings.arguments as bool;
+        return MaterialPageRoute(builder: (_) => ReviewsPage());
 
       default:
         return _errorRoute();

@@ -29,7 +29,7 @@ class _SidebarItemState extends State<SidebarItem>
   StreamSink<bool>? _streamSink;
   FocusNode? _focusNode;
 
-  final bool isDrawerOpened = false;
+  bool isDrawerOpened = false;
   AnimationController? _animationController;
   final animationDuration = const Duration(milliseconds: 500);
 
@@ -58,9 +58,15 @@ class _SidebarItemState extends State<SidebarItem>
     if (animationCompleted) {
       _streamSink!.add(false);
       _animationController!.reverse();
+      setState(() {
+        isDrawerOpened = false;
+      });
     } else {
       _streamSink!.add(true);
       _animationController!.forward();
+      setState(() {
+        isDrawerOpened = true;
+      });
     }
   }
 
@@ -107,6 +113,8 @@ class _SidebarItemState extends State<SidebarItem>
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    _focusNode = FocusScope.of(context);
+
     return StreamBuilder<bool>(
         initialData: false,
         stream: _stream,
@@ -164,21 +172,21 @@ class _SidebarItemState extends State<SidebarItem>
                             SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  SideBarMenuItems(
-                                    iconData: Icons.home_outlined,
-                                    title: home,
-                                    onTap: () {
-                                      triggerSideBar();
-                                      BlocProvider.of<NavigationBloc>(context)
-                                          .add(NavigationEvents
-                                              .onHomeClickEvent);
-                                    },
+                                  Row(
+                                    children: [
+                                      SideBarMenuItems(
+                                        iconData: Icons.home_outlined,
+                                        title: home,
+                                        onTap: () {
+                                          triggerSideBar();
+                                          BlocProvider.of<NavigationBloc>(
+                                                  context)
+                                              .add(NavigationEvents
+                                                  .onHomeClickEvent);
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  /*      SideBarMenuItems(
-                                    iconData: Icons.perm_identity_sharp,
-                                    title: account,
-                                    onTap: () => navigateToProfile(),
-                                  ),*/
                                   SideBarMenuItems(
                                     iconData: Icons.shopping_basket,
                                     title: orders,
@@ -189,15 +197,27 @@ class _SidebarItemState extends State<SidebarItem>
                                               .onOrdersClickEvent);
                                     },
                                   ),
-                                  SideBarMenuItems(
-                                    iconData: Icons.reviews,
-                                    title: writeAReview,
-                                    onTap: () {
-                                      triggerSideBar();
-                                      BlocProvider.of<NavigationBloc>(context)
-                                          .add(NavigationEvents
-                                              .onReviewPageClickEvent);
-                                    },
+                                  Row(
+                                    children: [
+                                      SideBarMenuItems(
+                                        iconData: Icons.reviews,
+                                        title: reviews,
+                                        onTap: () {
+                                          triggerSideBar();
+                                          BlocProvider.of<NavigationBloc>(
+                                                  context)
+                                              .add(NavigationEvents
+                                                  .onReviewPageClickEvent);
+                                        },
+                                      ),
+                                      SideBarMenuItems(
+                                        iconData: Icons.star_rate,
+                                        title: rateUs,
+                                        onTap: () {
+                                          triggerSideBar();
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(eightDp),
@@ -251,11 +271,15 @@ class _SidebarItemState extends State<SidebarItem>
                   alignment: Alignment(0, -0.81),
                   child: GestureDetector(
                     onTap: () {
-                      //if keyboard is opened close
-                      _focusNode = FocusScope.of(context);
-                      if (!_focusNode!.hasPrimaryFocus) {
-                        _focusNode!.unfocus();
-                      }
+                      /*if(!isDrawerOpened){
+                        //if keyboard is opened close
+
+                        if (_focusNode!.hasPrimaryFocus) {
+                          _focusNode!.unfocus();
+                        }
+
+                      }*/
+
                       triggerSideBar();
                     },
                     child: ClipPath(

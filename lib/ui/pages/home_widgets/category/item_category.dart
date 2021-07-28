@@ -112,6 +112,7 @@ class _CategoryItemsState extends State<CategoryItems> {
               );
             }
 
+
             return ListView.builder(
               itemBuilder: (context, index) {
                 Product product = Product.fromSnapshot(snapshot.data![index]);

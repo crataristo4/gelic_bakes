@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gelic_bakes/models/reviews.dart';
 import 'package:gelic_bakes/provider/auth_provider.dart';
+import 'package:gelic_bakes/provider/review_provider.dart';
+import 'package:gelic_bakes/service/review_service.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -33,6 +36,15 @@ class EntryPoint extends StatelessWidget {
       providers: [
         //authentication
         ChangeNotifierProvider.value(value: AuthProvider()),
+        //reviews
+        ChangeNotifierProvider.value(value: ReviewProvider()),
+
+        //fetch review by id
+        StreamProvider<List<Reviews>>.value(
+          lazy: false,
+          initialData: [],
+          value: ReviewService().getReviewsById(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
