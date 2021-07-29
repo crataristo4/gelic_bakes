@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/models/product.dart';
-import 'package:gelic_bakes/ui/admin/add_items.dart';
-import 'package:gelic_bakes/ui/admin/admin_page.dart';
-import 'package:gelic_bakes/ui/admin/orders_page.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/auth/verify.dart';
@@ -12,7 +9,7 @@ import 'package:gelic_bakes/ui/onboarding/onboarding_page.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/view_all_fresh_from_oven.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/popular/view_popular_products.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/reviews_page.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/special_offer/view_special_offer.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
@@ -23,14 +20,6 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
-      //admin page
-      //user config state checker Screen
-      case AdminPage.routeName:
-        final data = settings.arguments as int;
-        return MaterialPageRoute(
-            builder: (_) => AdminPage(
-                  selectedIndex: data,
-                ));
 
       //user config state checker Screen
       case ConfigurationPage.routeName:
@@ -58,8 +47,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SidebarLayout());
 
       //fresh from oven
-      case ViewAllFreshFromOven.routeName:
-        return MaterialPageRoute(builder: (_) => ViewAllFreshFromOven());
+      case ViewAllPopularProduct.routeName:
+        return MaterialPageRoute(builder: (_) => ViewAllPopularProduct());
 
       //account page
       case AccountPage.routeName:
@@ -76,10 +65,6 @@ class RouteGenerator {
             builder: (_) => CategoryItems(
                   category: data,
                 ));
-
-      //add item
-      case AddItem.routeName:
-        return MaterialPageRoute(builder: (_) => AddItem());
 
       //place order
       case PreOrder.routeName:
@@ -105,10 +90,6 @@ class RouteGenerator {
                       price: data.price,
                       description: data.description),
                 ));
-
-      //admin orders page
-      case OrdersPage.routeName:
-        return MaterialPageRoute(builder: (_) => OrdersPage());
 
       // users orders page
       case UsersOrdersPage.routeName:

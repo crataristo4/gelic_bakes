@@ -26,7 +26,7 @@ class FirebaseDataProvider {
 
   //--------------------------------------------------------------------------
   //fetch fresh from oven
-  Future<List<DocumentSnapshot>> fetchFreshFromOven(
+  Future<List<DocumentSnapshot>> fetchPopularProduct(
       CollectionReference collectionReference) async {
     return (await collectionReference
             .orderBy("name", descending: true)
@@ -36,7 +36,7 @@ class FirebaseDataProvider {
   }
 
   //paginate fresh from oven data
-  Future<List<DocumentSnapshot>> fetchNextFreshFromOvenListItems(
+  Future<List<DocumentSnapshot>> fetchNextPopularProductListItems(
       CollectionReference collectionReference,
       List<DocumentSnapshot> documentList) async {
     return (await collectionReference

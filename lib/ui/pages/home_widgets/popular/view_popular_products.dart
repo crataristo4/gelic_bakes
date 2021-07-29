@@ -6,16 +6,16 @@ import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 
-class ViewAllFreshFromOven extends StatefulWidget {
-  static const routeName = '/viewAllFreshFromOven';
+class ViewAllPopularProduct extends StatefulWidget {
+  static const routeName = '/viewAllPopularProduct';
 
-  const ViewAllFreshFromOven({Key? key}) : super(key: key);
+  const ViewAllPopularProduct({Key? key}) : super(key: key);
 
   @override
-  _ViewAllFreshFromOvenState createState() => _ViewAllFreshFromOvenState();
+  _ViewAllPopularProductState createState() => _ViewAllPopularProductState();
 }
 
-class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
+class _ViewAllPopularProductState extends State<ViewAllPopularProduct> {
   ProductListBloc? _productList;
   CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Fresh");
@@ -24,7 +24,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
   @override
   void initState() {
     _productList = ProductListBloc();
-    _productList!.fetchFreshFromOven(_productRef);
+    _productList!.fetchPopularProduct(_productRef);
     controller.addListener(_scrollListener);
     super.initState();
   }
@@ -32,7 +32,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
-      _productList!.fetchNextFreshFromOvenListItems(_productRef);
+      _productList!.fetchNextPopularProductListItems(_productRef);
     }
   }
 
@@ -62,7 +62,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
           ),
         ),
         title: Text(
-          freshFromOven,
+          popularProduct,
           style: TextStyle(color: Colors.pink),
         ),
         actions: [
@@ -87,8 +87,8 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
               addAutomaticKeepAlives: true,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                Product freshFromOven =
-                    Product.freshFromOven(snapshot.data![index]);
+                Product PopularProduct =
+                    Product.PopularProduct(snapshot.data![index]);
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   height: twoTwentyDp,
@@ -128,7 +128,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                         ),
                                         child: Text(
                                           //item name
-                                          freshFromOven.name!,
+                                          PopularProduct.name!,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
@@ -143,7 +143,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                         ),
                                         child: Text(
                                           //item price
-                                          "$kGhanaCedi ${freshFromOven.price}",
+                                          "$kGhanaCedi ${PopularProduct.price}",
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
@@ -164,7 +164,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                         padding: const EdgeInsets.only(
                                             left: eightDp, top: fourDp),
                                         child: Text(
-                                          "${freshFromOven.category}",
+                                          "${PopularProduct.category}",
                                           style: TextStyle(
                                             color: Colors.grey[600],
                                             fontSize: twelveDp,
@@ -179,7 +179,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                           showModalBottomSheet(
                                               context: context,
                                               builder: (context) => PreOrder(
-                                                product: freshFromOven,
+                                                product: PopularProduct,
                                                   ));
                                         },
                                         child: Container(
@@ -224,7 +224,7 @@ class _ViewAllFreshFromOvenState extends State<ViewAllFreshFromOven> {
                                 Center(child: CircularProgressIndicator()),
                             width: oneFiftyDp,
                             height: oneTwentyDp,
-                            imageUrl: freshFromOven.image!,
+                            imageUrl: PopularProduct.image!,
                             fit: BoxFit.cover,
                           ),
                         ),

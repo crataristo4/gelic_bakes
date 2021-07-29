@@ -27,10 +27,10 @@ class ProductListBloc {
       listItemController!.stream;
 
   //-----------------FRESH FROM OVEN --------------------------------------------//
-  Future fetchFreshFromOven(CollectionReference collectionReference) async {
+  Future fetchPopularProduct(CollectionReference collectionReference) async {
     try {
       documentList =
-          await firebaseDataProvider!.fetchFreshFromOven(collectionReference);
+          await firebaseDataProvider!.fetchPopularProduct(collectionReference);
       listItemController!.sink.add(documentList!);
       try {
         if (documentList!.length == 0) {
@@ -47,12 +47,12 @@ class ProductListBloc {
   }
 
   //paginate next pastries
-  fetchNextFreshFromOvenListItems(
+  fetchNextPopularProductListItems(
       CollectionReference collectionReference) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
-          .fetchNextFreshFromOvenListItems(collectionReference, documentList!);
+          .fetchNextPopularProductListItems(collectionReference, documentList!);
       documentList!.addAll(newDocumentList);
       listItemController!.sink.add(documentList!);
       try {

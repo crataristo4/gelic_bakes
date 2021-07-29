@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/categories.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/fresh_from_oven/fresh_from_oven.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/special_offers.dart';
+
+import 'home_widgets/popular/popular_products.dart';
 
 class Home extends StatefulWidget with NavigationState {
   const Home({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
           SizedBox(
             height: twentyDp,
           ),
-          FreshFromOven(),
+          PopularProduct(),
           SizedBox(
             height: thirtyDp,
           ),

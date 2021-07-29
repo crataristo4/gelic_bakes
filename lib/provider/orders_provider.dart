@@ -64,17 +64,6 @@ class OrdersProvider with ChangeNotifier {
     orderService.createNewOrder(newOrder, context);
   }
 
-  updateDeliveryFee(String id, context) {
-    Orders updateDeliveryFee =
-        Orders.updateDeliveryFee(deliveryFee: getDeliveryAmount);
-    orderService.updateDeliveryFee(updateDeliveryFee, id, context);
-  }
-
-  updatePaidOrder(String id, context) {
-    Orders updatePaidOrders = Orders.updatePaymentStatus(isPaid: true);
-    orderService.updatePaidOrders(updatePaidOrders, id, context);
-  }
-
   deleteOrder(String orderId, context) {
     orderService.deleteOrder(orderId, context);
   }

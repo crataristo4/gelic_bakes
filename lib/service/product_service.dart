@@ -2,29 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
-import 'package:gelic_bakes/ui/admin/admin_page.dart';
-import 'package:gelic_bakes/ui/admin/orders_page.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 
 class ProductService {
   final firestoreService = FirebaseFirestore.instance;
 
-  //create a Product ........................................................
-  Future<void> createNewProduct(Product product, BuildContext context) {
-    // if(Product.category == vaginne || Product.category == adwelle || Product.category == vtide)
-    return firestoreService
-        .collection(product.category == vaginne ||
-                product.category == adwelle ||
-                product.category == vtide
-            ? "Medicine"
-            : 'Product')
-        .add(product.toMap())
-        .whenComplete(() async {
-      showSuccess(context, product.category);
-    }).catchError((onError) {
-      showFailure(context, onError);
-    });
-  }
 
   //update Product name
   Future<void> updateProductName(
@@ -142,32 +124,11 @@ class ProductService {
 
   //...........................................................................
 
-  showOrderSuccess(context) async {
-    ShowAction().showToast(successful, Colors.black); //show complete msg
-    Navigator.of(context, rootNavigator: true).pop();
-    Navigator.of(context).pushNamed(
-      OrdersPage.routeName,
-    );
-  }
-
   showUpdatingSuccessful(context) async {
     ShowAction().showToast(successful, Colors.black); //show complete msg
     // Navigator.of(context, rootNavigator: true).pop();
   }
 
-  showSuccess(context, category) async {
-    ShowAction().showToast(successful, Colors.black); //show complete msg
-    Navigator.of(context, rootNavigator: true).pop();
-    //push to medicine page
-    if (category == vaginne || category == vtide || category == adwelle) {
-      Navigator.of(context)
-          .pushReplacementNamed(AdminPage.routeName, arguments: 2);
-    } else {
-      //push to pastry page
-      Navigator.of(context)
-          .pushReplacementNamed(AdminPage.routeName, arguments: 1);
-    }
-  }
 
   showFailure(context, error) {
     ShowAction().showToast(error, Colors.black);

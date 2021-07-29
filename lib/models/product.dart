@@ -97,7 +97,7 @@ class Product {
     );
   }
 
-  factory Product.freshFromOven(DocumentSnapshot ds) {
+  factory Product.PopularProduct(DocumentSnapshot ds) {
     return Product(
       name: ds['name'],
       category: ds['category'],
