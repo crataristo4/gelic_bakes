@@ -18,7 +18,7 @@ class PopularProduct extends StatefulWidget {
 class _PopularProductState extends State<PopularProduct> {
   ProductListBloc? _productList;
   CollectionReference _popularProductRef =
-      FirebaseFirestore.instance.collection("Fresh");
+      FirebaseFirestore.instance.collection("Popular");
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _PopularProductState extends State<PopularProduct> {
                         fontSize: twentyDp,
                         fontWeight: FontWeight.bold)),
               ),
-              GestureDetector(
+              /*GestureDetector(
                 onTap: () {
                   Navigator.of(context)
                       .pushNamed(ViewAllPopularProduct.routeName);
@@ -66,7 +66,7 @@ class _PopularProductState extends State<PopularProduct> {
                   height: thirtyDp,
                   width: hundredDp,
                 ),
-              ),
+              ),*/
             ],
           ),
           SizedBox(
@@ -96,7 +96,7 @@ class _PopularProductState extends State<PopularProduct> {
             addAutomaticKeepAlives: true,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              Product PopularProduct =
+              Product popularProduct =
                   Product.PopularProduct(snapshot.data![index]);
               return Container(
                 width: twoFiftyDp,
@@ -133,7 +133,7 @@ class _PopularProductState extends State<PopularProduct> {
                                           const EdgeInsets.only(left: eightDp),
                                       child: Text(
                                         //item name
-                                        PopularProduct.name!,
+                                        popularProduct.name!,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -148,7 +148,7 @@ class _PopularProductState extends State<PopularProduct> {
                                       ),
                                       child: Text(
                                         //item price
-                                        "$kGhanaCedi ${PopularProduct.price}",
+                                        "$kGhanaCedi ${popularProduct.price}",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -168,7 +168,7 @@ class _PopularProductState extends State<PopularProduct> {
                                       padding: const EdgeInsets.only(
                                           left: eightDp, top: fourDp),
                                       child: Text(
-                                        "${PopularProduct.category}",
+                                        "${popularProduct.category}",
                                         style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: twelveDp,
@@ -183,7 +183,7 @@ class _PopularProductState extends State<PopularProduct> {
                                         showModalBottomSheet(
                                             context: context,
                                             builder: (context) => PreOrder(
-                                              product: PopularProduct,
+                                              product: popularProduct,
                                                 ));
                                       },
                                       child: Container(
@@ -225,7 +225,7 @@ class _PopularProductState extends State<PopularProduct> {
                               Center(child: CircularProgressIndicator()),
                           width: oneFiftyDp,
                           height: oneTwentyDp,
-                          imageUrl: PopularProduct.image!,
+                          imageUrl: popularProduct.image!,
                           fit: BoxFit.cover,
                         ),
                       ),

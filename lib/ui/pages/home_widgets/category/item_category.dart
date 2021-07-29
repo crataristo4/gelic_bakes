@@ -116,153 +116,7 @@ class _CategoryItemsState extends State<CategoryItems> {
             return ListView.builder(
               itemBuilder: (context, index) {
                 Product product = Product.fromSnapshot(snapshot.data![index]);
-                return GestureDetector(
-                  onTap: () => showModalBottomSheet(
-                      context: context,
-                      builder: (context) => DetailsPage(
-                            product: product,
-                          )),
-                  child: Container(
-                    child: Stack(
-                      alignment: Alignment.topLeft,
-                      children: [
-                        Positioned(
-                          top: thirtyDp,
-                          left: fourteenDp,
-                          right: eightDp,
-                          child: Container(
-                            // margin: EdgeInsets.only(left: 14),
-                            width: MediaQuery.of(context).size.width,
-                            height: oneTwentyDp,
-                            decoration: BoxDecoration(
-                                color: Colors.pinkAccent.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(eightDp)),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: fourDp,
-                                  bottom: tenDp,
-                                  right: fourDp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin:
-                              EdgeInsets.only(bottom: sixtyDp, left: sixteenDp),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(eightDp),
-                          ),
-
-                          //contains the image of product
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) =>
-                                      ShowImageScreen(image: product.image),
-                                  opaque: false));
-                            },
-                            child: ClipRRect(
-                              clipBehavior: Clip.antiAlias,
-                              borderRadius: BorderRadius.circular(eightDp),
-                              child: CachedNetworkImage(
-                                placeholder: (context, url) =>
-                                    Center(child: CircularProgressIndicator()),
-                                width: oneThirtyDp,
-                                height: oneTwentyDp,
-                                imageUrl: product.image!,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: oneSixtyDp,
-                          top: fortyDp,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width -
-                                    twoHundredDp,
-                                child: Text(
-                                  //item name
-                                  product.name!,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: fourteenDp),
-                                ),
-                              ),
-                              SizedBox(
-                                //item description
-                                width: MediaQuery.of(context).size.width -
-                                    twoHundredDp,
-                                child: Text(
-                                  //item name
-                                  product.description!,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: fourteenDp),
-                                ),
-                              ),
-                              SizedBox(
-                                height: tenDp,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    //item price
-                                    "$kGhanaCedi ${product.price}",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: fourteenDp),
-                                  ),
-                                  SizedBox(
-                                    width: sixtyDp,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => PreOrder(
-                                                product: product,
-                                              ));
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          top: eightDp, bottom: eightDp),
-                                      margin: EdgeInsets.only(right: eightDp),
-                                      child: Center(
-                                          child: Text(
-                                        preOrder,
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(eightyDp),
-                                          color: Colors.pinkAccent),
-                                      height: thirtyDp,
-                                      width: hundredDp,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
+                return buildItems(product);
               },
               itemCount: snapshot.data!.length,
               shrinkWrap: true,
@@ -270,6 +124,151 @@ class _CategoryItemsState extends State<CategoryItems> {
               physics: ClampingScrollPhysics(),
             );
           }),
+    );
+  }
+
+  buildItems(Product product) {
+    return GestureDetector(
+      onTap: () => showModalBottomSheet(
+          context: context,
+          builder: (context) => DetailsPage(
+                product: product,
+              )),
+      child: Container(
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            Positioned(
+              top: thirtyDp,
+              left: fourteenDp,
+              right: eightDp,
+              child: Container(
+                // margin: EdgeInsets.only(left: 14),
+                width: MediaQuery.of(context).size.width,
+                height: oneTwentyDp,
+                decoration: BoxDecoration(
+                    color: Colors.pinkAccent.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(eightDp)),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: fourDp,
+                      bottom: tenDp,
+                      right: fourDp,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: sixtyDp, left: sixteenDp),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(eightDp),
+              ),
+
+              //contains the image of product
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                      pageBuilder: (_, __, ___) =>
+                          ShowImageScreen(image: product.image),
+                      opaque: false));
+                },
+                child: ClipRRect(
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: BorderRadius.circular(eightDp),
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) =>
+                        Center(child: CircularProgressIndicator()),
+                    width: oneThirtyDp,
+                    height: oneTwentyDp,
+                    imageUrl: product.image!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: oneSixtyDp,
+              top: fortyDp,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - twoHundredDp,
+                    child: Text(
+                      //item name
+                      product.name!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: fourteenDp),
+                    ),
+                  ),
+                  SizedBox(
+                    //item description
+                    width: MediaQuery.of(context).size.width - twoHundredDp,
+                    child: Text(
+                      //item name
+                      product.description!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style:
+                          TextStyle(color: Colors.black, fontSize: fourteenDp),
+                    ),
+                  ),
+                  SizedBox(
+                    height: tenDp,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        //item price
+                        "$kGhanaCedi ${product.price}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fourteenDp),
+                      ),
+                      SizedBox(
+                        width: sixtyDp,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => PreOrder(
+                                    product: product,
+                                  ));
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.only(top: eightDp, bottom: eightDp),
+                          margin: EdgeInsets.only(right: eightDp),
+                          child: Center(
+                              child: Text(
+                            preOrder,
+                            style: TextStyle(color: Colors.white),
+                          )),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(eightyDp),
+                              color: Colors.pinkAccent),
+                          height: thirtyDp,
+                          width: hundredDp,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -50,16 +50,16 @@ class Category extends StatelessWidget {
             height: tenDp,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: EdgeInsets.symmetric(horizontal: sixteenDp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildItemCategory(context, 'assets/images/cake.jpg', cake),
-                buildItemCategory(context, 'assets/images/chips.jpg', chips),
-                buildItemCategory(context, 'assets/images/cookie.jpg', cookies),
+                buildItemCategory(context, 'assets/images/cake.gif', cake),
+                buildItemCategory(context, 'assets/images/chips.gif', chips),
+                buildItemCategory(context, 'assets/images/cookie.gif', cookies),
                 buildItemCategory(
-                    context, 'assets/images/doughnut.jpg', doughnut),
-                buildItemCategory(context, 'assets/images/pie.jpg', pie),
+                    context, 'assets/images/doughnut.gif', doughnut),
+                buildItemCategory(context, 'assets/images/pie.gif', pie),
               ],
             ),
           ),
@@ -72,7 +72,7 @@ class Category extends StatelessWidget {
                 child: Text(weAlsoHave,
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 12,
+                        fontSize: sixteenDp,
                         fontWeight: FontWeight.bold)),
               ),
               GestureDetector(
@@ -113,12 +113,40 @@ class Category extends StatelessWidget {
               ],
             ),
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: tenDp, left: sixteenDp),
+                child: Text(youMayAlsoLike,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: sixteenDp,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: tenDp,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: sixteenDp),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildItemCategory(context, 'assets/images/drink.gif', drinks),
+                buildItemCategory(context, 'assets/images/shoe.gif', shoes),
+                buildItemCategory(context, 'assets/images/wig.gif', wigs),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildItemCategory(context, image, category) {
+  Widget buildItemCategory(context, image, String category) {
     return GestureDetector(
       onTap: () async {
         await Navigator.of(context)

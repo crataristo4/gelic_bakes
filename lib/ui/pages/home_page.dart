@@ -28,12 +28,9 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
           child: Column(
         children: [
-          SizedBox(
-            height: twentyDp,
-          ),
           PopularProduct(),
           SizedBox(
-            height: thirtyDp,
+            height: tenDp,
           ),
           Category(),
           SizedBox(
