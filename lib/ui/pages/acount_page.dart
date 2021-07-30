@@ -23,7 +23,7 @@ class AccountPage extends StatefulWidget with NavigationState {
   static const routeName = '/accountPage';
   static String? userName;
   static String? userImage;
-  static String? userPhone;
+  //static String? userPhone;
 
   final bool? hasProfile;
 

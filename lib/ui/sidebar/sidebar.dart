@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
+import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
@@ -140,28 +141,19 @@ class _SidebarItemState extends State<SidebarItem>
                             ListTile(
                               onTap: () => navigateToProfile(),
                               horizontalTitleGap: tenDp,
-                              leading: Container(
-                                width: sixtyDp,
-                                height: sixtyDp,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 0.1, color: Colors.grey),
-                                ),
-                                child: ClipOval(
-                                  clipBehavior: Clip.antiAlias,
-                                  child: CachedNetworkImage(
-                                    placeholder: (context, url) =>
-                                        CircularProgressIndicator(),
-                                    imageUrl: "${AccountPage.userImage}",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                              leading: CircleAvatar(
+                                radius: thirtyDp,
+                                backgroundColor: Colors.white,
+                                backgroundImage: CachedNetworkImageProvider(
+                                    "${AccountPage.userImage}"),
                               ),
                               title: Text(
-                                '${AccountPage.userName}',
+                                AccountPage.userName == null
+                                    ? 'loading'
+                                    : '${AccountPage.userName}',
                                 style: TextStyle(color: Colors.white),
                               ),
-                              subtitle: Text('${AccountPage.userPhone}',
+                              subtitle: Text(phoneNumber!,
                                   style: TextStyle(color: Colors.white)),
                             ),
                             Divider(

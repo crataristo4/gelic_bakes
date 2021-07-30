@@ -74,7 +74,7 @@ class UserService {
           if (documentSnapshot.exists) {
             AccountPage.userName = documentSnapshot.get('name');
             AccountPage.userImage = documentSnapshot.get('image');
-            AccountPage.userPhone = documentSnapshot.get('phoneNumber');
+          //  AccountPage.userPhone = documentSnapshot.get('phoneNumber');
           } else {
             //if not then navigate to complete profile
             pushToCompleteProfile(context);
