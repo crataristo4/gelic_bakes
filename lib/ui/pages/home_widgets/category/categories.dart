@@ -135,7 +135,8 @@ class Category extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildItemCategory(context, 'assets/images/drink.gif', drinks),
+                buildItemCategory(
+                    context, 'assets/images/drink.gif', fruitDrinks),
                 buildItemCategory(context, 'assets/images/shoe.gif', shoes),
                 buildItemCategory(context, 'assets/images/wig.gif', wigs),
               ],
