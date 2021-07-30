@@ -7,6 +7,7 @@ import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
+import 'package:gelic_bakes/ui/widgets/loading.dart';
 
 class CategoryItems extends StatefulWidget {
   static const routeName = '/categoryItem';
@@ -107,11 +108,13 @@ class _CategoryItemsState extends State<CategoryItems> {
           stream: _productList!.itemListStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
+              return LoadingShimmer(
+                category: widget.category,
+              );
               return Center(
                 child: CircularProgressIndicator(),
               );
             }
-
 
             return ListView.builder(
               itemBuilder: (context, index) {
@@ -240,6 +243,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                       GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
+                              isDismissible: false,
                               context: context,
                               builder: (context) => PreOrder(
                                     product: product,

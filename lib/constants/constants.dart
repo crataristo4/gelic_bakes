@@ -179,6 +179,7 @@ const invalidOTP = "Invalid OTP";
 const labelSkip = 'Skip >>';
 const labelNext = 'Next';
 const drinks = 'Drinks';
+const fruitDrinks = 'Fruit Drinks';
 const shoes = 'Beaded Sandals';
 const wigs = 'Wigs';
 const topExperts = "Top Experts";
