@@ -54,7 +54,8 @@ class FirebaseDataProvider {
       CollectionReference collectionReference, String category) async {
     return (await collectionReference
             .orderBy("name", descending: false)
-            .where('category', isEqualTo: category)
+            .where(category == 'Drugs' ? 'type' : 'category',
+                isEqualTo: category)
             .limit(10)
             .get())
         .docs;
@@ -75,6 +76,31 @@ class FirebaseDataProvider {
   }
 
   //...........................END.............................................//
+
+  //fetch promotion........................................................
+  Future<List<DocumentSnapshot>> fetchPromotion(
+      CollectionReference collectionReference, String category) async {
+    return (await collectionReference
+            .orderBy("name", descending: false)
+            .where('category', isEqualTo: category)
+            .limit(10)
+            .get())
+        .docs;
+  }
+
+  //paginate promotion data
+  Future<List<DocumentSnapshot>> fetchNextPromotion(
+      CollectionReference collectionReference,
+      String category,
+      List<DocumentSnapshot> documentList) async {
+    return (await collectionReference
+            .orderBy('name', descending: false)
+            .where('category', isEqualTo: category)
+            .startAfterDocument(documentList[documentList.length - 1])
+            .limit(10)
+            .get())
+        .docs;
+  }
 
   //fetch users ORDERS
   Future<List<DocumentSnapshot>> fetchOrders(

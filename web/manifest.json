@@ -1,16 +1,16 @@
 {
-    "name": "gelic_bakes",
-    "short_name": "gelic_bakes",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Pastries and more",
-    "orientation": "portrait-primary",
-    "prefer_related_applications": false,
-    "icons": [
-        {
-            "src": "icons/Icon-192.png",
+  "name": "Gelic Hub",
+  "short_name": "Gelic Hub",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0175C2",
+  "theme_color": "#0175C2",
+  "description": "Pastries and more",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/Icon-192.png",
             "sizes": "192x192",
             "type": "image/png"
         },

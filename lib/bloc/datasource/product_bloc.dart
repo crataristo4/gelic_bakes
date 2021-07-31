@@ -226,11 +226,12 @@ class ProductListBloc {
 
   //.....................END.........................................//
 
-  //.................FETCH all orders for admin....................................................//
-  Future fetchAllOrders(CollectionReference collectionReference) async {
+  //.................FETCH all promotion....................................................//
+  Future fetchPromotion(
+      CollectionReference collectionReference, String category) async {
     try {
-      documentList =
-          await firebaseDataProvider!.fetchAllOrders(collectionReference);
+      documentList = await firebaseDataProvider!
+          .fetchPromotion(collectionReference, category);
       listItemController!.sink.add(documentList!);
       try {
         if (documentList!.length == 0) {
@@ -246,12 +247,14 @@ class ProductListBloc {
     }
   }
 
-//paginate next orders for  admin
-  fetchNextAllOrderListItems(CollectionReference collectionReference) async {
+//paginate category
+  fetchNextPromotion(
+      CollectionReference collectionReference, String category) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList = await firebaseDataProvider!
-          .fetchNextAllOrderListItems(collectionReference, documentList!);
+          .fetchNextPromotion(collectionReference, category, documentList!);
+      print("Fetching .....");
       documentList!.addAll(newDocumentList);
       listItemController!.sink.add(documentList!);
       try {
