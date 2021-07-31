@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
+import 'package:gelic_bakes/bloc/datasource/product_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';

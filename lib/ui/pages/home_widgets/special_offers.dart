@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/special_offer/view_special_offer.dart';
 
 class SpecialOffers extends StatefulWidget {
   const SpecialOffers({Key? key}) : super(key: key);
@@ -68,13 +69,14 @@ class _SpecialOffersState extends State<SpecialOffers> {
 
   Widget buildSpecialOffer(String name, String icon) {
     return GestureDetector(
-      onTap: () {
-        //todo -- add when ready
-        SnackBar snackbar = SnackBar(
+      onTap: () async {
+        await Navigator.of(context)
+            .pushNamed(ViewSpecialOffers.routeName, arguments: name);
+        /* SnackBar snackbar = SnackBar(
           content: Text("No offer available"),
           duration: Duration(seconds: 1),
         );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);*/
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: sixDp),

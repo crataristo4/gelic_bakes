@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
+import 'package:gelic_bakes/bloc/datasource/product_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
+import 'package:gelic_bakes/models/promotion.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
@@ -23,8 +24,8 @@ class _CategoryItemsState extends State<CategoryItems> {
   ProductListBloc? _productList;
   CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Product");
-  CollectionReference _drugsRef =
-      FirebaseFirestore.instance.collection("Medicine");
+  CollectionReference _promotionRef =
+      FirebaseFirestore.instance.collection("Special Offers");
   ScrollController controller = ScrollController();
 
   @override
@@ -32,12 +33,13 @@ class _CategoryItemsState extends State<CategoryItems> {
     // controller.addListener(_scrollListener);
     super.initState();
     _productList = ProductListBloc();
-    if (widget.category.toString().isEmpty) {
-      _productList!.fetchProducts(_productRef);
-    } else if (widget.category.toString() == 'Drugs') {
-      _productList!.fetchProducts(_drugsRef);
+    if (widget.category == fruitDrinks) {
+      _productList!.fetchCategoryList(_productRef, drinks);
     } else {
       _productList!.fetchCategoryList(_productRef, widget.category);
+    }
+    if (widget.category.toString().isEmpty) {
+      _productList!.fetchProducts(_productRef);
     }
     controller.addListener(_scrollListener);
   }
@@ -51,7 +53,11 @@ class _CategoryItemsState extends State<CategoryItems> {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange &&
         widget.category.toString().isNotEmpty) {
-      _productList!.fetchNextCategoryListItems(_productRef, widget.category);
+      if (widget.category.toString() == fruitDrinks) {
+        _productList!.fetchNextCategoryListItems(_promotionRef, drinks);
+      } else {
+        _productList!.fetchNextCategoryListItems(_productRef, widget.category);
+      }
     }
   }
 
@@ -90,7 +96,7 @@ class _CategoryItemsState extends State<CategoryItems> {
           widget.category.toString().isEmpty
               ? allPastries
               : "Available ${widget.category}",
-          style: TextStyle(color: Colors.pink),
+          style: TextStyle(color: Colors.pink, fontSize: sixteenDp),
         ),
         actions: [
           IconButton(
@@ -255,7 +261,14 @@ class _CategoryItemsState extends State<CategoryItems> {
                           margin: EdgeInsets.only(right: eightDp),
                           child: Center(
                               child: Text(
-                            preOrder,
+                            widget.category == adwelle ||
+                                    widget.category == vaginne ||
+                                    widget.category == vtide ||
+                                    widget.category == fruitDrinks ||
+                                    widget.category == shoes ||
+                                    widget.category == wigs
+                                ? buyNow
+                                : preOrder,
                             style: TextStyle(color: Colors.white),
                           )),
                           decoration: BoxDecoration(
@@ -270,6 +283,122 @@ class _CategoryItemsState extends State<CategoryItems> {
                 ],
               ),
             )
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildPromotion(Promotion promotion) {
+    return Container(
+      color: Color(0xFF757575),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(twentyDp),
+                topRight: Radius.circular(twentyDp))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    margin: EdgeInsets.all(tenDp),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 0.3, color: Colors.grey),
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(thirtyDp)),
+                    child: Padding(
+                      padding: EdgeInsets.all(eightDp),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                        size: sixteenDp,
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  "Details",
+                  style: TextStyle(color: Colors.pink, fontSize: twentyDp),
+                ),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: eightDp,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(eightDp),
+              ),
+
+              //contains the image of product
+              child: ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(eightDp),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) =>
+                      Center(child: CircularProgressIndicator()),
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
+                  imageUrl: "${promotion.image!}",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: eightDp, top: eightDp),
+              child: Text(
+                "Item name",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: eightDp, vertical: sixDp),
+              child: Text(
+                "${promotion.name}",
+                style: TextStyle(
+                    fontSize: sixteenDp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            Divider(
+              height: 1,
+              indent: eightDp,
+              endIndent: eightDp,
+            ),
+            promotion.description!.isEmpty
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(left: eightDp, top: eightDp),
+                    child: Text(
+                      "Item description",
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+            promotion.description!.isEmpty
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(left: eightDp, top: eightDp),
+                    child: Text(
+                      "${promotion.description}",
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
           ],
         ),
       ),

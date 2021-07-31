@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/models/product.dart';
+import 'package:gelic_bakes/models/promotion.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:intl/intl.dart';
 
 class PreOrder extends StatefulWidget {
   static const routeName = '/placeOrder';
-  final Product product;
+  Product? product;
+  Promotion? promotion;
 
-  const PreOrder({Key? key, required this.product}) : super(key: key);
+  PreOrder.promo({this.promotion});
+
+  PreOrder({Key? key, required this.product}) : super(key: key);
 
   @override
   _PreOrderState createState() => _PreOrderState();
@@ -31,11 +35,19 @@ class _PreOrderState extends State<PreOrder> {
 
   @override
   void initState() {
-    initialPrice = widget.product.price;
+    if (widget.promotion != null) {
+      initialPrice = widget.promotion!.price;
+    } else {
+      initialPrice = widget.product!.price;
+    }
+
+    print("?? $initialPrice");
+
     subTotal = initialPrice;
     super.initState();
   }
 
+  //increment quantity
   _increment() {
     setState(() {
       quantity++;
@@ -43,6 +55,7 @@ class _PreOrderState extends State<PreOrder> {
     });
   }
 
+  //decrement quantity
   _decrement() {
     if (quantity > 1)
       setState(() {
@@ -102,7 +115,9 @@ class _PreOrderState extends State<PreOrder> {
                             child: CachedNetworkImage(
                               placeholder: (context, url) =>
                                   Center(child: CircularProgressIndicator()),
-                              imageUrl: "${widget.product.image}",
+                              imageUrl: widget.promotion != null
+                                  ? "${widget.promotion!.image}"
+                                  : "${widget.product!.image}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -116,7 +131,10 @@ class _PreOrderState extends State<PreOrder> {
                             children: [
                               SizedBox(
                                 width: twoHundredDp,
-                                child: Text("${widget.product.name}",
+                                child: Text(
+                                    widget.promotion != null
+                                        ? "${widget.promotion!.name}"
+                                        : "${widget.product!.name}",
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -140,7 +158,9 @@ class _PreOrderState extends State<PreOrder> {
                                             color: Colors.black45,
                                           )),
                                       Text(
-                                        "${widget.product.category}",
+                                        widget.promotion != null
+                                            ? "${widget.promotion!.category}"
+                                            : "${widget.product!.category}",
                                         style: TextStyle(
                                             color: Colors.pink,
                                             fontWeight: FontWeight.bold),
@@ -164,7 +184,9 @@ class _PreOrderState extends State<PreOrder> {
                                             color: Colors.black45,
                                           )),
                                       Text(
-                                          "$kGhanaCedi ${widget.product.price}",
+                                          widget.promotion != null
+                                              ? "${widget.promotion!.price}"
+                                              : "$kGhanaCedi ${widget.product!.price}",
                                           style: TextStyle(
                                               color: Colors.pink,
                                               fontWeight: FontWeight.bold)),
@@ -298,8 +320,8 @@ class _PreOrderState extends State<PreOrder> {
                       _ordersProvider.setData(
                           quantity,
                           subTotal as int,
-                          widget.product.name!,
-                          widget.product.image!,
+                          widget.product!.name!,
+                          widget.product!.image!,
                           _dateTimeController.text);
                       //3. create order
                       _ordersProvider.createOrder(context);
@@ -363,7 +385,7 @@ class _PreOrderState extends State<PreOrder> {
           var birthdayCake = DateTime.now().add(Duration(days: 3));
           var normalCakes = DateTime.now().add(Duration(days: 1));
 
-          if (widget.product.name!.contains("Birthday")) {
+          if (widget.product!.name!.contains("Birthday")) {
             return value!.length > 0 && _dateTime.isAfter(birthdayCake)
                 ? null
                 : birthdayCakesTimeOrder;

@@ -98,7 +98,11 @@ class RouteGenerator {
 
       //view special offer
       case ViewSpecialOffers.routeName:
-        return MaterialPageRoute(builder: (_) => ViewSpecialOffers());
+        final data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => ViewSpecialOffers(
+                  category: data,
+                ));
       //add reviews
       case AddReviewPage.routeName:
         return MaterialPageRoute(builder: (_) => AddReviewPage());

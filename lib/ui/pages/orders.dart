@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gelic_bakes/bloc/datasource/pastry_bloc.dart';
+import 'package:gelic_bakes/bloc/datasource/product_bloc.dart';
 /*import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';*/
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
