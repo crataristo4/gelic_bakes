@@ -5,8 +5,6 @@ class Promotion {
   int? discountPrice;
   String? name, image, category;
   String? description;
-
-  // String? startDate;
   String? endDate;
   bool? isEnded;
 
@@ -17,7 +15,6 @@ class Promotion {
       this.category,
       this.image,
       this.description,
-      //  this.startDate,
       this.endDate,
       this.isEnded});
 
@@ -29,7 +26,6 @@ class Promotion {
       'description': description,
       'discountPrice': discountPrice,
       'price': price,
-      // 'startDate': startDate,
       'endDate': endDate,
       'isEnded': isEnded
     };
@@ -43,7 +39,6 @@ class Promotion {
         description: ds['description'],
         image: ds['image'],
         price: ds['price'],
-        // startDate: ds['startDate'],
         endDate: ds['endDate'],
         isEnded: ds['isEnded']);
   }
