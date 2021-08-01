@@ -5,7 +5,10 @@ class Promotion {
   int? discountPrice;
   String? name, image, category;
   String? description;
-  dynamic startDate, endDate;
+
+  // String? startDate;
+  String? endDate;
+  bool? isEnded;
 
   Promotion(
       {this.price,
@@ -14,8 +17,9 @@ class Promotion {
       this.category,
       this.image,
       this.description,
-      this.startDate,
-      this.endDate});
+      //  this.startDate,
+      this.endDate,
+      this.isEnded});
 
   Map<String, dynamic> toMap() {
     return {
@@ -25,21 +29,22 @@ class Promotion {
       'description': description,
       'discountPrice': discountPrice,
       'price': price,
-      'startDate': startDate,
-      'endDate': endDate
+      // 'startDate': startDate,
+      'endDate': endDate,
+      'isEnded': isEnded
     };
   }
 
   factory Promotion.fromSnapshot(DocumentSnapshot ds) {
     return Promotion(
-      name: ds['name'],
-      category: ds['category'],
-      discountPrice: ds['discountPrice'],
-      description: ds['description'],
-      image: ds['image'],
-      price: ds['price'],
-      startDate: ds['startDate'],
-      endDate: ds['endDate'],
-    );
+        name: ds['name'],
+        category: ds['category'],
+        discountPrice: ds['discountPrice'],
+        description: ds['description'],
+        image: ds['image'],
+        price: ds['price'],
+        // startDate: ds['startDate'],
+        endDate: ds['endDate'],
+        isEnded: ds['isEnded']);
   }
 }
