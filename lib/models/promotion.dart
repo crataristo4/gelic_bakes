@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Promotion {
+  final id;
   int? price;
   int? discountPrice;
   String? name, image, category;
@@ -9,7 +10,8 @@ class Promotion {
   bool? isEnded;
 
   Promotion(
-      {this.price,
+      {this.id,
+      this.price,
       this.discountPrice,
       this.name,
       this.category,
@@ -20,6 +22,7 @@ class Promotion {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'category': category,
       'image': image,
@@ -33,6 +36,20 @@ class Promotion {
 
   factory Promotion.fromSnapshot(DocumentSnapshot ds) {
     return Promotion(
+        id: ds['id'],
+        name: ds['name'],
+        category: ds['category'],
+        discountPrice: ds['discountPrice'],
+        description: ds['description'],
+        image: ds['image'],
+        price: ds['price'],
+        endDate: ds['endDate'],
+        isEnded: ds['isEnded']);
+  }
+
+  factory Promotion.fromFirestore(Map<String, dynamic> ds) {
+    return Promotion(
+        id: ds['id'],
         name: ds['name'],
         category: ds['category'],
         discountPrice: ds['discountPrice'],

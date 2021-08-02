@@ -1,16 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:gelic_bakes/bloc/datasource/product_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/promotion.dart';
 import 'package:gelic_bakes/provider/promo_provider.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
-import 'package:gelic_bakes/ui/widgets/loading.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ViewSpecialOffers extends StatefulWidget {
@@ -25,19 +23,26 @@ class ViewSpecialOffers extends StatefulWidget {
 
 class _ViewSpecialOffersState extends State<ViewSpecialOffers>
     with TickerProviderStateMixin {
-  CollectionReference _promotionRef =
+  /*CollectionReference _promotionRef =
       FirebaseFirestore.instance.collection("Special Offers");
   ScrollController controller = ScrollController();
-  ProductListBloc? _productList;
+  ProductListBloc? _productList;*/
   PromoProvider _promoProvider = PromoProvider();
   CountdownTimerController? countDownController;
   dynamic endTime;
+  List<Promotion>? promoList, promos;
 
   @override
   void initState() {
-    _productList = ProductListBloc();
+    /*   _productList = ProductListBloc();
     _productList!.fetchPromotion(_promotionRef, widget.category);
-    controller.addListener(_scrollListener);
+    controller.addListener(_scrollListener);*/
+
+    /*  promos = Provider.of<List<Promotion>>(context,listen:false);
+    promoList = promos!
+        .where((Promotion promotion) => widget.category == promotion.category)
+        .toList();*/
+
     super.initState();
   }
 
@@ -45,78 +50,92 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
     _promoProvider.updatePromo(promoId, context);
   }
 
+  @override
+  void didUpdateWidget(covariant ViewSpecialOffers oldWidget) {
+    if (oldWidget.key.toString() == "btn") {
+      print(oldWidget.key);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+/*
   void _scrollListener() {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange)
       _productList!.fetchNextPromotion(_promotionRef, widget.category);
-  }
+  }*/
 
   @override
   void dispose() {
     //_controller!.dispose();
-    _productList!.dispose();
+    // _productList!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    promos = Provider.of<List<Promotion>>(context, listen: true);
+    promoList = promos!
+        .where((Promotion promotion) => widget.category == promotion.category)
+        .toList();
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
         backgroundColor: Colors.white,
-        leading: InkWell(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            margin: EdgeInsets.all(tenDp),
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.3, color: Colors.grey),
-                color: Colors.pink,
-                borderRadius: BorderRadius.circular(thirtyDp)),
-            child: Padding(
-              padding: EdgeInsets.all(eightDp),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: sixteenDp,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: Container(
+              margin: EdgeInsets.all(tenDp),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.3, color: Colors.grey),
+                  color: Colors.pink,
+                  borderRadius: BorderRadius.circular(thirtyDp)),
+              child: Padding(
+                padding: EdgeInsets.all(eightDp),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: sixteenDp,
+                ),
               ),
             ),
           ),
+          title: Text(
+            'Promo for ${widget.category}',
+            style: TextStyle(color: Colors.pink, fontSize: sixteenDp),
+          ),
         ),
-        title: Text(
-          'Promo for ${widget.category}',
-          style: TextStyle(color: Colors.pink, fontSize: sixteenDp),
-        ),
-      ),
-      body: StreamBuilder<List<DocumentSnapshot>>(
-          stream: _productList!.itemListStream,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return LoadingShimmer(
-                category: widget.category,
-              );
-            }
+        body: promoList!.length == 0
+            ? Center(
+                child: Text(
+                  'No Promo available for ${widget.category}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: twentyFourDp),
+                ),
+              )
+            : Card(
+                elevation: 0,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    Promotion promotion =
+                        Promotion.fromFirestore(promoList![index].toMap());
 
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                Promotion promotion =
-                    Promotion.fromSnapshot(snapshot.data![index]);
+                    var endDateToMilliSec = DateTime.parse(promotion.endDate!);
+                    endTime = endDateToMilliSec.millisecondsSinceEpoch;
 
-                var endDateToMilliSec = DateTime.parse(promotion.endDate!);
-                endTime = endDateToMilliSec.millisecondsSinceEpoch;
+                    countDownController =
+                        CountdownTimerController(endTime: endTime);
 
-                countDownController =
-                    CountdownTimerController(endTime: endTime);
-                
-                return buildPromotion(promotion, snapshot.data![index].id);
-              },
-              itemCount: snapshot.data!.length,
-              shrinkWrap: true,
-              controller: controller,
-              physics: ClampingScrollPhysics(),
-            );
-          }),
-    );
+                    return buildPromotion(promotion, promoList![index].id);
+                  },
+                  itemCount: promoList!.length,
+                  shrinkWrap: true,
+                  //controller: controller,
+                  physics: ClampingScrollPhysics(),
+                ),
+              ));
   }
 
   buildCustomTimer(int time, Color bgColor, String timeType) {
@@ -292,6 +311,7 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
                                 ));
                       },
                       child: Container(
+                        key: Key("btn"),
                         padding: EdgeInsets.only(top: eightDp, bottom: eightDp),
                         margin: EdgeInsets.only(right: eightDp),
                         child: Center(
