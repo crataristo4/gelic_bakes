@@ -182,7 +182,7 @@ class _PopularProductState extends State<PopularProduct> {
                                         showModalBottomSheet(
                                             context: context,
                                             builder: (context) => PreOrder(
-                                              product: popularProduct,
+                                                  product: popularProduct,
                                                 ));
                                       },
                                       child: Container(

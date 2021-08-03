@@ -113,21 +113,21 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
         ),
         body: promoList!.length == 0
             ? Center(
-          child: Text(
-            'No Promo available for ${widget.category}',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: twentyFourDp),
-          ),
-        )
+                child: Text(
+                  'No Promo available for ${widget.category}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: twentyFourDp),
+                ),
+              )
             : Card(
-          elevation: 0,
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              Promotion promotion =
-              Promotion.fromFirestore(promoList![index].toMap());
+                elevation: 0,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    Promotion promotion =
+                        Promotion.fromFirestore(promoList![index].toMap());
 
-              var endDateToMilliSec = DateTime.parse(promotion.endDate!);
-              endTime = endDateToMilliSec.millisecondsSinceEpoch;
+                    var endDateToMilliSec = DateTime.parse(promotion.endDate!);
+                    endTime = endDateToMilliSec.millisecondsSinceEpoch;
 
                     countDownController =
                         CountdownTimerController(endTime: endTime);
@@ -247,27 +247,27 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
           promotion.description!.isEmpty
               ? Container()
               : Padding(
-            padding: const EdgeInsets.only(left: eightDp, top: eightDp),
-            child: Text(
-              "Promo description",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
+                  padding: const EdgeInsets.only(left: eightDp, top: eightDp),
+                  child: Text(
+                    "Promo description",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
           promotion.description!.isEmpty
               ? Container()
               : Padding(
-            padding: const EdgeInsets.only(left: eightDp, top: fourDp),
-            child: Text(
-              "${promotion.description}",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300),
-            ),
-          ),
+                  padding: const EdgeInsets.only(left: eightDp, top: fourDp),
+                  child: Text(
+                    "${promotion.description}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300),
+                  ),
+                ),
           SizedBox(
             height: tenDp,
           ),
@@ -299,19 +299,19 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
               promotion.discountPrice! == 0
                   ? Container()
                   : Flexible(
-                fit: FlexFit.loose,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: eightDp, vertical: sixDp),
-                  child: Text(
-                    "Now $kGhanaCedi${promotion.discountPrice}",
-                    style: TextStyle(
-                        fontSize: sixteenDp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300),
-                  ),
-                ),
-              ),
+                      fit: FlexFit.loose,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: eightDp, vertical: sixDp),
+                        child: Text(
+                          "Now $kGhanaCedi${promotion.discountPrice}",
+                          style: TextStyle(
+                              fontSize: sixteenDp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ),
               /*GestureDetector(
                       onTap: () {
                         showModalBottomSheet(

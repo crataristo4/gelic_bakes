@@ -100,7 +100,7 @@ class Category extends StatelessWidget {
           SizedBox(
             height: tenDp,
           ),
-          Container(
+          /* Container(
             margin: EdgeInsets.symmetric(horizontal: sixteenDp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,7 +112,7 @@ class Category extends StatelessWidget {
                 buildItemCategory(context, 'assets/images/vtide.jpg', vtide),
               ],
             ),
-          ),
+          ),*/
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,10 +135,9 @@ class Category extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildItemCategory(
-                    context, 'assets/images/drink.gif', fruitDrinks),
-                buildItemCategory(context, 'assets/images/shoe.gif', shoes),
-                buildItemCategory(context, 'assets/images/wig.gif', wigs),
+                buildItemCategory(context, 'assets/images/fj.jpg', fruitDrinks),
+                buildItemCategory(context, 'assets/images/shoe.jpg', shoes),
+                buildItemCategory(context, 'assets/images/wig.jpg', wigs),
               ],
             ),
           ),

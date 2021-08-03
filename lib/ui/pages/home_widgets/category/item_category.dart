@@ -135,14 +135,15 @@ class _CategoryItemsState extends State<CategoryItems> {
               physics: ClampingScrollPhysics(),
               addAutomaticKeepAlives: true,
               separatorBuilder: (BuildContext context, int index) {
-                return index % 3 == 0 ? Container(
-                  height: sixtyDp,
-                  child: AdWidget(
-                    ad: AdmobService.createBannerSmall()
-                      ..load(),
-                    key: UniqueKey(),
-                  ),
-                ) : Container();
+                return index % 3 == 0
+                    ? Container(
+                        height: sixtyDp,
+                        child: AdWidget(
+                          ad: AdmobService.createBannerSmall()..load(),
+                          key: UniqueKey(),
+                        ),
+                      )
+                    : Container();
               },
             );
           }),

@@ -6,7 +6,7 @@
 
     <application
         android:icon="@mipmap/launcher_icon"
-        android:label="Gelic-Hub">
+        android:label="Gelic Hub">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

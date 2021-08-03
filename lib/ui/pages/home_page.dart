@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Column(
-            children: [
+        children: [
           Container(
             height: sixtyDp,
             child: AdWidget(

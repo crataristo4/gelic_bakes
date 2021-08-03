@@ -125,7 +125,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             child: CircleAvatar(
               radius: 20,
               foregroundImage:
-              CachedNetworkImageProvider(reviewList[index].image!),
+                  CachedNetworkImageProvider(reviewList[index].image!),
               backgroundColor: Colors.indigo,
             ),
           ),
