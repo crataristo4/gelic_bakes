@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/widgets/onboarding_item.dart';
 
@@ -19,9 +21,17 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   PageController? _pageController;
   int currentIndex = 0;
+  AdmobService admobService = AdmobService();
+
+  _OnboardingPageState() {
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      admobService.showInterstitialAd();
+    });
+  }
 
   @override
   void initState() {
+    admobService.createInterstitialAd();
     _pageController = PageController(initialPage: 0);
     super.initState();
   }
@@ -115,20 +125,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
           currentIndex != 5
               ? Container()
               : InkWell(
-                  onTap: () {
-                    pushToConfigPage();
-                  },
-                  child: Container(
-                    height: Platform.isIOS ? 70 : 60,
-                    color: Theme.of(context).primaryColor,
-                    alignment: Alignment.center,
-                    child: Text(
-                      labelGetStarted,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                )
+            onTap: () {
+              pushToConfigPage();
+            },
+            child: Container(
+              height: Platform.isIOS ? 70 : 60,
+              color: Theme.of(context).primaryColor,
+              alignment: Alignment.center,
+              child: Text(
+                labelGetStarted,
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w600),
+              ),
+            ),
+          )
         ],
       ),
     );
