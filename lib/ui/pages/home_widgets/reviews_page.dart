@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/reviews.dart';
 import 'package:gelic_bakes/provider/review_provider.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/bottomsheets/add_review.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
@@ -24,6 +28,19 @@ class ReviewsPage extends StatefulWidget with NavigationState {
 class _ReviewsPageState extends State<ReviewsPage> {
   TextEditingController controller = TextEditingController();
   ReviewProvider reviewProvider = ReviewProvider();
+  AdmobService admobService = AdmobService();
+
+  _ReviewsPageState() {
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      admobService.showInterstitialAd();
+    });
+  }
+
+  @override
+  void initState() {
+    admobService.createInterstitialAd();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +103,13 @@ class _ReviewsPageState extends State<ReviewsPage> {
         },
         itemCount: reviewList.length,
       ),
+      bottomNavigationBar: Container(
+        height: sixtyDp,
+        child: AdWidget(
+          ad: AdmobService.createBannerSmall()..load(),
+          key: UniqueKey(),
+        ),
+      ),
     );
   }
 
@@ -101,7 +125,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             child: CircleAvatar(
               radius: 20,
               foregroundImage:
-                  CachedNetworkImageProvider(reviewList[index].image!),
+              CachedNetworkImageProvider(reviewList[index].image!),
               backgroundColor: Colors.indigo,
             ),
           ),

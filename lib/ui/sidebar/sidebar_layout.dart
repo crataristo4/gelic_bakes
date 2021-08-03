@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/service/location_service.dart';
 import 'package:gelic_bakes/service/user_services.dart';
 import 'package:gelic_bakes/ui/pages/home_page.dart';
@@ -17,10 +20,18 @@ class SidebarLayout extends StatefulWidget {
 
 class _SidebarLayoutState extends State<SidebarLayout> {
   GetLocationService locationService = GetLocationService();
+  AdmobService _admobService = AdmobService(); //Ads
+
+  _SidebarLayoutState() {
+    Timer(Duration(minutes: 1), () {
+      _admobService.showInterstitialAd();
+    });
+  }
 
   @override
   void initState() {
     UserService().getCurrentUser(context);
+    _admobService.createInterstitialAd();
     locationService.getUserCoordinates(context);
     super.initState();
   }

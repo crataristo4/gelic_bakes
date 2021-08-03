@@ -8,12 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/auth/register.dart';
 import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:gelic_bakes/ui/widgets/sidebar_menu_items.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SidebarItem extends StatefulWidget {
@@ -164,20 +166,15 @@ class _SidebarItemState extends State<SidebarItem>
                             SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      SideBarMenuItems(
-                                        iconData: Icons.home_outlined,
-                                        title: home,
-                                        onTap: () {
-                                          triggerSideBar();
-                                          BlocProvider.of<NavigationBloc>(
-                                                  context)
-                                              .add(NavigationEvents
-                                                  .onHomeClickEvent);
-                                        },
-                                      ),
-                                    ],
+                                  SideBarMenuItems(
+                                    iconData: Icons.home_outlined,
+                                    title: home,
+                                    onTap: () {
+                                      triggerSideBar();
+                                      BlocProvider.of<NavigationBloc>(context)
+                                          .add(NavigationEvents
+                                              .onHomeClickEvent);
+                                    },
                                   ),
                                   SideBarMenuItems(
                                     iconData: Icons.shopping_basket,
@@ -257,6 +254,13 @@ class _SidebarItemState extends State<SidebarItem>
                                     },
                                   ),
                                 ],
+                              ),
+                            ),
+                            Container(
+                              height: sixtyDp,
+                              child: AdWidget(
+                                ad: AdmobService.createBannerSmall()..load(),
+                                key: UniqueKey(),
                               ),
                             ),
                           ],

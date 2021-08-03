@@ -11,6 +11,7 @@ import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/provider/user_provider.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/service/location_service.dart';
 import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
@@ -43,7 +44,7 @@ class _AccountPageState extends State<AccountPage> {
   final formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
 
-  // AdmobService _admobService = AdmobService();
+  AdmobService _admobService = AdmobService();
 
   Position? position;
   StreamSubscription<Position>? positionStream;
@@ -61,7 +62,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   void initState() {
-    // _admobService.createInterstitialAd();
+    _admobService.createInterstitialAd();
 
     setState(() {
       widget.hasProfile == true
@@ -82,12 +83,15 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
+  _AccountPageState() {
+    Timer(Duration(seconds: 10), () {
+      _admobService.showInterstitialAd();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     currentFocus = FocusScope.of(context);
-    Timer(Duration(seconds: 20), () {
-      // _admobService.showInterstitialAd();
-    });
 
     popBack(context) {
       Navigator.of(context).pop();

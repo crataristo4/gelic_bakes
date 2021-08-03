@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,7 +9,9 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/promotion.dart';
 import 'package:gelic_bakes/provider/promo_provider.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -31,6 +35,13 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
   CountdownTimerController? countDownController;
   dynamic endTime;
   List<Promotion>? promoList, promos;
+  AdmobService _admobService = AdmobService(); //Ads
+
+  _ViewSpecialOffersState() {
+    Timer(Duration(minutes: 2), () {
+      _admobService.showInterstitialAd();
+    });
+  }
 
   @override
   void initState() {
@@ -42,20 +53,12 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
     promoList = promos!
         .where((Promotion promotion) => widget.category == promotion.category)
         .toList();*/
-
+    _admobService.createInterstitialAd();
     super.initState();
   }
 
   end(String promoId) {
-    _promoProvider.updatePromo(promoId, context);
-  }
-
-  @override
-  void didUpdateWidget(covariant ViewSpecialOffers oldWidget) {
-    if (oldWidget.key.toString() == "btn") {
-      print(oldWidget.key);
-    }
-    super.didUpdateWidget(oldWidget);
+    //  _promoProvider.updatePromo(promoId, context);
   }
 
 /*
@@ -69,6 +72,7 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
   void dispose() {
     //_controller!.dispose();
     // _productList!.dispose();
+
     super.dispose();
   }
 
@@ -109,21 +113,21 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
         ),
         body: promoList!.length == 0
             ? Center(
-                child: Text(
-                  'No Promo available for ${widget.category}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: twentyFourDp),
-                ),
-              )
+          child: Text(
+            'No Promo available for ${widget.category}',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: twentyFourDp),
+          ),
+        )
             : Card(
-                elevation: 0,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    Promotion promotion =
-                        Promotion.fromFirestore(promoList![index].toMap());
+          elevation: 0,
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              Promotion promotion =
+              Promotion.fromFirestore(promoList![index].toMap());
 
-                    var endDateToMilliSec = DateTime.parse(promotion.endDate!);
-                    endTime = endDateToMilliSec.millisecondsSinceEpoch;
+              var endDateToMilliSec = DateTime.parse(promotion.endDate!);
+              endTime = endDateToMilliSec.millisecondsSinceEpoch;
 
                     countDownController =
                         CountdownTimerController(endTime: endTime);
@@ -135,7 +139,15 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
                   //controller: controller,
                   physics: ClampingScrollPhysics(),
                 ),
-              ));
+              ),
+        bottomNavigationBar: Container(
+          margin: EdgeInsets.only(bottom: sixDp),
+          height: sixtyDp,
+          child: AdWidget(
+            ad: AdmobService.createBannerSmall()..load(),
+            key: UniqueKey(),
+          ),
+        ));
   }
 
   buildCustomTimer(int time, Color bgColor, String timeType) {
@@ -170,6 +182,7 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
   }
 
   buildPromotion(Promotion promotion, String id) {
+    CurrentRemainingTime? time;
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,27 +247,27 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
           promotion.description!.isEmpty
               ? Container()
               : Padding(
-                  padding: const EdgeInsets.only(left: eightDp, top: eightDp),
-                  child: Text(
-                    "Promo description",
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
+            padding: const EdgeInsets.only(left: eightDp, top: eightDp),
+            child: Text(
+              "Promo description",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
           promotion.description!.isEmpty
               ? Container()
               : Padding(
-                  padding: const EdgeInsets.only(left: eightDp, top: fourDp),
-                  child: Text(
-                    "${promotion.description}",
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300),
-                  ),
-                ),
+            padding: const EdgeInsets.only(left: eightDp, top: fourDp),
+            child: Text(
+              "${promotion.description}",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300),
+            ),
+          ),
           SizedBox(
             height: tenDp,
           ),
@@ -286,22 +299,20 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
               promotion.discountPrice! == 0
                   ? Container()
                   : Flexible(
-                      fit: FlexFit.loose,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: eightDp, vertical: sixDp),
-                        child: Text(
-                          "Now $kGhanaCedi${promotion.discountPrice}",
-                          style: TextStyle(
-                              fontSize: sixteenDp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300),
-                        ),
-                      ),
-                    ),
-              promotion.isEnded!
-                  ? Container()
-                  : GestureDetector(
+                fit: FlexFit.loose,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: eightDp, vertical: sixDp),
+                  child: Text(
+                    "Now $kGhanaCedi${promotion.discountPrice}",
+                    style: TextStyle(
+                        fontSize: sixteenDp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300),
+                  ),
+                ),
+              ),
+              /*GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
                             isDismissible: false,
@@ -325,7 +336,7 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
                         height: thirtyDp,
                         width: hundredDp,
                       ),
-                    ),
+                    ),*/
             ],
           ),
           SizedBox(
@@ -336,7 +347,6 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
             controller: countDownController,
             widgetBuilder: (_, CurrentRemainingTime? time) {
               if (time == null) {
-                end(id);
                 return Center(
                   child: Text(
                     'Offer Ended',
@@ -345,29 +355,57 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
                   ),
                 );
               }
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              return Column(
                 children: [
-                  Text(
-                    'ENDS',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'ENDS',
+                        style: TextStyle(
+                            fontSize: 10, fontWeight: FontWeight.w700),
+                      ),
+                      time.days == null
+                          ? Container()
+                          : buildCustomTimer(time.days!, Colors.black,
+                              time.days! > 1 ? 'days' : 'day'),
+                      time.hours == null
+                          ? Container()
+                          : buildCustomTimer(time.hours!, Colors.blue,
+                              time.hours! > 1 ? 'hrs' : 'hr'),
+                      time.min == null
+                          ? Container()
+                          : buildCustomTimer(time.min!, Colors.brown,
+                              time.min! > 1 ? 'mins' : 'min'),
+                      time.sec == null
+                          ? Container()
+                          : buildCustomTimer(time.sec!, Colors.red, "sec"),
+                    ],
                   ),
-                  time.days == null
-                      ? Container()
-                      : buildCustomTimer(time.days!, Colors.black,
-                          time.days! > 1 ? 'days' : 'day'),
-                  time.hours == null
-                      ? Container()
-                      : buildCustomTimer(time.hours!, Colors.blue,
-                          time.hours! > 1 ? 'hrs' : 'hr'),
-                  time.min == null
-                      ? Container()
-                      : buildCustomTimer(time.min!, Colors.brown,
-                          time.min! > 1 ? 'mins' : 'min'),
-                  time.sec == null
-                      ? Container()
-                      : buildCustomTimer(time.sec!, Colors.red, "sec"),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          isDismissible: false,
+                          context: context,
+                          builder: (context) => PreOrder.promo(
+                                promotion: promotion,
+                              ));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: eightDp),
+                      child: Center(
+                          child: Text(
+                        buyNow,
+                        style: TextStyle(color: Colors.white),
+                      )),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(eightyDp),
+                          color: Colors.pinkAccent),
+                      height: fortyEightDp,
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                  ),
                 ],
               );
             },

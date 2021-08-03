@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/service/admob_service.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AboutPage extends StatefulWidget with NavigationState {
   const AboutPage({Key? key}) : super(key: key);
@@ -19,6 +22,12 @@ class _AboutPageState extends State<AboutPage> {
   void initState() {
     super.initState();
     _admobService.createInterstitialAd();
+  }
+
+  _AboutPageState() {
+    Timer(Duration(seconds: 10), () {
+      _admobService.showInterstitialAd();
+    });
   }
 
   @override
@@ -101,6 +110,13 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ),*/
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: sixtyDp,
+        child: AdWidget(
+          ad: AdmobService.createBannerSmall()..load(),
+          key: UniqueKey(),
         ),
       ),
     );

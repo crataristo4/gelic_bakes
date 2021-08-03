@@ -5,10 +5,12 @@ import 'package:gelic_bakes/bloc/datasource/product_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/models/promotion.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
 import 'package:gelic_bakes/ui/widgets/loading.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class CategoryItems extends StatefulWidget {
   static const routeName = '/categoryItem';
@@ -122,7 +124,7 @@ class _CategoryItemsState extends State<CategoryItems> {
               );
             }
 
-            return ListView.builder(
+            return ListView.separated(
               itemBuilder: (context, index) {
                 Product product = Product.fromSnapshot(snapshot.data![index]);
                 return buildItems(product);
@@ -131,6 +133,17 @@ class _CategoryItemsState extends State<CategoryItems> {
               shrinkWrap: true,
               controller: controller,
               physics: ClampingScrollPhysics(),
+              addAutomaticKeepAlives: true,
+              separatorBuilder: (BuildContext context, int index) {
+                return index % 3 == 0 ? Container(
+                  height: sixtyDp,
+                  child: AdWidget(
+                    ad: AdmobService.createBannerSmall()
+                      ..load(),
+                    key: UniqueKey(),
+                  ),
+                ) : Container();
+              },
             );
           }),
     );

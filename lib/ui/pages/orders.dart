@@ -8,8 +8,10 @@ import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/orders.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 import '../../main.dart';
@@ -93,7 +95,7 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
               );
             }
 
-            return ListView.builder(
+            return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 Orders orders = Orders.fromSnapshot(snapshot.data![index]);
                 amount = "${orders.getTotalPayment()}";
@@ -260,8 +262,27 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               controller: controller,
+              addAutomaticKeepAlives: true,
+              separatorBuilder: (BuildContext context, int index) {
+                return index % 3 == 0
+                    ? Container(
+                        height: sixtyDp,
+                        child: AdWidget(
+                          ad: AdmobService.createBannerSmall()..load(),
+                          key: UniqueKey(),
+                        ),
+                      )
+                    : Container();
+              },
             );
           }),
+      bottomNavigationBar: Container(
+        height: sixtyDp,
+        child: AdWidget(
+          ad: AdmobService.createBannerSmall()..load(),
+          key: UniqueKey(),
+        ),
+      ),
     );
   }
 
