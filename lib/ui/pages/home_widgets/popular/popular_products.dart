@@ -6,6 +6,7 @@ import 'package:gelic_bakes/bloc/datasource/product_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
+import 'package:gelic_bakes/ui/widgets/showImage.dart';
 
 class PopularProduct extends StatefulWidget {
   const PopularProduct({Key? key}) : super(key: key);
@@ -211,21 +212,29 @@ class _PopularProductState extends State<PopularProduct> {
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(eightDp),
-                      ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                ShowImageScreen(image: popularProduct.image),
+                            opaque: false));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(eightDp),
+                        ),
 
-                      //contains the image of product
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(eightDp),
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              Center(child: CircularProgressIndicator()),
-                          width: oneFiftyDp,
-                          height: oneTwentyDp,
-                          imageUrl: popularProduct.image!,
-                          fit: BoxFit.cover,
+                        //contains the image of product
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(eightDp),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            width: oneFiftyDp,
+                            height: oneTwentyDp,
+                            imageUrl: popularProduct.image!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     )
