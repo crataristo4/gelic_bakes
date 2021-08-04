@@ -119,7 +119,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               children: indicatorCount(),
             ),
           ),
-          currentIndex != 5
+          currentIndex != 4
               ? Container()
               : InkWell(
             onTap: () {
@@ -154,7 +154,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   List<Widget> indicatorCount() {
     List<Widget> indicators = [];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
       if (currentIndex == i) {
         indicators.add(indicator(true));
       } else {
