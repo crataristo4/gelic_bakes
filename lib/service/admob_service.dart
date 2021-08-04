@@ -114,6 +114,8 @@ class AdmobService {
       onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
     );
 
-    _interstitialAd?.show();
+    if (_interstitialAd!.responseInfo != null) {
+      _interstitialAd?.show();
+    }
   }
 }
