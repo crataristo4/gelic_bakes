@@ -28,7 +28,7 @@ class _CategoryItemsState extends State<CategoryItems> {
   CollectionReference _productRef =
       FirebaseFirestore.instance.collection("Product");
   CollectionReference _promotionRef =
-      FirebaseFirestore.instance.collection("Special Offers");
+      FirebaseFirestore.instance.collection("Promo");
   ScrollController controller = ScrollController();
 
   @override
@@ -108,7 +108,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                     .pushNamed(UsersOrdersPage.routeName, arguments: true);
               },
               icon: Icon(
-                Icons.shopping_cart,
+                Icons.shopping_basket,
                 color: Colors.pink,
               ))
         ],
