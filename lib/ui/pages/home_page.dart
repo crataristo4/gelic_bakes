@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
   AdmobService _admobService = AdmobService(); //Ads
 
   _HomeState() {
-    Timer(Duration(seconds: 30), () {
+    Timer(Duration(seconds: 10), () {
       _admobService.showInterstitialAd();
     });
   }
