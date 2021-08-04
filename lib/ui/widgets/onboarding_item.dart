@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
@@ -52,7 +54,9 @@ class OnboardingSlideItem extends StatelessWidget {
           Center(
             child: Text(
               content,
+              textAlign: TextAlign.center,
               style: TextStyle(
+
                   color: Colors.black45,
                   fontSize: sixteenDp,
                   fontWeight: FontWeight.bold),
