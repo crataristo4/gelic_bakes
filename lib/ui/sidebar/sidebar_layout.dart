@@ -23,7 +23,10 @@ class _SidebarLayoutState extends State<SidebarLayout> {
   AdmobService _admobService = AdmobService(); //Ads
 
   _SidebarLayoutState() {
-    Timer(Duration(minutes: 1, seconds: 30), () {
+    Timer(
+        Duration(
+          minutes: 3,
+        ), () {
       _admobService.showInterstitialAd();
     });
   }
