@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class Category extends StatelessWidget {
   const Category({Key? key}) : super(key: key);
@@ -54,12 +56,12 @@ class Category extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildItemCategory(context, 'assets/images/cake.gif', cake),
-                buildItemCategory(context, 'assets/images/chips.gif', chips),
-                buildItemCategory(context, 'assets/images/cookie.gif', cookies),
+                buildItemCategory(context, 'assets/images/cake.jpg', cake),
+                buildItemCategory(context, 'assets/images/chips.jpg', chips),
+                buildItemCategory(context, 'assets/images/cookie.jpg', cookies),
                 buildItemCategory(
-                    context, 'assets/images/doughnut.gif', doughnut),
-                buildItemCategory(context, 'assets/images/pie.gif', pie),
+                    context, 'assets/images/doughnut.jpg', doughnut),
+                buildItemCategory(context, 'assets/images/pie.jpg', pie),
               ],
             ),
           ),
@@ -100,19 +102,14 @@ class Category extends StatelessWidget {
           SizedBox(
             height: tenDp,
           ),
-          /* Container(
-            margin: EdgeInsets.symmetric(horizontal: sixteenDp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildItemCategory(
-                    context, 'assets/images/adwelle.jpg', adwelle),
-                buildItemCategory(
-                    context, 'assets/images/vaginne.jpg', vaginne),
-                buildItemCategory(context, 'assets/images/vtide.jpg', vtide),
-              ],
+          Container(
+            margin: EdgeInsets.only(bottom: sixDp),
+            height: sixtyDp,
+            child: AdWidget(
+              ad: AdmobService.createBannerSmall()..load(),
+              key: UniqueKey(),
             ),
-          ),*/
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
