@@ -17,6 +17,7 @@ import 'package:gelic_bakes/ui/auth/config.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -84,7 +85,7 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   _AccountPageState() {
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 45), () {
       _admobService.showInterstitialAd();
     });
   }
@@ -423,6 +424,17 @@ class _AccountPageState extends State<AccountPage> {
                             height: tenDp,
                           ),
                           buildName(),
+                          SizedBox(
+                            height: tenDp,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: sixDp),
+                            height: 100,
+                            child: AdWidget(
+                              ad: AdmobService.createBannerFull()..load(),
+                              key: UniqueKey(),
+                            ),
+                          ),
                         ],
                       ),
                     ),
