@@ -118,7 +118,9 @@ class _CategoryItemsState extends State<CategoryItems> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return LoadingShimmer(
-                category: widget.category,
+                category: widget.category.toString().isEmpty
+                    ? pastries
+                    : widget.category,
               );
               return Center(
                 child: CircularProgressIndicator(),
