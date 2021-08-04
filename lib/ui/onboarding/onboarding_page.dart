@@ -83,36 +83,33 @@ class _OnboardingPageState extends State<OnboardingPage> {
             children: [
               OnboardingSlideItem(
                 image: "assets/images/cake.jpg",
-                title: cake,
+                title: pastries,
                 content: cakeDes,
               ),
               OnboardingSlideItem(
-                image: "assets/images/pie.jpg",
-                title: pie,
-                content: pieDes,
+                image: "assets/images/fj.jpg",
+                title: fruitJuice,
+                content: fruitJuiceDes,
                 reverse: true,
-              ),
-              OnboardingSlideItem(
-                image: "assets/images/cookie.jpg",
-                title: cookies,
-                content: breadDes,
-              ),
-              OnboardingSlideItem(
-                image: "assets/images/doughnut.jpg",
-                title: doughnut,
-                content: doughnutDes,
-                reverse: true,
-              ),
-              OnboardingSlideItem(
-                image: "assets/images/chips.jpg",
-                title: chips,
-                content: chipsDes,
               ),
               OnboardingSlideItem(
                 image: "assets/images/vaginne.jpg",
-                title: vaginne,
+                title: immeri,
                 content: vaginneDes,
               ),
+              OnboardingSlideItem(
+                image: "assets/images/shoe.jpg",
+                title: shoes,
+                content: "",
+              ),
+              OnboardingSlideItem(
+                image: "assets/images/wig.jpg",
+                title: wigs,
+                content: wigsDes,
+                reverse: true,
+              ),
+
+
             ],
           ),
           Container(
