@@ -6,7 +6,7 @@ import 'package:gelic_bakes/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/categories.dart';
-import 'package:gelic_bakes/ui/pages/home_widgets/special_offers.dart';
+import 'package:gelic_bakes/ui/pages/home_widgets/special_offer/special_offers.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'home_widgets/popular/popular_products.dart';
@@ -20,9 +20,10 @@ class Home extends StatefulWidget with NavigationState {
 
 class _HomeState extends State<Home> {
   AdmobService _admobService = AdmobService(); //Ads
+  AdWithView _adWithView = AdmobService.createBannerSmall()..load();
 
   _HomeState() {
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 30), () {
       _admobService.showInterstitialAd();
     });
   }
@@ -61,27 +62,12 @@ class _HomeState extends State<Home> {
           SizedBox(
             height: twentyDp,
           ),
-          /* Container(
-            height: sixtyDp,
-            child: AdWidget(
-              ad: AdmobService.createBannerSmall()..load(),
-              key: UniqueKey(),
-            ),
-          ),*/
           SpecialOffers(),
           SizedBox(
             height: twentyDp,
           ),
         ],
       )),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: sixDp),
-        height: sixtyDp,
-        child: AdWidget(
-          ad: AdmobService.createBannerSmall()..load(),
-          key: UniqueKey(),
-        ),
-      ),
     );
   }
 }
