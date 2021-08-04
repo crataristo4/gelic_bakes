@@ -1,17 +1,20 @@
-const appTitle = 'Gelic bakes';
-const getApp = 'Gelic Bakes App';
+const appTitle = 'Gelic hub';
+const getApp = 'Gelic hub App';
 const kGhanaCedi = 'GH¢';
 
 //---------------------------------------------------------------------------------------------------------------
 const cake = 'Cakes';
-const cakeDes = 'Get all your favorite and delicious cakes';
+const pastries = 'Pastries';
+const cakeDes = 'Get all your favorite and delicious pastries';
 const pie = 'Pie';
+const fruitJuice = 'Fruit Drinks';
+const fruitJuiceDes = 'Also available are fruit drinks';
 const pieDes = 'A real taste of homemade sweet Pie';
 const cookies = 'Cookies';
 const chips = 'Chips';
 const chipsDes = 'Yummy and crispy chips';
 const vaginneDes =
-    'We also have Immeri products like Vaginne , Adwelle and Vtide';
+    'We have Immeri products like Vaginne , Adwelle and Vtide and more';
 const breadDes = 'Enjoy the mouth licking taste of cookies';
 const doughnut = 'Doughnuts';
 const doughnutDes = 'Fresh from oven';
@@ -49,6 +52,7 @@ const placingOrder = 'Placing Order';
 const popularProduct = 'Popular products';
 const browseByCategory = 'Pastries by Category';
 const weAlsoHave = 'Immeri Products available';
+const immeri = 'Immeri Products';
 const youMayAlsoLike = 'Others';
 const categoryRequired = 'Category required';
 const selectAType = 'Select a type';
@@ -182,6 +186,7 @@ const drinks = 'Drinks';
 const fruitDrinks = 'Fruit Drinks';
 const shoes = 'Beaded Sandals';
 const wigs = 'Wigs';
+const wigsDes = 'Style your hair and look good with our quality Wigs';
 const topExperts = "Top Experts";
 const labelGetStarted = 'Get started';
 const noBookingsMade = 'No bookings made';
