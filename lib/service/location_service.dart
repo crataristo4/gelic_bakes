@@ -25,7 +25,6 @@ class GetLocationService {
           lat = position.latitude;
           lng = position.longitude;
 
-          print('LAT IS ? --- $lat and LNG IS ?? ---- $lng');
 
           _userProvider.updateLocationCoordinates(
               context, position.latitude, position.longitude);
