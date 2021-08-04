@@ -87,7 +87,7 @@ class Category extends StatelessWidget {
                   margin: EdgeInsets.only(right: eightDp, top: twentyDp),
                   child: Center(
                       child: Text(
-                    seeAll,
+                    viewAll,
                     style: TextStyle(color: Colors.white),
                   )),
                   decoration: BoxDecoration(
