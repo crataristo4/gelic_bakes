@@ -46,13 +46,13 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
           child: Column(
         children: [
-          Container(
+       /*   Container(
             height: sixtyDp,
             child: AdWidget(
               ad: AdmobService.createBannerSmall()..load(),
               key: UniqueKey(),
             ),
-          ),
+          ),*/
           PopularProduct(),
           SizedBox(
             height: tenDp,
@@ -61,13 +61,13 @@ class _HomeState extends State<Home> {
           SizedBox(
             height: twentyDp,
           ),
-          Container(
+          /* Container(
             height: sixtyDp,
             child: AdWidget(
               ad: AdmobService.createBannerSmall()..load(),
               key: UniqueKey(),
             ),
-          ),
+          ),*/
           SpecialOffers(),
           SizedBox(
             height: twentyDp,
