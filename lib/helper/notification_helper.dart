@@ -50,11 +50,11 @@ class NotificationHelper {
 
   void insertNotification(NotificationInfo notificationInfo) async {
     var db = await this.database;
-    var result = await db.insert(tableNotification, notificationInfo.toMap());
-    print('result : $result');
+    await db.insert(tableNotification, notificationInfo.toMap());
+    // print('result : $result');
   }
 
-  Future<List<NotificationInfo>> getNotificationList() async {
+/*Future<List<NotificationInfo>> getNotificationList() async {
     List<NotificationInfo> _notificationList = [];
 
     var db = await this.database;
@@ -65,11 +65,11 @@ class NotificationHelper {
     });
 
     return _notificationList;
-  }
+  }*/
 
-  Future<int> delete(int id) async {
+/*  Future<int> delete(int id) async {
     var db = await this.database;
     return await db
         .delete(tableNotification, where: '$columnId = ?', whereArgs: [id]);
-  }
+  }*/
 }
