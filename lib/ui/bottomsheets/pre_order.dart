@@ -1,12 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gelic_bakes/constants/constants.dart';
+import 'package:gelic_bakes/helper/notification_helper.dart';
+import 'package:gelic_bakes/helper/timezone.dart';
 import 'package:gelic_bakes/main.dart';
+import 'package:gelic_bakes/models/notification_info.dart';
 import 'package:gelic_bakes/models/product.dart';
 import 'package:gelic_bakes/models/promotion.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class PreOrder extends StatefulWidget {
   static const routeName = '/placeOrder';
@@ -33,8 +38,21 @@ class _PreOrderState extends State<PreOrder> {
   int quantity = 1;
   num? initialPrice, subTotal;
 
+  //---NOTIFICATION ---//
+  DateTime? _notificationTime;
+  String? _notificationTimeString;
+  NotificationHelper _notificationHelper = NotificationHelper();
+  Future<List<NotificationInfo>>? _notificationList;
+  List<NotificationInfo>? _currentNotification;
+
   @override
   void initState() {
+    _notificationTime = DateTime.now();
+    _notificationHelper.initializeDatabase().then((value) {
+      print('------database intialized');
+      loadNotifs();
+    });
+
     if (widget.promotion != null) {
       initialPrice = widget.promotion!.price;
     } else {
@@ -45,6 +63,11 @@ class _PreOrderState extends State<PreOrder> {
 
     subTotal = initialPrice;
     super.initState();
+  }
+
+  void loadNotifs() {
+    _notificationList = _notificationHelper.getNotificationList();
+    if (mounted) setState(() {});
   }
 
   //increment quantity
@@ -325,6 +348,8 @@ class _PreOrderState extends State<PreOrder> {
                           _dateTimeController.text);
                       //3. create order
                       _ordersProvider.createOrder(context);
+                      //4 . save notification
+                      onSaveNotification();
                     }
                   },
                   child: Text(
@@ -372,7 +397,14 @@ class _PreOrderState extends State<PreOrder> {
           if (selectedDate == null) return;
 
           final selectedTime = await _selectedTime(context);
-          if (selectedTime == null) return;
+          if (selectedTime == null)
+            return;
+          else {
+            final now = DateTime.now();
+            var selectedDateTime = DateTime(now.year, now.month, now.day,
+                selectedTime.hour, selectedTime.minute);
+            _notificationTime = selectedDateTime;
+          }
 
           setState(() {
             _dateTime = DateTime(selectedDate.year, selectedDate.month,
@@ -423,5 +455,77 @@ class _PreOrderState extends State<PreOrder> {
             ),
             border: OutlineInputBorder(
                 borderSide: BorderSide(color: Color(0xFFF5F5F5)))));
+  }
+
+  void scheduleNotification(
+      scheduledNotificationDateTime, NotificationInfo notificationInfo) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'notification',
+      'notification',
+      'Channel for Notification',
+      importance: Importance.high,
+      icon: 'launch_image',
+      sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
+      largeIcon: DrawableResourceAndroidBitmap('launch_image'),
+    );
+
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+        sound: 'a_long_cold_sting.wav',
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true);
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0,
+      notificationInfo.title,
+      "Is due!",
+      scheduledNotificationDateTime,
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.wallClockTime,
+    );
+
+    print("Scheduled ....");
+  }
+
+  void onSaveNotification() async {
+    final timeZone = TimeZone();
+
+    // The device's timezone.
+    String timeZoneName = await timeZone.getTimeZoneName();
+
+    // Find the 'current location'
+    final location = await timeZone.getLocation(timeZoneName);
+
+    DateTime scheduleAlarmDateTime;
+    if (_notificationTime!.isAfter(DateTime.now()))
+      scheduleAlarmDateTime = _notificationTime!;
+    else
+      scheduleAlarmDateTime = _notificationTime!.add(Duration(days: 1));
+
+    final scheduledDate = tz.TZDateTime.from(scheduleAlarmDateTime, location);
+
+    var notificationInfo = NotificationInfo(
+      notifDateTime: scheduleAlarmDateTime,
+      title: widget.product != null
+          ? 'Pre order for ${widget.product!.name}'
+          : 'Pre order for ${widget.promotion!.name}',
+    );
+    _notificationHelper.insertNotification(notificationInfo);
+    scheduleNotification(scheduledDate, notificationInfo);
+    //  Navigator.pop(context);
+    loadNotifs();
+
+    print("Saved ....");
+  }
+
+  void deleteAlarm(int id) {
+    _notificationHelper.delete(id);
+    //unsubscribe for notification
+    loadNotifs();
   }
 }
