@@ -38,10 +38,7 @@ class _PreOrderState extends State<PreOrder> {
 
   //---NOTIFICATION ---//
   DateTime? _notificationTime;
-  String? _notificationTimeString;
   NotificationHelper _notificationHelper = NotificationHelper();
-  Future<List<NotificationInfo>>? _notificationList;
-  List<NotificationInfo>? _currentNotification;
 
   @override
   void initState() {
@@ -385,14 +382,7 @@ class _PreOrderState extends State<PreOrder> {
           if (selectedDate == null) return;
 
           final selectedTime = await _selectedTime(context);
-          if (selectedTime == null)
-            return;
-          else {
-            final now = DateTime.now();
-            var selectedDateTime = DateTime(now.year, now.month, now.day,
-                selectedTime.hour, selectedTime.minute);
-            _notificationTime = selectedDateTime;
-          }
+          if (selectedTime == null) return;
 
           setState(() {
             _dateTime = DateTime(selectedDate.year, selectedDate.month,
@@ -400,6 +390,7 @@ class _PreOrderState extends State<PreOrder> {
 
             _dateTimeController.text = _dateFormat.format(_dateTime);
           });
+          _notificationTime = _dateTime;
         },
         validator: (value) {
           var birthdayCake = DateTime.now().add(Duration(days: 3));
