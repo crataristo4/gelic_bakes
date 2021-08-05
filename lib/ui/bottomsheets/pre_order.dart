@@ -46,10 +46,7 @@ class _PreOrderState extends State<PreOrder> {
   @override
   void initState() {
     _notificationTime = DateTime.now();
-    _notificationHelper.initializeDatabase().then((value) {
-      print('------database initialized');
-     // loadNotifs();
-    });
+    _notificationHelper.initializeDatabase();
 
     if (widget.promotion != null) {
       initialPrice = widget.promotion!.price;
@@ -60,11 +57,6 @@ class _PreOrderState extends State<PreOrder> {
     subTotal = initialPrice;
     super.initState();
   }
-
-  /* void loadNotifs() {
-    _notificationList = _notificationHelper.getNotificationList();
-    if (mounted) setState(() {});
-  }*/
 
   //increment quantity
   _increment() {
@@ -481,11 +473,8 @@ class _PreOrderState extends State<PreOrder> {
       scheduledNotificationDateTime,
       platformChannelSpecifics,
       androidAllowWhileIdle: true,
-      /* uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.wallClockTime,*/
     );
 
-    print("Scheduled ....");
   }
 
   void onSaveNotification() {
@@ -503,9 +492,6 @@ class _PreOrderState extends State<PreOrder> {
     );
     _notificationHelper.insertNotification(notificationInfo);
     scheduleNotification(scheduleAlarmDateTime, notificationInfo);
-    //  Navigator.pop(context);
-    // loadNotifs();
 
-    print("Saved ....");
   }
 }
