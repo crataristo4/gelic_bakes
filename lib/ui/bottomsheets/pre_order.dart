@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/helper/notification_helper.dart';
-import 'package:gelic_bakes/helper/timezone.dart';
 import 'package:gelic_bakes/main.dart';
 import 'package:gelic_bakes/models/notification_info.dart';
 import 'package:gelic_bakes/models/product.dart';
@@ -11,7 +10,6 @@ import 'package:gelic_bakes/models/promotion.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 class PreOrder extends StatefulWidget {
   static const routeName = '/placeOrder';
@@ -50,7 +48,7 @@ class _PreOrderState extends State<PreOrder> {
     _notificationTime = DateTime.now();
     _notificationHelper.initializeDatabase().then((value) {
       print('------database initialized');
-      //   loadNotifs();
+      loadNotifs();
     });
 
     if (widget.promotion != null) {
@@ -63,10 +61,10 @@ class _PreOrderState extends State<PreOrder> {
     super.initState();
   }
 
- /* void loadNotifs() {
+  void loadNotifs() {
     _notificationList = _notificationHelper.getNotificationList();
     if (mounted) setState(() {});
-  }*/
+  }
 
   //increment quantity
   _increment() {
@@ -463,12 +461,12 @@ class _PreOrderState extends State<PreOrder> {
       'Channel for Notification',
       importance: Importance.high,
       icon: 'launch_image',
-      sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
+      sound: RawResourceAndroidNotificationSound('notif'),
       largeIcon: DrawableResourceAndroidBitmap('launch_image'),
     );
 
     var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-        sound: 'a_long_cold_sting.wav',
+        sound: 'notif.wav',
         presentAlert: true,
         presentBadge: true,
         presentSound: true);
@@ -476,36 +474,26 @@ class _PreOrderState extends State<PreOrder> {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
+    await flutterLocalNotificationsPlugin.schedule(
       0,
       notificationInfo.title,
       "Is due!",
       scheduledNotificationDateTime,
       platformChannelSpecifics,
       androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.wallClockTime,
+      /* uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.wallClockTime,*/
     );
 
     print("Scheduled ....");
   }
 
-  void onSaveNotification() async {
-    final timeZone = TimeZone();
-
-    // The device's timezone.
-    String timeZoneName = await timeZone.getTimeZoneName();
-
-    // Find the 'current location'
-    final location = await timeZone.getLocation(timeZoneName);
-
+  void onSaveNotification() {
     DateTime scheduleAlarmDateTime;
     if (_notificationTime!.isAfter(DateTime.now()))
       scheduleAlarmDateTime = _notificationTime!;
     else
       scheduleAlarmDateTime = _notificationTime!.add(Duration(days: 1));
-
-    final scheduledDate = tz.TZDateTime.from(scheduleAlarmDateTime, location);
 
     var notificationInfo = NotificationInfo(
       notifDateTime: scheduleAlarmDateTime,
@@ -514,16 +502,10 @@ class _PreOrderState extends State<PreOrder> {
           : 'Pre order for ${widget.promotion!.name}',
     );
     _notificationHelper.insertNotification(notificationInfo);
-    scheduleNotification(scheduledDate, notificationInfo);
+    scheduleNotification(scheduleAlarmDateTime, notificationInfo);
     //  Navigator.pop(context);
-    // loadNotifs();
+    loadNotifs();
 
     print("Saved ....");
-  }
-
-  void deleteAlarm(int id) {
-    _notificationHelper.delete(id);
-    //unsubscribe for notification
-    // loadNotifs();
   }
 }
