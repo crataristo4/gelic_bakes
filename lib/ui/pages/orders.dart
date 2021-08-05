@@ -10,6 +10,7 @@ import 'package:gelic_bakes/models/orders.dart';
 import 'package:gelic_bakes/provider/orders_provider.dart';
 import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
+import 'package:gelic_bakes/ui/widgets/loading.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
@@ -91,7 +92,9 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: LoadingShimmer(
+                  category: 'No orders made!',
+                ),
               );
             }
 
