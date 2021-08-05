@@ -48,7 +48,7 @@ class _PreOrderState extends State<PreOrder> {
     _notificationTime = DateTime.now();
     _notificationHelper.initializeDatabase().then((value) {
       print('------database initialized');
-      loadNotifs();
+     // loadNotifs();
     });
 
     if (widget.promotion != null) {
@@ -61,10 +61,10 @@ class _PreOrderState extends State<PreOrder> {
     super.initState();
   }
 
-  void loadNotifs() {
+  /* void loadNotifs() {
     _notificationList = _notificationHelper.getNotificationList();
     if (mounted) setState(() {});
-  }
+  }*/
 
   //increment quantity
   _increment() {
@@ -504,7 +504,7 @@ class _PreOrderState extends State<PreOrder> {
     _notificationHelper.insertNotification(notificationInfo);
     scheduleNotification(scheduleAlarmDateTime, notificationInfo);
     //  Navigator.pop(context);
-    loadNotifs();
+    // loadNotifs();
 
     print("Saved ....");
   }
