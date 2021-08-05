@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gelic_bakes/models/reviews.dart';
 import 'package:gelic_bakes/provider/auth_provider.dart';
 import 'package:gelic_bakes/provider/promo_provider.dart';
@@ -18,6 +19,8 @@ import 'service/promo_service.dart';
 
 int? onboardingPrefs;
 final GlobalKey<State> loadingKey = new GlobalKey<State>();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +29,26 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   onboardingPrefs = prefs.getInt("onboarding");
   await prefs.setInt("onboarding", 1);
+
+  //location notification
+
+  var initializationSettingsAndroid =
+      AndroidInitializationSettings('launch_image');
+  var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      onDidReceiveLocalNotification:
+          (int id, String? title, String? body, String? payload) async {});
+  var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String? payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  });
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(EntryPoint()));
