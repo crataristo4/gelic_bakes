@@ -63,10 +63,10 @@ class _PreOrderState extends State<PreOrder> {
     super.initState();
   }
 
-  void loadNotifs() {
+ /* void loadNotifs() {
     _notificationList = _notificationHelper.getNotificationList();
     if (mounted) setState(() {});
-  }
+  }*/
 
   //increment quantity
   _increment() {
@@ -345,7 +345,7 @@ class _PreOrderState extends State<PreOrder> {
                           widget.product!.image!,
                           _dateTimeController.text);
                       //3. create order
-                      _ordersProvider.createOrder(context);
+                      // _ordersProvider.createOrder(context);
                       //4 . save notification
                       onSaveNotification();
                     }
@@ -516,7 +516,7 @@ class _PreOrderState extends State<PreOrder> {
     _notificationHelper.insertNotification(notificationInfo);
     scheduleNotification(scheduledDate, notificationInfo);
     //  Navigator.pop(context);
-    loadNotifs();
+    // loadNotifs();
 
     print("Saved ....");
   }
@@ -524,6 +524,6 @@ class _PreOrderState extends State<PreOrder> {
   void deleteAlarm(int id) {
     _notificationHelper.delete(id);
     //unsubscribe for notification
-    loadNotifs();
+    // loadNotifs();
   }
 }
