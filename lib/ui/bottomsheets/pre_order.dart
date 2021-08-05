@@ -49,8 +49,8 @@ class _PreOrderState extends State<PreOrder> {
   void initState() {
     _notificationTime = DateTime.now();
     _notificationHelper.initializeDatabase().then((value) {
-      print('------database intialized');
-      loadNotifs();
+      print('------database initialized');
+      //   loadNotifs();
     });
 
     if (widget.promotion != null) {
@@ -58,8 +58,6 @@ class _PreOrderState extends State<PreOrder> {
     } else {
       initialPrice = widget.product!.price;
     }
-
-    print("?? $initialPrice");
 
     subTotal = initialPrice;
     super.initState();
