@@ -109,7 +109,7 @@ class AdmobService {
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
         ad.dispose();
-        // createInterstitialAd();
+        createInterstitialAd();
       },
       onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
     );
