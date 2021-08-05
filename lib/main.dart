@@ -17,6 +17,7 @@ import 'main/route_generator.dart';
 import 'models/promotion.dart';
 import 'service/promo_service.dart';
 
+//version 2
 int? onboardingPrefs;
 final GlobalKey<State> loadingKey = new GlobalKey<State>();
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
