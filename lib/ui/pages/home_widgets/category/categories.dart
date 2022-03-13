@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gelic_bakes/constants/constants.dart';
 import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/pages/home_widgets/category/item_category.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class Category extends StatelessWidget {
   const Category({Key? key}) : super(key: key);
@@ -102,14 +102,14 @@ class Category extends StatelessWidget {
           SizedBox(
             height: tenDp,
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: sixDp),
-            height: sixtyDp,
-            child: AdWidget(
-              ad: AdmobService.createBannerSmall()..load(),
-              key: UniqueKey(),
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(bottom: sixDp),
+          //   height: sixtyDp,
+          //   child: AdWidget(
+          //     ad: AdmobService.createBannerSmall()..load(),
+          //     key: UniqueKey(),
+          //   ),
+          // ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

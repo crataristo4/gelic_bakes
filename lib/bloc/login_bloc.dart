@@ -13,7 +13,7 @@ class LoginBloc extends Object with LoginValidator implements BaseBloc {
   ///@ method combinelastest1 was manually added to the  rx.dart api to support a single stream
   ///only use it for a single stream
   Stream<bool> get submitPhoneNumber =>
-      Rx.combineLatest1(phoneNumberStream, (values) => true);
+      Rx.combineLatest2(phoneNumberStream, (values) => true);
 
   @override
   void dispose() {

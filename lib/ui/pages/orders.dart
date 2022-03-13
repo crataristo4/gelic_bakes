@@ -12,7 +12,7 @@ import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/loading.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 import '../../main.dart';
@@ -267,24 +267,26 @@ class _UsersOrdersPageState extends State<UsersOrdersPage> {
               controller: controller,
               addAutomaticKeepAlives: true,
               separatorBuilder: (BuildContext context, int index) {
-                return index % 3 == 0
-                    ? Container(
-                        height: sixtyDp,
-                        child: AdWidget(
-                          ad: AdmobService.createBannerSmall()..load(),
-                          key: UniqueKey(),
-                        ),
-                      )
-                    : Container();
+                return
+                  // index % 3 == 0
+                  //   ? Container(
+                  //       height: sixtyDp,
+                  //       child: AdWidget(
+                  //         ad: AdmobService.createBannerSmall()..load(),
+                  //         key: UniqueKey(),
+                  //       ),
+                  //     )
+                  //   :
+                Container();
               },
             );
           }),
       bottomNavigationBar: Container(
-        height: sixtyDp,
-        child: AdWidget(
-          ad: AdmobService.createBannerSmall()..load(),
-          key: UniqueKey(),
-        ),
+        height: 0,//sixtyDp,
+        // child: AdWidget(
+        //   ad: AdmobService.createBannerSmall()..load(),
+        //   key: UniqueKey(),
+        // ),
       ),
     );
   }

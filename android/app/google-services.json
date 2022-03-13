@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "580271679188",
-    "project_id": "gelic-bakes",
-    "storage_bucket": "gelic-bakes.appspot.com"
+    "project_number": "909028648887",
+    "project_id": "gelic-hub",
+    "storage_bucket": "gelic-hub.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:580271679188:android:d36edc834ca0166b9cbd41",
+        "mobilesdk_app_id": "1:909028648887:android:0d4741d0c5d3c19cf6aa32",
         "android_client_info": {
-          "package_name": "com.gelic.hub"
+          "package_name": "com.gelic.hub.new"
         }
       },
       "oauth_client": [
         {
-          "client_id": "580271679188-ojpo98sc6i62eko7adm8vi8pfarkmsl5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gelic.hub",
-            "certificate_hash": "da7561b20f26adaa23112ff0f75e340ff9f217a1"
-          }
-        },
-        {
-          "client_id": "580271679188-i0rm3n9rl74rbudbl8mc4g9uh1domf74.apps.googleusercontent.com",
+          "client_id": "909028648887-ag89p572n6847cutl0gmcfpa1k70ecq8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuV_OqkD5WT9t0Hyz79WrJgxmB_mCdtUY"
+          "current_key": "AIzaSyAD0FCqIhaLFNgqLnt_o8unKLH_s8YXHd8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "580271679188-i0rm3n9rl74rbudbl8mc4g9uh1domf74.apps.googleusercontent.com",
+              "client_id": "909028648887-ag89p572n6847cutl0gmcfpa1k70ecq8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

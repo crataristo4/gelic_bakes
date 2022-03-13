@@ -15,7 +15,7 @@ import 'package:gelic_bakes/ui/pages/acount_page.dart';
 import 'package:gelic_bakes/ui/widgets/actions.dart';
 import 'package:gelic_bakes/ui/widgets/progress_dialog.dart';
 import 'package:gelic_bakes/ui/widgets/sidebar_menu_items.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SidebarItem extends StatefulWidget {
@@ -256,13 +256,13 @@ class _SidebarItemState extends State<SidebarItem>
                                 ],
                               ),
                             ),
-                            Container(
-                              height: sixtyDp,
-                              child: AdWidget(
-                                ad: AdmobService.createBannerSmall()..load(),
-                                key: UniqueKey(),
-                              ),
-                            ),
+                            // Container(
+                            //   height: sixtyDp,
+                            //   child: AdWidget(
+                            //     ad: AdmobService.createBannerSmall()..load(),
+                            //     key: UniqueKey(),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

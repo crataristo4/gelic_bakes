@@ -11,7 +11,7 @@ import 'package:gelic_bakes/ui/pages/home_widgets/category/details_psge.dart';
 import 'package:gelic_bakes/ui/pages/orders.dart';
 import 'package:gelic_bakes/ui/widgets/loading.dart';
 import 'package:gelic_bakes/ui/widgets/showImage.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class CategoryItems extends StatefulWidget {
   static const routeName = '/categoryItem';
@@ -138,15 +138,17 @@ class _CategoryItemsState extends State<CategoryItems> {
               physics: ClampingScrollPhysics(),
               addAutomaticKeepAlives: true,
               separatorBuilder: (BuildContext context, int index) {
-                return index % 3 == 0
-                    ? Container(
-                        height: sixtyDp,
-                        child: AdWidget(
-                          ad: AdmobService.createBannerSmall()..load(),
-                          key: UniqueKey(),
-                        ),
-                      )
-                    : Container();
+                return
+                  // index % 3 == 0
+                  //   ? Container(
+                  //       height: sixtyDp,
+                  //       child: AdWidget(
+                  //         ad: AdmobService.createBannerSmall()..load(),
+                  //         key: UniqueKey(),
+                  //       ),
+                  //     )
+                  //   :
+                Container();
               },
             );
           }),

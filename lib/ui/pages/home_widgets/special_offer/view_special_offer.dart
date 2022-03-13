@@ -12,7 +12,7 @@ import 'package:gelic_bakes/provider/promo_provider.dart';
 import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/bottomsheets/pre_order.dart';
 import 'package:gelic_bakes/ui/widgets/showImage.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -143,11 +143,12 @@ class _ViewSpecialOffersState extends State<ViewSpecialOffers>
               ),
         bottomNavigationBar: Container(
           margin: EdgeInsets.only(bottom: sixDp),
-          height: sixtyDp,
-          child: AdWidget(
-            ad: AdmobService.createBannerSmall()..load(),
-            key: UniqueKey(),
-          ),
+          height: 0,//sixtyDp,
+          // child:
+          // AdWidget(
+          //   ad: AdmobService.createBannerSmall()..load(),
+          //   key: UniqueKey(),
+          // ),
         ));
   }
 

@@ -8,7 +8,7 @@ import 'package:gelic_bakes/models/reviews.dart';
 import 'package:gelic_bakes/provider/review_provider.dart';
 import 'package:gelic_bakes/service/admob_service.dart';
 import 'package:gelic_bakes/ui/bottomsheets/add_review.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
@@ -104,11 +104,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
         itemCount: reviewList.length,
       ),
       bottomNavigationBar: Container(
-        height: sixtyDp,
-        child: AdWidget(
-          ad: AdmobService.createBannerSmall()..load(),
-          key: UniqueKey(),
-        ),
+        height: 0,//sixtyDp,
+        // child: AdWidget(
+        //   ad: AdmobService.createBannerSmall()..load(),
+        //   key: UniqueKey(),
+        // ),
       ),
     );
   }
